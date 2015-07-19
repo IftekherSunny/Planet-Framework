@@ -8,6 +8,15 @@ use Twig_Loader_Filesystem;
 
 class View
 {
+    /**
+     * To render view
+     *
+     * @param       $view
+     * @param array $data
+     *
+     * @return string
+     * @throws Exception
+     */
     public function render($view, array $data = [])
     {
 

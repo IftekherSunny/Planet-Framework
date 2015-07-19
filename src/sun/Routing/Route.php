@@ -2,12 +2,12 @@
 
 namespace Sun\Routing;
 
+use DI\Definition\Exception\DefinitionException;
 use FastRoute\DataGenerator\GroupCountBased as DataGenerator;
 use FastRoute\Dispatcher\GroupCountBased as Dispatcher;
 use FastRoute\RouteCollector;
 use FastRoute\RouteParser\Std;
-use Sun\Container\Container;
-use Sun\Support\Abort;
+use Sun\Http\Response;
 
 class Route
 {
@@ -23,11 +23,26 @@ class Route
 
     protected $dispatcher;
 
-    public function __construct($container)
+    protected $response;
+
+    /**
+     * @param          $container
+     * @param Response $response
+     */
+    public function __construct($container, Response $response)
     {
         $this->container = $container;
+
+        $this->response = $response;
     }
 
+    /**
+     * To add route
+     *
+     * @param string $method
+     * @param string $url
+     * @param string $pattern
+     */
     public function add($method = 'GET', $url = '/', $pattern = '')
     {
         $this->method[] = $method;
@@ -37,6 +52,9 @@ class Route
         $this->pattern[] = $pattern;
     }
 
+    /**
+     * To register route
+     */
     public function routeRegister()
     {
         $route = new RouteCollector(new Std(), new DataGenerator());
@@ -47,17 +65,26 @@ class Route
         $this->dispatcher = new Dispatcher($route->getData());
     }
 
+    /**
+     * To dispatch a route
+     *
+     * @param $method
+     * @param $url
+     *
+     * @return mixed|void
+     */
     public function routeDispatcher($method, $url)
     {
         $routeInfo = $this->dispatcher->dispatch($method, $url);
 
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
-                Abort::message("Page not found.");
+                $this->response->abort();
+
                 break;
             case Dispatcher::METHOD_NOT_ALLOWED:
-                $allowedMethods = $routeInfo[1];
-                Abort::message("Method not found.");
+                $method = $routeInfo[1];
+                $this->response->code(405)->message("Method [ {$method} ] not found.");
                 break;
             case Dispatcher::FOUND:
                 $handler = $routeInfo[1];
@@ -69,11 +96,20 @@ class Route
         }
     }
 
+    /**
+     * To execute route handler
+     *
+     * @param $handler
+     * @param $params
+     *
+     * @return mixed|void
+     * @throws BindingException
+     * @throws Exception
+     */
     protected function methodDispatcher($handler, $params)
     {
-
         /**
-         *  When send clouser
+         *  call when pass closure as handler
          **/
         if (is_callable($handler)) {
             echo call_user_func_array($handler, $params);
@@ -82,13 +118,24 @@ class Route
         }
 
         /**
-         * if send controller
-         * **/
+         * call when pass controller as handler
+         **/
         list($controller, $method) = explode('@', $handler);
 
         return $this->invoke($controller, $method, $params);
     }
 
+    /**
+     * To execute handler
+     *
+     * @param $controller
+     * @param $method
+     * @param $params
+     *
+     * @return mixed
+     * @throws BindingException
+     * @throws Exception
+     */
     public function invoke($controller, $method, $params)
     {
         if (!class_exists($controller)) {
@@ -102,8 +149,8 @@ class Route
 
             return $reflectionMethod->invokeArgs($instance, $params);
 
-        } catch (\DI\Definition\Exception\DefinitionException $e) {
-            throw new BindingException("Binding Error");
+        } catch (DefinitionException $e) {
+            throw new BindingException("Binding Error.");
         }
 
     }

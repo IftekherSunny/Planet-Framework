@@ -6,12 +6,22 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Database
 {
+    /**
+     * @var \Sun\Application
+     */
     protected $app;
 
+    /**
+     * @param $app
+     */
     public function __construct($app)
     {
         $this->app = $app;
     }
+
+    /**
+     * To boot Eloquent
+     */
     public function boot()
     {
         $capsule = new Capsule;
@@ -25,6 +35,12 @@ class Database
         $capsule->bootEloquent();
     }
 
+    /**
+     * To connect with mysql database
+     *
+     * @param $capsule
+     * @param $database
+     */
     private function mysqlConnectionSetup($capsule, $database)
     {
         $capsule->addConnection([

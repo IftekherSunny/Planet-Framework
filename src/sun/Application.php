@@ -4,30 +4,55 @@ namespace Sun;
 
 use Sun\Container\Container;
 use Sun\Database\Database;
+use Sun\Http\Response;
 use Sun\Routing\Route;
 
 class Application extends Container
 {
+    /**
+     * @var \Sun\Routing\Route
+     */
     protected $route;
 
-    protected $routeOption;
-
+    /**
+     * To store route group namespace
+     */
     protected $namespace;
 
+    /**
+     * Application base path
+     */
     protected $path;
 
+    /**
+     * @var \Sun\Database\Database
+     */
     protected $database;
 
+    /**
+     * @var \Sun\Http\Response
+     */
+    protected $response;
+
+    /**
+     * @param $option
+     */
     public function __construct($option)
     {
         $this->path = $option['path'];
 
+        $this->response = new Response;
+
         $container = $this->setup();
-        $this->route = new Route($container);
+        $this->route = new Route($container, $this->response);
 
         $this->database = new Database($this);
     }
 
+    /**
+     * @param array $routeOption
+     * @param       $callback
+     */
     public function group(array $routeOption, $callback)
     {
         if (isset($routeOption['namespace'])) {
@@ -37,6 +62,10 @@ class Application extends Container
         $callback();
     }
 
+    /**
+     * @param $url
+     * @param $pattern
+     */
     public function get($url, $pattern)
     {
         if (is_callable($pattern)) {
@@ -46,6 +75,10 @@ class Application extends Container
         }
     }
 
+    /**
+     * @param $url
+     * @param $pattern
+     */
     public function post($url, $pattern)
     {
         if (is_callable($pattern)) {
@@ -55,34 +88,55 @@ class Application extends Container
         }
     }
 
+    /**
+     * To run application
+     */
     public function run()
     {
         $this->route->routeRegister();
 
-        $output = $this->route->routeDispatcher($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
+        $data = $this->route->routeDispatcher($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
 
-        if (is_array($output)) {
-            echo json_encode($output);
-        } else {
-            echo $output;
-        }
+        $this->response->html($data);
     }
 
+    /**
+     * To get application base directory path
+     *
+     * @param null $path
+     *
+     * @return string
+     */
     public function base_path($path = null)
     {
         return empty($path) ? $this->path : $this->path . $path;
     }
 
+    /**
+     * To get application app directory path
+     *
+     * @param null $path
+     *
+     * @return string
+     */
     public function app_path($path = null)
     {
         return empty($path) ? $this->base_path() . 'app' . DIRECTORY_SEPARATOR : $this->base_path() . 'app' . DIRECTORY_SEPARATOR . $path;
     }
 
+    /**
+     * To get application config directory path
+     *
+     * @return string
+     */
     public function config_path()
     {
         return $this->base_path() . 'config' . DIRECTORY_SEPARATOR;
     }
 
+    /**
+     * To boot database configuration
+     */
     public function bootDatabase()
     {
         $this->database->boot();
