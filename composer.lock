@@ -1,0 +1,486 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "93309329bd456cb62d7c9de615d58e24",
+    "packages": [
+        {
+            "name": "container-interop/container-interop",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/container-interop/container-interop.git",
+                "reference": "fc08354828f8fd3245f77a66b9e23a6bca48297e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/container-interop/container-interop/zipball/fc08354828f8fd3245f77a66b9e23a6bca48297e",
+                "reference": "fc08354828f8fd3245f77a66b9e23a6bca48297e",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Interop\\Container\\": "src/Interop/Container/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
+            "time": "2014-12-30 15:22:37"
+        },
+        {
+            "name": "nikic/fast-route",
+            "version": "v0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/FastRoute.git",
+                "reference": "31fa86924556b80735f98b294a7ffdfb26789f22"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/FastRoute/zipball/31fa86924556b80735f98b294a7ffdfb26789f22",
+                "reference": "31fa86924556b80735f98b294a7ffdfb26789f22",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FastRoute\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov",
+                    "email": "nikic@php.net"
+                }
+            ],
+            "description": "Fast request router for PHP",
+            "keywords": [
+                "router",
+                "routing"
+            ],
+            "time": "2015-06-18 19:15:47"
+        },
+        {
+            "name": "php-di/invoker",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHP-DI/Invoker.git",
+                "reference": "7ea703c62dbb29d64763fa85258826034ce3c97d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHP-DI/Invoker/zipball/7ea703c62dbb29d64763fa85258826034ce3c97d",
+                "reference": "7ea703c62dbb29d64763fa85258826034ce3c97d",
+                "shasum": ""
+            },
+            "require": {
+                "container-interop/container-interop": "~1.1"
+            },
+            "require-dev": {
+                "athletic/athletic": "~0.1.8",
+                "phpunit/phpunit": "~4.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Invoker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Generic and extensible callable invoker",
+            "homepage": "https://github.com/PHP-DI/Invoker",
+            "keywords": [
+                "callable",
+                "dependency",
+                "dependency-injection",
+                "injection",
+                "invoke",
+                "invoker"
+            ],
+            "time": "2015-04-24 10:18:34"
+        },
+        {
+            "name": "php-di/php-di",
+            "version": "5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHP-DI/PHP-DI.git",
+                "reference": "c3bbc0d334b888ec8baa75f95b4900ee17b18fa7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHP-DI/PHP-DI/zipball/c3bbc0d334b888ec8baa75f95b4900ee17b18fa7",
+                "reference": "c3bbc0d334b888ec8baa75f95b4900ee17b18fa7",
+                "shasum": ""
+            },
+            "require": {
+                "container-interop/container-interop": "~1.0",
+                "php": ">=5.4.0",
+                "php-di/invoker": "~1.0",
+                "php-di/phpdoc-reader": "~2.0"
+            },
+            "require-dev": {
+                "doctrine/annotations": "~1.2",
+                "doctrine/cache": "~1.0",
+                "mnapoli/phpunit-easymock": "~0.1.4",
+                "ocramius/proxy-manager": "~1.0",
+                "phpunit/phpunit": "~4.5"
+            },
+            "suggest": {
+                "doctrine/annotations": "Install it if you want to use annotations (version ~1.2)",
+                "doctrine/cache": "Install it if you want to use the cache (version ~1.0)",
+                "ocramius/proxy-manager": "Install it if you want to use lazy injection (version ~1.0)"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DI\\": "src/DI/"
+                },
+                "files": [
+                    "src/DI/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The dependency injection container for humans",
+            "homepage": "http://php-di.org/",
+            "keywords": [
+                "container",
+                "dependency injection",
+                "di"
+            ],
+            "time": "2015-06-10 06:16:52"
+        },
+        {
+            "name": "php-di/phpdoc-reader",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHP-DI/PhpDocReader.git",
+                "reference": "21dce5e29f640d655e7b4583ecfb7d166127a5da"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHP-DI/PhpDocReader/zipball/21dce5e29f640d655e7b4583ecfb7d166127a5da",
+                "reference": "21dce5e29f640d655e7b4583ecfb7d166127a5da",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpDocReader\\": "src/PhpDocReader"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PhpDocReader parses @var and @param values in PHP docblocks (supports namespaced class names with the same resolution rules as PHP)",
+            "keywords": [
+                "phpdoc",
+                "reflection"
+            ],
+            "time": "2015-06-01 14:23:20"
+        },
+        {
+            "name": "phpmailer/phpmailer",
+            "version": "v5.2.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPMailer/PHPMailer.git",
+                "reference": "73b61679809615850706f1dbf88e6df2ddc05745"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/73b61679809615850706f1dbf88e6df2ddc05745",
+                "reference": "73b61679809615850706f1dbf88e6df2ddc05745",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.0.0"
+            },
+            "require-dev": {
+                "phpdocumentor/phpdocumentor": "*",
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "class.phpmailer.php",
+                    "class.pop3.php",
+                    "class.smtp.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1"
+            ],
+            "authors": [
+                {
+                    "name": "Jim Jagielski",
+                    "email": "jimjag@gmail.com"
+                },
+                {
+                    "name": "Marcus Bointon",
+                    "email": "phpmailer@synchromedia.co.uk"
+                },
+                {
+                    "name": "Andy Prevost",
+                    "email": "codeworxtech@users.sourceforge.net"
+                },
+                {
+                    "name": "Brent R. Matzelle"
+                }
+            ],
+            "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+            "time": "2014-09-26 18:33:30"
+        },
+        {
+            "name": "sun/alien",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/IftekherSunny/Alien.git",
+                "reference": "7977fcee2b8b383d1d1a96bc2703030416b5b083"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/IftekherSunny/Alien/zipball/7977fcee2b8b383d1d1a96bc2703030416b5b083",
+                "reference": "7977fcee2b8b383d1d1a96bc2703030416b5b083",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sun\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Iftekher Sunny",
+                    "email": "iftekhersunny@hotmail.com",
+                    "homepage": "http://iftekhersunny.com"
+                }
+            ],
+            "description": "This package helps you to create alias for your class namespace.",
+            "keywords": [
+                "Alien",
+                "alias",
+                "facades",
+                "laravel like facades",
+                "php alias"
+            ],
+            "time": "2015-07-15 06:02:44"
+        },
+        {
+            "name": "sun/filesystem",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/IftekherSunny/Filesystem.git",
+                "reference": "43437690fe637461434f8021b838e8fddacb4c1c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/IftekherSunny/Filesystem/zipball/43437690fe637461434f8021b838e8fddacb4c1c",
+                "reference": "43437690fe637461434f8021b838e8fddacb4c1c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sun\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Iftekher Sunny",
+                    "email": "iftekhersunny@hotmail.com",
+                    "homepage": "http://iftekhersunny.com"
+                }
+            ],
+            "description": "This package helps you to manage your file easily.",
+            "keywords": [
+                "fast filesystem",
+                "file create",
+                "filesystem",
+                "php filesystem"
+            ],
+            "time": "2015-07-15 06:04:02"
+        },
+        {
+            "name": "sun/flash",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/IftekherSunny/Flash.git",
+                "reference": "5e2134c5dba808519a3e5f06c8dcb4f5700b2792"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/IftekherSunny/Flash/zipball/5e2134c5dba808519a3e5f06c8dcb4f5700b2792",
+                "reference": "5e2134c5dba808519a3e5f06c8dcb4f5700b2792",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "sun/session": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sun\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Iftekher Sunny",
+                    "email": "iftekhersunny@hotmail.com",
+                    "homepage": "http://iftekhersunny.com"
+                }
+            ],
+            "description": "Flash helps you to add flash messages to your PHP application.",
+            "keywords": [
+                "bootstrap",
+                "flash",
+                "flash message",
+                "laravel",
+                "message",
+                "php"
+            ],
+            "time": "2015-07-15 05:53:49"
+        },
+        {
+            "name": "sun/session",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/IftekherSunny/Session.git",
+                "reference": "f05edd8ce835986cffd10faec45e0d61ac109d02"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/IftekherSunny/Session/zipball/f05edd8ce835986cffd10faec45e0d61ac109d02",
+                "reference": "f05edd8ce835986cffd10faec45e0d61ac109d02",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sun\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Iftekher Sunny",
+                    "email": "iftekhersunny@hotmail.com"
+                }
+            ],
+            "description": "This package helps you to manage your session easily.",
+            "time": "2015-07-13 04:14:22"
+        },
+        {
+            "name": "sun/sunmailer",
+            "version": "v1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/IftekherSunny/SunMailer.git",
+                "reference": "72a7f80f8941bd26b038163eec3d751c61478c8d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/IftekherSunny/SunMailer/zipball/72a7f80f8941bd26b038163eec3d751c61478c8d",
+                "reference": "72a7f80f8941bd26b038163eec3d751c61478c8d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "phpmailer/phpmailer": "5.2.9"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SunMailer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Iftekher Sunny",
+                    "email": "iftekhersunny@hotmail.com",
+                    "homepage": "http://iftekhersunny.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "SunMailer helps you to send email easily.",
+            "time": "2015-07-13 04:09:53"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

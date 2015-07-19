@@ -1,0 +1,26 @@
+{
+    "name": "planet/framework",
+    "description": "The Planet Framework.",
+    "keywords": ["framework", "planet"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Iftekher Sunny",
+            "email": "iftekhersunny@hotmail.com"
+        }
+    ],
+  "require": {
+    "nikic/fast-route": "^0.6.0",
+    "php-di/php-di": "^5.0",
+    "sun/filesystem": "~1",
+    "sun/alien": "~1",
+    "sun/session": "~1",
+    "sun/sunmailer": "~1",
+    "sun/flash": "~1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sun\\": "src/sun/"
+    }
+  }
+}
