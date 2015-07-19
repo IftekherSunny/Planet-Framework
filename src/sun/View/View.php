@@ -13,7 +13,8 @@ class View
 
         $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../../../../../app/Views');
         $twig = new Twig_Environment($loader, array(
-            'cache' => __DIR__ . '/../../../../../../storage/framework/views'
+            'cache' => __DIR__ . '/../../../../../../storage/framework/views',
+            'auto_reload' => true
         ));
         try {
             $template = $twig->loadTemplate($view);
