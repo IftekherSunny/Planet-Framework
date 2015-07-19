@@ -9,14 +9,15 @@
             "email": "iftekhersunny@hotmail.com"
         }
     ],
-  "require": {
-    "nikic/fast-route": "^0.6.0",
-    "php-di/php-di": "^5.0",
+  "require": {    
     "sun/filesystem": "~1",
     "sun/alien": "~1",
     "sun/session": "~1",
     "sun/sunmailer": "~1",
-    "sun/flash": "~1"
+    "sun/flash": "~1",
+    "nikic/fast-route": "^0.6.0",
+    "php-di/php-di": "^5.0",
+    "illuminate/database": "~5.1"
   },
   "autoload": {
     "psr-4": {
