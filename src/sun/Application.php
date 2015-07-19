@@ -3,6 +3,7 @@
 namespace Sun;
 
 use Sun\Container\Container;
+use Sun\Database\Database;
 use Sun\Routing\Route;
 
 class Application extends Container
@@ -15,12 +16,16 @@ class Application extends Container
 
     protected $path;
 
+    protected $database;
+
     public function __construct($option)
     {
         $this->path = $option['path'];
 
         $container = $this->setup();
         $this->route = new Route($container);
+
+        $this->database = new Database($this);
     }
 
     public function group(array $routeOption, $callback)
@@ -76,6 +81,11 @@ class Application extends Container
     public function config_path()
     {
         return $this->base_path() . 'config' . DIRECTORY_SEPARATOR;
+    }
+
+    public function bootDatabase()
+    {
+        $this->database->boot();
     }
 
 }

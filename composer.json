@@ -17,7 +17,8 @@
     "sun/flash": "~1",
     "nikic/fast-route": "^0.6.0",
     "php-di/php-di": "^5.0",
-    "illuminate/database": "~5.1"
+    "illuminate/database": "~5.1",
+    "nesbot/carbon": "~1"
   },
   "autoload": {
     "psr-4": {
