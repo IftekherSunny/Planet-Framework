@@ -19,7 +19,8 @@
     "php-di/php-di": "^5.0",
     "illuminate/database": "~5.1",
     "nesbot/carbon": "~1",
-    "duncan3dc/blade": "~2.2"
+    "duncan3dc/blade": "~2.2",
+    "alexgarrett/violin": "2.*"
   },
   "autoload": {
     "psr-4": {
