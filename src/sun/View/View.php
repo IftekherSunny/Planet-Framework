@@ -2,9 +2,8 @@
 
 namespace Sun\View;
 
-use Twig_Environment;
-use Twig_Error_Loader;
-use Twig_Loader_Filesystem;
+use duncan3dc\Laravel\Blade;
+use duncan3dc\Laravel\BladeInstance;
 
 class View
 {
@@ -19,18 +18,10 @@ class View
      */
     public function render($view, array $data = [])
     {
+        $blade = new BladeInstance(
+            __DIR__.'/../../../../../../app/views',
+            __DIR__.'/../../../../../../storage/framework/views');
 
-        $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../../../../../app/Views');
-        $twig = new Twig_Environment($loader, array(
-            'cache' => __DIR__ . '/../../../../../../storage/framework/views',
-            'auto_reload' => true
-        ));
-        try {
-            $template = $twig->loadTemplate($view);
-        } catch (Twig_Error_Loader $e) {
-            throw new Exception($e->getMessage());
-        }
-
-        return $template->render($data);
+        return $blade->render($view, $data);
     }
 }
