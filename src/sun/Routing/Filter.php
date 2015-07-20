@@ -7,6 +7,6 @@ abstract class Filter
     /**
      * To handle request
      */
-    abstract public static function handle();
+    abstract public function handle();
 
 }

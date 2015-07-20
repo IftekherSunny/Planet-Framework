@@ -61,11 +61,11 @@ class Request
     public function input($fieldName)
     {
         if($this->isMethod('post')) {
-            return $_POST[$fieldName];
+            return (isset($_POST[$fieldName]))? $_POST[$fieldName] : '';
         }
 
         if($this->isMethod('get')) {
-            return $_GET[$fieldName];
+            return (isset($_GET[$fieldName]))? $_GET[$fieldName] : '';
         }
     }
 
@@ -77,11 +77,11 @@ class Request
     public function all()
     {
         if($this->isMethod('POST')) {
-            return $_POST;
+            return (isset($_POST))? $_POST : [];
         }
 
         if($this->isMethod('GET')) {
-            return $_GET;
+            return (isset($_GET))? $_GET : [];
         }
     }
 
@@ -94,6 +94,6 @@ class Request
      */
     public function file($name)
     {
-        return $_FILES[$name];
+        return (isset($_FILES[$name]))? $_FILES[$name] : [];
     }
 }

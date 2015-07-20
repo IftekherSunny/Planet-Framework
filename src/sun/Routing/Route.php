@@ -8,6 +8,7 @@ use FastRoute\DataGenerator\GroupCountBased as DataGenerator;
 use FastRoute\Dispatcher\GroupCountBased as Dispatcher;
 use FastRoute\RouteCollector;
 use FastRoute\RouteParser\Std;
+use ReflectionMethod;
 use Sun\Http\Response;
 
 class Route
@@ -153,7 +154,7 @@ class Route
         try {
             $instance = $this->container->get($controller);
 
-            $reflectionMethod = new \ReflectionMethod($instance, $method);
+            $reflectionMethod = new ReflectionMethod($instance, $method);
 
             return $reflectionMethod->invokeArgs($instance, $params);
 
@@ -167,7 +168,10 @@ class Route
     {
         if(!empty($this->filter[$url])) {
             $name = 'App\Filters\\'.$this->filter[$url];
-            $name::handle();
+
+            $instance = $this->container->get($name);
+
+            $instance->handle();
         }
     }
 }
