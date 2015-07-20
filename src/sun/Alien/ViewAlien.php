@@ -1,10 +1,11 @@
 <?php
 
-namespace Sun\View;
+namespace Sun\Alien;
 
-use Sun\Alien;
+use Sun\View\View;
+use Sun\Alien as SunAlien;
 
-class ViewAlien extends Alien
+class ViewAlien extends SunAlien
 {
     /**
      * To register Alien

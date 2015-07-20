@@ -68,9 +68,6 @@ class Application extends Container
         if (isset($routeOption['namespace'])) {
             $this->namespace = DIRECTORY_SEPARATOR . $routeOption['namespace'] . DIRECTORY_SEPARATOR;
         }
-        else {
-            $this->namespace = '';
-        }
 
         (isset($routeOption['prefix']))? $this->prefix = '/'.$routeOption['prefix'] : $this->prefix = '';
 
@@ -118,7 +115,10 @@ class Application extends Container
     {
         $this->route->routeRegister();
 
-        $data = $this->route->routeDispatcher($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
+        $httpMethod = $_SERVER['REQUEST_METHOD'];
+        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+        $data = $this->route->routeDispatcher($httpMethod, $uri);
 
         $this->response->html($data);
     }
