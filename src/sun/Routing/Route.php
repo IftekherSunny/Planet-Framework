@@ -2,6 +2,7 @@
 
 namespace Sun\Routing;
 
+use Exception;
 use DI\Definition\Exception\DefinitionException;
 use FastRoute\DataGenerator\GroupCountBased as DataGenerator;
 use FastRoute\Dispatcher\GroupCountBased as Dispatcher;
@@ -18,6 +19,8 @@ class Route
     protected $method = array();
 
     protected $params = array();
+
+    protected $filter = array();
 
     protected $container;
 
@@ -42,14 +45,17 @@ class Route
      * @param string $method
      * @param string $url
      * @param string $pattern
+     * @param array  $options
      */
-    public function add($method = 'GET', $url = '/', $pattern = '')
+    public function add($method = 'GET', $url = '/', $pattern = '', array $options = [])
     {
         $this->method[] = $method;
 
         $this->url[] = $url;
 
         $this->pattern[] = $pattern;
+
+        $this->filter[$url] = (isset($options['filter']))? $options['filter'] : '';
     }
 
     /**
@@ -75,6 +81,8 @@ class Route
      */
     public function routeDispatcher($method, $url)
     {
+        $this->filter($url);
+
         $routeInfo = $this->dispatcher->dispatch($method, $url);
 
         switch ($routeInfo[0]) {
@@ -155,4 +163,11 @@ class Route
 
     }
 
+    protected function filter($url)
+    {
+        if(!empty($this->filter[$url])) {
+            $name = 'App\Filters\\'.$this->filter[$url];
+            $name::handle();
+        }
+    }
 }

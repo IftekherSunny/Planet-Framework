@@ -2,7 +2,7 @@
 
 namespace Sun\Http;
 
-use Sun\Session;
+use Session;
 
 class Redirect
 {

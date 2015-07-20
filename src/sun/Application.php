@@ -20,6 +20,16 @@ class Application extends Container
     protected $namespace;
 
     /**
+     * To store route prefix
+     */
+    protected $prefix;
+
+    /**
+     * To store route filter
+     */
+    protected $filter;
+
+    /**
      * Application base path
      */
     protected $path;
@@ -53,38 +63,51 @@ class Application extends Container
      * @param array $routeOption
      * @param       $callback
      */
-    public function group(array $routeOption, $callback)
+    public function group(array $routeOption = [], $callback)
     {
         if (isset($routeOption['namespace'])) {
             $this->namespace = DIRECTORY_SEPARATOR . $routeOption['namespace'] . DIRECTORY_SEPARATOR;
         }
+        else {
+            $this->namespace = '';
+        }
 
-        $callback();
+        (isset($routeOption['prefix']))? $this->prefix = '/'.$routeOption['prefix'] : $this->prefix = '';
+
+        (isset($routeOption['filter']))? $this->filter = ['filter' => $routeOption['filter']] : $this->filter = [];
+
+        call_user_func($callback);
     }
 
     /**
-     * @param $url
-     * @param $pattern
+     * @param       $url
+     * @param       $pattern
+     * @param array $options
      */
-    public function get($url, $pattern)
+    public function get($url, $pattern, array $options = [])
     {
+        $options = array_merge($options, $this->filter);
+
         if (is_callable($pattern)) {
-            $this->route->add('GET', $url, $pattern);
+            $this->route->add('GET', $this->prefix . $url, $pattern, $options);
         } else {
-            $this->route->add('GET', $url, $this->namespace . $pattern);
+            $this->route->add('GET', $this->prefix . $url, $this->namespace . $pattern, $options);
         }
     }
 
     /**
-     * @param $url
-     * @param $pattern
+     * @param       $url
+     * @param       $pattern
+     * @param array $options
      */
-    public function post($url, $pattern)
+    public function post($url, $pattern, array $options = [])
     {
+        $options = array_merge($options, $this->filter);
+
         if (is_callable($pattern)) {
-            $this->route->add('POST', $url, $pattern);
+            $this->route->add('POST', $this->prefix . $url, $pattern, $options);
         } else {
-            $this->route->add('POST', $url, $this->namespace . $pattern);
+            $this->route->add('POST', $this->prefix . $url, $this->namespace . $pattern, $options);
         }
     }
 
