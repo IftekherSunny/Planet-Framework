@@ -13,7 +13,7 @@ class Encrypter
      */
     public function encrypt($value)
     {
-       return password_hash($value, PASSWORD_BCRYPT);
+       return password_hash(trim($value), PASSWORD_BCRYPT);
     }
 
     /**
@@ -26,7 +26,7 @@ class Encrypter
      */
     public function decrypt($password, $hash)
     {
-        return password_verify($password, $hash);
+        return password_verify(trim($password), $hash);
     }
 
     /**

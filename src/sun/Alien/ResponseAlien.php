@@ -4,6 +4,7 @@ namespace Sun\Alien;
 
 use Sun\Http\Response;
 use Sun\Alien as SunAlien;
+use Sun\Session;
 
 class ResponseAlien extends SunAlien
 {
@@ -14,6 +15,6 @@ class ResponseAlien extends SunAlien
      */
     public static function registerAlien()
     {
-        return new Response();
+        return new Response(new Session());
     }
 }

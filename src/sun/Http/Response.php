@@ -2,8 +2,23 @@
 
 namespace Sun\Http;
 
+
+use Sun\Session;
+
 class Response
 {
+    /**
+     * @var Session
+     */
+    private $session;
+
+    /**
+     * @param Session $session
+     */
+    public function __construct(Session $session)
+    {
+        $this->session = $session;
+    }
     /**
      * To response with html
      *
@@ -12,6 +27,7 @@ class Response
     public function html($data)
     {
         echo $data;
+        $this->session->create('planet_oldInput', null);
     }
 
     /**

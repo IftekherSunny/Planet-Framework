@@ -56,7 +56,7 @@ class Route
 
         $this->pattern[] = $pattern;
 
-        $this->filter[$url] = (isset($options['filter']))? $options['filter'] : '';
+        $this->filter[$url][$method] = (isset($options['filter']))? $options['filter'] : '';
     }
 
     /**
@@ -82,7 +82,7 @@ class Route
      */
     public function routeDispatcher($method, $url)
     {
-        $this->filter($url);
+        $this->filter($url, $method);
 
         $routeInfo = $this->dispatcher->dispatch($method, $url);
 
@@ -148,7 +148,7 @@ class Route
     public function invoke($controller, $method, $params)
     {
         if (!class_exists($controller)) {
-            throw new Exception("Class not found.");
+            throw new Exception("Controller not found.");
         }
 
         try {
@@ -164,10 +164,10 @@ class Route
 
     }
 
-    protected function filter($url)
+    protected function filter($url, $method)
     {
-        if(!empty($this->filter[$url])) {
-            $name = 'App\Filters\\'.$this->filter[$url];
+        if(!empty($this->filter[$url][$method])) {
+            $name = 'App\Filters\\'.$this->filter[$url][$method];
 
             $instance = $this->container->get($name);
 

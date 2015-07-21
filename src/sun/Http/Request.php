@@ -2,8 +2,25 @@
 
 namespace Sun\Http;
 
+use Sun\Session;
+
 class Request
 {
+
+    /**
+     * @var Session
+     */
+    private $session;
+
+    /**
+     * @param Session $session
+     */
+    public function __construct(Session $session)
+    {
+        $this->session = $session;
+
+        $this->storeInput();
+    }
     /**
      * To know request method type
      *
@@ -69,6 +86,25 @@ class Request
         }
     }
 
+    public function old($fieldName)
+    {
+       if($this->isMethod('get') && $this->session->has('planet_oldInput')) {
+
+               $oldInput = $this->session->get('planet_oldInput');
+
+               return ($oldInput != null)? $oldInput[$fieldName] : '';
+
+       }
+    }
+
+    public function storeInput()
+    {
+        if($this->isMethod('post')) {
+            $this->session->create('planet_oldInput', $_POST);
+        }
+
+    }
+
     /**
      * To get all values from a request
      *
@@ -96,4 +132,5 @@ class Request
     {
         return (isset($_FILES[$name]))? $_FILES[$name] : [];
     }
+
 }

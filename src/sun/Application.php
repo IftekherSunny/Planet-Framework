@@ -51,7 +51,7 @@ class Application extends Container
     {
         $this->path = $option['path'];
 
-        $this->response = new Response;
+        $this->response = new Response(new Session());
 
         $container = $this->setup();
         $this->route = new Route($container, $this->response);
@@ -73,7 +73,7 @@ class Application extends Container
 
         (isset($routeOption['filter']))? $this->filter = ['filter' => $routeOption['filter']] : $this->filter = [];
 
-        call_user_func($callback);
+        call_user_func_array($callback, $routeOption);
     }
 
     /**
