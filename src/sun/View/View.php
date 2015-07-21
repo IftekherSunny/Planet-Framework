@@ -2,7 +2,6 @@
 
 namespace Sun\View;
 
-use duncan3dc\Laravel\Blade;
 use duncan3dc\Laravel\BladeInstance;
 
 class View

@@ -50,7 +50,12 @@ class Response
 
     public function message($message)
     {
-        echo $message;
+        if(is_array($message)) {
+            echo json_encode($message);
+        }
+        else {
+            echo $message;
+        }
     }
 
     public function code($code)

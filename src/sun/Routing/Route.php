@@ -88,12 +88,12 @@ class Route
 
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
-                $this->response->abort();
+                $this->response->code(404)->message("Route [ {$url} ] not found.");
 
                 break;
             case Dispatcher::METHOD_NOT_ALLOWED:
-                $method = $routeInfo[1];
-                $this->response->code(405)->message("Method [ {$method} ] not found.");
+                $this->response->code(405)->message("Route [ {$url} ] not found.");
+
                 break;
             case Dispatcher::FOUND:
                 $handler = $routeInfo[1];
