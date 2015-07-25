@@ -34,20 +34,24 @@ class Redirect
         Session::create($key, $value);
     }
 
+    /**
+     * To redirect back
+     */
     public function back()
     {
         $this->to($_SERVER['REQUEST_URI']);
     }
 
+    /**
+     * To redirect back with value
+     *
+     * @param $key
+     * @param $value
+     */
     public function backWith($key, $value)
     {
        $this->with($key, $value);
 
        $this->to($_SERVER['REQUEST_URI']);
-    }
-
-    public function __destruct()
-    {
-        die();
     }
 }

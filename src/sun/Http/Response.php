@@ -64,6 +64,11 @@ class Response
         echo 'Page not found';
     }
 
+    /**
+     * To show message
+     *
+     * @param $message
+     */
     public function message($message)
     {
         if(is_array($message)) {
@@ -74,6 +79,13 @@ class Response
         }
     }
 
+    /**
+     * To add http status code
+     *
+     * @param $code
+     *
+     * @return $this
+     */
     public function code($code)
     {
         http_response_code($code);

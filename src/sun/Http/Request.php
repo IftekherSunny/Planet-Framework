@@ -86,6 +86,13 @@ class Request
         }
     }
 
+    /**
+     * To get old input value
+     *
+     * @param $fieldName
+     *
+     * @return string
+     */
     public function old($fieldName)
     {
        if($this->isMethod('get') && $this->session->has('planet_oldInput')) {
@@ -97,6 +104,9 @@ class Request
        }
     }
 
+    /**
+     * Storing user input value
+     */
     public function storeInput()
     {
         if($this->isMethod('post')) {

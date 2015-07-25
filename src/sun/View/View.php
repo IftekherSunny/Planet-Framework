@@ -13,7 +13,7 @@ class View
      * @param array $data
      *
      * @return string
-     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function render($view, array $data = [])
     {

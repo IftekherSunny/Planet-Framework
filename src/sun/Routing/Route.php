@@ -164,6 +164,12 @@ class Route
 
     }
 
+    /**
+     * To filter http request
+     *
+     * @param $url
+     * @param $method
+     */
     protected function filter($url, $method)
     {
         if(!empty($this->filter[$url][$method])) {
