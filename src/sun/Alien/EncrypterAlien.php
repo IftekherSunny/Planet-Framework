@@ -2,7 +2,6 @@
 
 namespace Sun\Alien;
 
-use Sun\Security\Encrypter;
 use Sun\Alien as SunAlien;
 
 class EncrypterAlien extends SunAlien
@@ -14,6 +13,6 @@ class EncrypterAlien extends SunAlien
      */
     public static function registerAlien()
     {
-        return new Encrypter();
+        return 'Sun\Security\Encrypter';
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Sun\Alien;
 
-use Sun\Http\Redirect;
 use Sun\Alien as SunAlien;
 
 class RedirectAlien extends SunAlien
@@ -14,6 +13,6 @@ class RedirectAlien extends SunAlien
      */
     public static function registerAlien()
     {
-        return new Redirect();
+        return 'Sun\Http\Redirect';
     }
 }

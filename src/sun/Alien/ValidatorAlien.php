@@ -2,7 +2,6 @@
 
 namespace Sun\Alien;
 
-use Sun\Validation\Validator;
 use Sun\Alien as SunAlien;
 
 class ValidatorAlien extends SunAlien
@@ -14,6 +13,6 @@ class ValidatorAlien extends SunAlien
      */
     public static function registerAlien()
     {
-        return new Validator();
+        return 'Sun\Validation\Validator';
     }
 }

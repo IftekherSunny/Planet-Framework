@@ -2,7 +2,6 @@
 
 namespace Sun\Alien;
 
-use Sun\View\View;
 use Sun\Alien as SunAlien;
 
 class ViewAlien extends SunAlien
@@ -14,6 +13,6 @@ class ViewAlien extends SunAlien
      */
     public static function registerAlien()
     {
-        return new View();
+        return 'Sun\View\View';
     }
 }
