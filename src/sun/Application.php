@@ -66,12 +66,12 @@ class Application extends Container
     public function group(array $routeOption = [], $callback)
     {
         if (isset($routeOption['namespace'])) {
-            $this->namespace = DIRECTORY_SEPARATOR . $routeOption['namespace'] . DIRECTORY_SEPARATOR;
+            $this->namespace = '\\' . $routeOption['namespace'] . '\\';
         }
 
-        (isset($routeOption['prefix']))? $this->prefix = '/'.$routeOption['prefix'] : $this->prefix = '';
+        (isset($routeOption['prefix'])) ? $this->prefix = '/' . $routeOption['prefix'] : $this->prefix = '';
 
-        (isset($routeOption['filter']))? $this->filter = ['filter' => $routeOption['filter']] : $this->filter = [];
+        (isset($routeOption['filter'])) ? $this->filter = ['filter' => $routeOption['filter']] : $this->filter = [];
 
         call_user_func_array($callback, $routeOption);
     }

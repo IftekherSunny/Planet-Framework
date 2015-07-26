@@ -52,6 +52,7 @@ class Response
         header("Content-Disposition: attachment; filename=\"$filename\"");
 
         readfile($filename);
+        exit();
     }
 
     /**
