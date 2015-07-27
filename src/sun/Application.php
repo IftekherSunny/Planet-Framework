@@ -6,6 +6,7 @@ use Sun\Container\Container;
 use Sun\Database\Database;
 use Sun\Http\Response;
 use Sun\Routing\Route;
+use Sun\Routing\UrlGenerator;
 
 class Application extends Container
 {
@@ -45,6 +46,11 @@ class Application extends Container
     protected $response;
 
     /**
+     * @var \Sun\Routing\UrlGenerator
+     */
+    protected $urlGenerator;
+
+    /**
      * @param $option
      */
     public function __construct($option)
@@ -54,9 +60,12 @@ class Application extends Container
         $this->response = new Response(new Session());
 
         $container = $this->setup();
+
         $this->route = new Route($container, $this->response);
 
         $this->database = new Database($this);
+
+        $this->urlGenerator = new UrlGenerator;
     }
 
     /**
@@ -77,34 +86,34 @@ class Application extends Container
     }
 
     /**
-     * @param       $url
+     * @param       $uri
      * @param       $pattern
      * @param array $options
      */
-    public function get($url, $pattern, array $options = [])
+    public function get($uri, $pattern, array $options = [])
     {
         $options = array_merge($options, $this->filter);
 
         if (is_callable($pattern)) {
-            $this->route->add('GET', $this->prefix . $url, $pattern, $options);
+            $this->route->add('GET', $this->prefix . $uri, $pattern, $options);
         } else {
-            $this->route->add('GET', $this->prefix . $url, $this->namespace . $pattern, $options);
+            $this->route->add('GET', $this->prefix . $uri, $this->namespace . $pattern, $options);
         }
     }
 
     /**
-     * @param       $url
+     * @param       $uri
      * @param       $pattern
      * @param array $options
      */
-    public function post($url, $pattern, array $options = [])
+    public function post($uri, $pattern, array $options = [])
     {
         $options = array_merge($options, $this->filter);
 
         if (is_callable($pattern)) {
-            $this->route->add('POST', $this->prefix . $url, $pattern, $options);
+            $this->route->add('POST', $this->prefix . $uri, $pattern, $options);
         } else {
-            $this->route->add('POST', $this->prefix . $url, $this->namespace . $pattern, $options);
+            $this->route->add('POST', $this->prefix . $uri, $this->namespace . $pattern, $options);
         }
     }
 
@@ -116,7 +125,7 @@ class Application extends Container
         $this->route->routeRegister();
 
         $httpMethod = $_SERVER['REQUEST_METHOD'];
-        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $uri = $this->urlGenerator->getUri();
 
         $data = $this->route->routeDispatcher($httpMethod, $uri);
 

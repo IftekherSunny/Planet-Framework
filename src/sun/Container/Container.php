@@ -33,4 +33,15 @@ class Container
         $this->container->set($contract, \DI\object($implementation));
     }
 
+    /**
+     * To inject all dependencies of a given class
+     * 
+     * @param $class
+     *
+     * @return mixed
+     */
+    public function make($class)
+    {
+        return $this->container->get($class);
+    }
 }

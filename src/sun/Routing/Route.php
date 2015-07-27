@@ -2,18 +2,18 @@
 
 namespace Sun\Routing;
 
-use DI\Definition\Exception\DefinitionException;
 use Exception;
-use FastRoute\DataGenerator\GroupCountBased as DataGenerator;
-use FastRoute\Dispatcher\GroupCountBased as Dispatcher;
-use FastRoute\RouteCollector;
-use FastRoute\RouteParser\Std;
 use ReflectionMethod;
 use Sun\Http\Response;
+use FastRoute\RouteCollector;
+use FastRoute\RouteParser\Std;
+use DI\Definition\Exception\DefinitionException;
+use FastRoute\Dispatcher\GroupCountBased as Dispatcher;
+use FastRoute\DataGenerator\GroupCountBased as DataGenerator;
 
 class Route
 {
-    protected $url = array();
+    protected $uri = array();
 
     protected $pattern = array();
 
@@ -44,19 +44,19 @@ class Route
      * To add route
      *
      * @param string $method
-     * @param string $url
+     * @param string $uri
      * @param string $pattern
      * @param array  $options
      */
-    public function add($method = 'GET', $url = '/', $pattern = '', array $options = [])
+    public function add($method = 'GET', $uri = '/', $pattern = '', array $options = [])
     {
         $this->method[] = $method;
 
-        $this->url[] = $url;
+        $this->uri[] = $uri;
 
         $this->pattern[] = $pattern;
 
-        $this->filter[$url][$method] = (isset($options['filter'])) ? $options['filter'] : '';
+        $this->filter[$uri][$method] = (isset($options['filter'])) ? $options['filter'] : '';
     }
 
     /**
@@ -65,8 +65,8 @@ class Route
     public function routeRegister()
     {
         $route = new RouteCollector(new Std(), new DataGenerator());
-        for ($i = 0; $i < count($this->url); $i++) {
-            $route->addRoute($this->method[$i], $this->url[$i], $this->pattern[$i]);
+        for ($i = 0; $i < count($this->uri); $i++) {
+            $route->addRoute($this->method[$i], $this->uri[$i], $this->pattern[$i]);
         }
 
         $this->dispatcher = new Dispatcher($route->getData());
@@ -76,23 +76,23 @@ class Route
      * To dispatch a route
      *
      * @param $method
-     * @param $url
+     * @param $uri
      *
      * @return mixed|void
      */
-    public function routeDispatcher($method, $url)
+    public function routeDispatcher($method, $uri)
     {
-        $this->filter($url, $method);
+        $this->filter($uri, $method);
 
-        $routeInfo = $this->dispatcher->dispatch($method, $url);
+        $routeInfo = $this->dispatcher->dispatch($method, $uri);
 
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
-                $this->response->code(404)->message("Route [ {$url} ] not found.");
+                $this->response->code(404)->message("Route [ {$uri} ] not found.");
 
                 break;
             case Dispatcher::METHOD_NOT_ALLOWED:
-                $this->response->code(405)->message("Route [ {$url} ] not found.");
+                $this->response->code(405)->message("Route [ {$uri} ] not found.");
 
                 break;
             case Dispatcher::FOUND:
@@ -167,13 +167,13 @@ class Route
     /**
      * To filter http request
      *
-     * @param $url
+     * @param $uri
      * @param $method
      */
-    protected function filter($url, $method)
+    protected function filter($uri, $method)
     {
-        if (!empty($this->filter[$url][$method])) {
-            $name = 'App\Filters\\' . $this->filter[$url][$method];
+        if (!empty($this->filter[$uri][$method])) {
+            $name = 'App\Filters\\' . $this->filter[$uri][$method];
 
             $instance = $this->container->get($name);
 

@@ -20,7 +20,7 @@ function view($name,array $data = []) {
 }
 
 function redirect() {
-    return new Sun\Http\Redirect();
+    return new Sun\Http\Redirect(new Sun\Routing\UrlGenerator());
 }
 
 function request() {
@@ -32,5 +32,9 @@ function response() {
 }
 
 function validator() {
-    return new Sun\Validation\Validator();
+    return new Sun\Validation\Validator(new Sun\Session, new Sun\Security\Encrypter());
+}
+
+function url($path) {
+    return (new Sun\Routing\UrlGenerator)->url($path);
 }

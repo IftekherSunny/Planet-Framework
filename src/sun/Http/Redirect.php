@@ -3,9 +3,23 @@
 namespace Sun\Http;
 
 use Session;
+use Sun\Routing\UrlGenerator;
 
 class Redirect
 {
+    /**
+     * @var UrlGenerator
+     */
+    private $urlGenerator;
+
+    /**
+     * @param UrlGenerator $urlGenerator
+     */
+    public function __construct(UrlGenerator $urlGenerator)
+    {
+        $this->urlGenerator = $urlGenerator;
+    }
+
     /**
      * To redirect
      *
@@ -14,6 +28,7 @@ class Redirect
      */
     public function to($url, array $values = [])
     {
+        $url = $this->urlGenerator->getBaseUri() . $url;
         if (count($values)) {
             foreach ($values as $key => $value) {
                 $this->with($key, $value);
@@ -40,7 +55,10 @@ class Redirect
      */
     public function back()
     {
-        $this->to($_SERVER['REQUEST_URI']);
+        $url = $_SERVER['REQUEST_URI'];
+
+        header('location: ' . $url);
+        exit();
     }
 
     /**
@@ -53,6 +71,9 @@ class Redirect
     {
        $this->with($key, $value);
 
-       $this->to($_SERVER['REQUEST_URI']);
+        $url = $_SERVER['REQUEST_URI'];
+
+        header('location: ' . $url);
+        exit();
     }
 }
