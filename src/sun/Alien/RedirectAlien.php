@@ -9,7 +9,7 @@ class RedirectAlien extends SunAlien
     /**
      * To register Alien
      *
-     * @return object
+     * @return string namespace
      */
     public static function registerAlien()
     {

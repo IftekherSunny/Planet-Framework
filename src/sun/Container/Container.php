@@ -35,7 +35,7 @@ class Container
 
     /**
      * To inject all dependencies of a given class
-     * 
+     *
      * @param $class
      *
      * @return mixed
