@@ -2,7 +2,7 @@
 
 namespace Sun\Http;
 
-use Session;
+use Sun\Session;
 use Sun\Routing\UrlGenerator;
 
 class Redirect
@@ -10,14 +10,29 @@ class Redirect
     /**
      * @var UrlGenerator
      */
-    private $urlGenerator;
+    protected $urlGenerator;
+
+    /**
+     * @var hasData
+     */
+    protected $hasData;
+
+    /**
+     * @var \Sun\Session
+     */
+    protected $session;
 
     /**
      * @param UrlGenerator $urlGenerator
+     * @param Session      $session
      */
-    public function __construct(UrlGenerator $urlGenerator)
+    public function __construct(UrlGenerator $urlGenerator, Session $session)
     {
         $this->urlGenerator = $urlGenerator;
+
+        $this->session = $session;
+
+        $this->hasData = false;
     }
 
     /**
@@ -36,7 +51,8 @@ class Redirect
         }
 
         header('location: ' . $url);
-        exit();
+
+        if(! $this->hasData) exit();
     }
 
     /**
@@ -44,10 +60,16 @@ class Redirect
      *
      * @param $key
      * @param $value
+     *
+     * @return $this
      */
     public function with($key, $value)
     {
-        Session::create($key, $value);
+        $this->hasData = true;
+
+        $this->session->create($key, $value);
+
+        return $this;
     }
 
     /**
@@ -55,10 +77,9 @@ class Redirect
      */
     public function back()
     {
-        $url = $_SERVER['REQUEST_URI'];
+        $url = $this->session->get('previous_uri');
 
         header('location: ' . $url);
-        exit();
     }
 
     /**
@@ -69,9 +90,9 @@ class Redirect
      */
     public function backWith($key, $value)
     {
-       $this->with($key, $value);
+        $this->with($key, $value);
 
-        $url = $_SERVER['REQUEST_URI'];
+        $url = $this->session->get('previous_uri');
 
         header('location: ' . $url);
         exit();

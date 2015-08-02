@@ -2,9 +2,9 @@
 
 namespace Sun\Validation;
 
-use Violin\Violin;
 use Sun\Session;
-use Sun\Security\Encrypter;
+use Violin\Violin;
+use Sun\Security\Hash;
 
 class Validator extends Violin
 {
@@ -13,19 +13,19 @@ class Validator extends Violin
      */
     private $session;
     /**
-     * @var Encrypter
+     * @var Hash
      */
-    private $encrypter;
+    private $hash;
 
     /**
      * @param Session   $session
-     * @param Encrypter $encrypter
+     * @param Hash $hash
      */
-    public function __construct(Session $session, Encrypter $encrypter)
+    public function __construct(Session $session, Hash $hash)
     {
         $this->session = $session;
 
-        $this->encrypter = $encrypter;
+        $this->hash = $hash;
 
         $this->addRuleMessage('unique', "The {field} is already taken.");
 
@@ -57,6 +57,15 @@ class Validator extends Violin
         return true;
     }
 
+    /**
+     * To verify user password
+     *
+     * @param $value
+     * @param $input
+     * @param $args
+     *
+     * @return bool
+     */
     public function validate_verify($value, $input, $args)
     {
 
@@ -67,7 +76,7 @@ class Validator extends Violin
 
         if($user) {
 
-            if($this->encrypter->verify($value, $user->password)) {
+            if($this->hash->verify($value, $user->password)) {
                 return true;
             }
 

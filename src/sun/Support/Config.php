@@ -2,8 +2,8 @@
 
 namespace Sun\Support;
 
-class Config {
-
+class Config
+{
     private $commonSettings = array();
     private $currentItem = array();
     private $found = false;

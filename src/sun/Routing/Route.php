@@ -3,37 +3,75 @@
 namespace Sun\Routing;
 
 use Exception;
-use ReflectionMethod;
 use Sun\Http\Response;
 use FastRoute\RouteCollector;
 use FastRoute\RouteParser\Std;
+use Sun\Contracts\Container\Container;
 use DI\Definition\Exception\DefinitionException;
 use FastRoute\Dispatcher\GroupCountBased as Dispatcher;
 use FastRoute\DataGenerator\GroupCountBased as DataGenerator;
 
 class Route
 {
+    /**
+     * Route uri
+     *
+     * @var array
+     */
     protected $uri = array();
 
+    /**
+     * Route pattern
+     *
+     * @var array
+     */
     protected $pattern = array();
 
+    /**
+     * Route method
+     *
+     * @var array
+     */
     protected $method = array();
 
+    /**
+     * Route params
+     *
+     * @var array
+     */
     protected $params = array();
 
+    /**
+     * Route filter
+     *
+     * @var array
+     */
     protected $filter = array();
 
+    /**
+     * Application Container
+     *
+     * @var Container
+     */
     protected $container;
 
+    /**
+     * Route dispatcher
+     *
+     * @var \FastRoute\Dispatcher\GroupCountBased
+     */
     protected $dispatcher;
 
+    /**
+     * @var \Sun\Http\Response
+     */
     protected $response;
 
     /**
-     * @param          $container
-     * @param Response $response
+     * @param Container $container
+     * @param Response  $response
      */
-    public function __construct($container, Response $response)
+    public function __construct(Container $container, Response $response)
     {
         $this->container = $container;
 
@@ -148,18 +186,16 @@ class Route
     public function invoke($controller, $method, $params)
     {
         if (!class_exists($controller)) {
-            throw new Exception("Controller not found.");
+            throw new Exception("Controller [ $controller ] does not exist.");
         }
 
         try {
-            $instance = $this->container->get($controller);
+            $instance = $this->container->make($controller);
 
-            $reflectionMethod = new ReflectionMethod($instance, $method);
-
-            return $reflectionMethod->invokeArgs($instance, $params);
+            return call_user_func([$instance, $method], $params);
 
         } catch (DefinitionException $e) {
-            throw new BindingException("Binding Error.");
+            throw new BindingException("Binding Error [ ". $e->getMessage() ." ]");
         }
 
     }
@@ -173,9 +209,9 @@ class Route
     protected function filter($uri, $method)
     {
         if (!empty($this->filter[$uri][$method])) {
-            $name = 'App\Filters\\' . $this->filter[$uri][$method];
+            $name = app()->getNamespace() . 'Filters\\' . $this->filter[$uri][$method];
 
-            $instance = $this->container->get($name);
+            $instance = $this->container->make($name);
 
             $instance->handle();
         }

@@ -18,8 +18,8 @@ class View
     public function render($view, array $data = [])
     {
         $blade = new BladeInstance(
-            __DIR__.'/../../../../../../app/Views',
-            __DIR__.'/../../../../../../storage/framework/views');
+            app_path(). '/Views',
+            storage_path() . '/framework/views');
 
         return $blade->render($view, $data);
     }

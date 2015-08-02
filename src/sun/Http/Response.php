@@ -18,6 +18,8 @@ class Response
     public function __construct(Session $session)
     {
         $this->session = $session;
+
+        $this->debugChecker();
     }
     /**
      * To response with html
@@ -27,6 +29,7 @@ class Response
     public function html($data)
     {
         echo $data;
+        $this->session->create('previous_uri', $_SERVER['REQUEST_URI']);
         $this->session->create('planet_oldInput', null);
     }
 
@@ -43,15 +46,17 @@ class Response
     /**
      * To response with download
      *
-     * @param $filename
+     * @param $filepath
      */
-    public function download($filename)
+    public function download($filepath)
     {
+        $filename = pathinfo($filepath, PATHINFO_BASENAME );
+
         header("Content-Description: File Transfer");
         header("Content-Type: application/octet-stream");
         header("Content-Disposition: attachment; filename=\"$filename\"");
 
-        readfile($filename);
+        readfile($filepath);
         exit();
     }
 
@@ -92,5 +97,16 @@ class Response
         http_response_code($code);
 
         return $this;
+    }
+
+    /**
+     * Checking debug mode to show/hide error
+     */
+    private function debugChecker()
+    {
+        if(config('app.debug')) {
+            error_reporting(-1);
+            ini_set('display_errors', 1);
+        }
     }
 }

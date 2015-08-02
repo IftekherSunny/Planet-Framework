@@ -3,21 +3,10 @@
 namespace Sun\Database;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Sun\Contracts\Database\Database as DatabaseContract;
 
-class Database
+class Database implements DatabaseContract
 {
-    /**
-     * @var \Sun\Application
-     */
-    protected $app;
-
-    /**
-     * @param $app
-     */
-    public function __construct($app)
-    {
-        $this->app = $app;
-    }
 
     /**
      * To boot Eloquent
@@ -26,10 +15,12 @@ class Database
     {
         $capsule = new Capsule;
 
-        $database = require_once $this->app->config_path() . '/database.php';
+        if (config('database.driver') == 'mysql') {
+            $this->mysqlConnectionSetup($capsule);
+        }
 
-        if ($database['driver'] == 'mysql') {
-            $this->mysqlConnectionSetup($capsule, $database);
+        if (config('database.driver') == 'sqlite') {
+            $this->sqliteConnectionSetup($capsule);
         }
 
         $capsule->bootEloquent();
@@ -39,19 +30,34 @@ class Database
      * To connect with mysql database
      *
      * @param $capsule
-     * @param $database
      */
-    private function mysqlConnectionSetup($capsule, $database)
+    private function mysqlConnectionSetup($capsule)
     {
         $capsule->addConnection([
             'driver' => 'mysql',
-            'host' => $database['connection']['mysql']['host'],
-            'database' => $database['connection']['mysql']['database'],
-            'username' => $database['connection']['mysql']['username'],
-            'password' => $database['connection']['mysql']['password'],
-            'charset' => $database['connection']['mysql']['charset'],
-            'collation' => $database['connection']['mysql']['collation'],
-            'prefix' => $database['connection']['mysql']['prefix']
+            'host' => config('database.connection.mysql.host'),
+            'database' => config('database.connection.mysql.database'),
+            'username' => config('database.connection.mysql.username'),
+            'password' => config('database.connection.mysql.password'),
+            'charset' => config('database.connection.mysql.charset'),
+            'collation' => config('database.connection.mysql.collation'),
+            'prefix' => config('database.connection.mysql.prefix')
+        ]);
+    }
+
+    /**
+     * To connect with sqlite database
+     *
+     * @param $capsule
+     */
+    private function sqliteConnectionSetup($capsule)
+    {
+        $capsule->addConnection([
+            'driver' => 'sqlite',
+            'database' => config('database.connection.sqlite.database'),
+            'charset' => config('database.connection.sqlite.charset'),
+            'collation' => config('database.connection.sqlite.collation'),
+            'prefix' => config('database.connection.sqlite.prefix')
         ]);
     }
 }

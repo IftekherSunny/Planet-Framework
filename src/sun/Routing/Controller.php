@@ -2,29 +2,34 @@
 
 namespace Sun\Routing;
 
-use Sun\Http\Redirect;
-use Sun\Http\Response;
-
 class Controller
 {
     /**
-     * @var \Sun\Http\Redirect
+     * To dispatch command
+     *
+     * @param $object
+     *
+     * @return mixed
      */
-    protected $redirect;
-
-    /**
-     * @var \Sun\Http\Response
-     */
-    protected $response;
-
-    /**
-     * @param Redirect $redirect
-     * @param Response $response
-     */
-    public function __construct(Redirect $redirect, Response $response)
+    public function dispatch($object)
     {
-        $this->redirect = $redirect;
+        return dispatch()->dispatch($object);
+    }
 
-        $this->response = $response;
+    /**
+     * To call method dynamically
+     *
+     * @param $name
+     * @param $arguments
+     *
+     * @return mixed
+     * @throws MethodNotFoundException
+     */
+    public function __call($name, $arguments) {
+        if(method_exists($this, $name)) {
+            return call_user_func_array($name,$arguments);
+        }
+
+        throw new MethodNotFoundException("Method [ $name ] does not exist.");
     }
 }

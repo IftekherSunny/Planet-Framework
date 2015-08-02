@@ -143,4 +143,9 @@ class Request
         return (isset($_FILES[$name]))? $_FILES[$name] : [];
     }
 
+    public function get($name)
+    {
+        return ($this->session->has($name))? $this->session->get($name) : '';
+    }
+
 }
