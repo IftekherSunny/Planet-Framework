@@ -1,0 +1,16 @@
+<?php
+
+namespace dummyNamespace\Controllers;
+
+class dummyControllerName extends Controller
+{
+    public function getIndex()
+    {
+        return view('index');
+    }
+
+    public function postIndex()
+    {
+        // to handle post request
+    }
+}

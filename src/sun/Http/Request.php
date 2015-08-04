@@ -6,7 +6,6 @@ use Sun\Session;
 
 class Request
 {
-
     /**
      * @var Session
      */
@@ -143,6 +142,13 @@ class Request
         return (isset($_FILES[$name]))? $_FILES[$name] : [];
     }
 
+    /**
+     * To get request data from session
+     *
+     * @param $name
+     *
+     * @return string
+     */
     public function get($name)
     {
         return ($this->session->has($name))? $this->session->get($name) : '';

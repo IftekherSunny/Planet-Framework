@@ -7,13 +7,22 @@ use Sun\Contracts\Database\Database as DatabaseContract;
 
 class Database implements DatabaseContract
 {
+    /**
+     * To get Capsule instance
+     *
+     * @return Capsule
+     */
+    public function getCapsuleInstance()
+    {
+        return new Capsule;
+    }
 
     /**
      * To boot Eloquent
      */
     public function boot()
     {
-        $capsule = new Capsule;
+        $capsule = $this->getCapsuleInstance();
 
         if (config('database.driver') == 'mysql') {
             $this->mysqlConnectionSetup($capsule);
@@ -22,6 +31,8 @@ class Database implements DatabaseContract
         if (config('database.driver') == 'sqlite') {
             $this->sqliteConnectionSetup($capsule);
         }
+
+        $capsule->setAsGlobal();
 
         $capsule->bootEloquent();
     }

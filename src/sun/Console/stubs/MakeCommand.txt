@@ -1,0 +1,13 @@
+<?php
+
+namespace dummyNamespace\Commands;
+
+class dummyCommandNameCommand
+{
+    public $name;
+
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
+}

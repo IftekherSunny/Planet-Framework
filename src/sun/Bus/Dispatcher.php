@@ -10,6 +10,7 @@ class Dispatcher
      * @var CommandTranslator
      */
     private $commandTranslator;
+
     /**
      * @var Application
      */

@@ -2,11 +2,19 @@
 
 namespace Sun\Bus;
 
-use Sun\Application;
 use ReflectionClass;
 
 class CommandTranslator
 {
+    /**
+     * To translate command to command handler
+     *
+     * @param $object
+     *
+     * @return string
+     * @throws CommandNotFoundException
+     * @throws HandlerNotFoundException
+     */
     public function translate($object)
     {
         $commandBaseNamespace = app()->getNamespace() . "Commands";

@@ -9,6 +9,11 @@ use Sun\Contracts\Application as ApplicationContract;
 class Application extends Container implements ApplicationContract
 {
     /**
+     * Planet Framework Version
+     */
+    const VERSION = '1.0.Beta.1';
+
+    /**
      * @var \Sun\Routing\Route
      */
     protected $route;
@@ -37,6 +42,11 @@ class Application extends Container implements ApplicationContract
      * @var \Sun\Database\Database
      */
     protected $database;
+
+    /**
+     * @var Capsule
+     */
+    public $db;
 
     /**
      * @var \Sun\Http\Response
@@ -227,7 +237,7 @@ class Application extends Container implements ApplicationContract
      */
     public function app_path($path = null)
     {
-        return empty($path) ? $this->base_path() . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR : $this->base_path() . 'app' . DIRECTORY_SEPARATOR . $path;
+        return empty($path) ? $this->base_path() . DIRECTORY_SEPARATOR . 'app' : $this->base_path() . 'app' . $path;
     }
 
     /**
@@ -237,7 +247,7 @@ class Application extends Container implements ApplicationContract
      */
     public function config_path()
     {
-        return $this->base_path() . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
+        return $this->base_path() . DIRECTORY_SEPARATOR . 'config';
     }
 
     /**
@@ -247,7 +257,7 @@ class Application extends Container implements ApplicationContract
      */
     public function storage_path()
     {
-        return $this->base_path() . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR;
+        return $this->base_path() . DIRECTORY_SEPARATOR . 'storage';
     }
 
     /**
@@ -257,7 +267,7 @@ class Application extends Container implements ApplicationContract
      */
     public function public_path()
     {
-        return $this->base_path() . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR;
+        return $this->base_path() . DIRECTORY_SEPARATOR . 'public';
     }
 
     /**
@@ -274,6 +284,7 @@ class Application extends Container implements ApplicationContract
     public function bootDatabase()
     {
         $this->database->boot();
+        $this->db = $this->database->getCapsuleInstance();
     }
 
     /**

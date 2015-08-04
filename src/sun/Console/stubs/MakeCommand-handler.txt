@@ -1,0 +1,20 @@
+<?php
+
+namespace dummyNamespace\Handlers;
+
+use dummyNamespace\Commands\dummyCommandNameCommand;
+
+class dummyCommandNameCommandHandler
+{
+    /**
+     * To handle command
+     *
+     * @param dummyCommandNameCommand $command
+     *
+     * @return mixed
+     */
+    public function handle(dummyCommandNameCommand $command)
+    {
+       return $command->name;
+    }
+}

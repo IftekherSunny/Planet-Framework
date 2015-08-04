@@ -1,0 +1,11 @@
+<?php
+
+namespace dummyNamespace\Models;
+
+use Sun\Database\Model;
+
+class dummyModelName extends Model
+{
+    protected $fillable = [];
+
+}

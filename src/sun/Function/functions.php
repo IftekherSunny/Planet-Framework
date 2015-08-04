@@ -4,11 +4,17 @@ if (!function_exists('app')) {
     /**
      * To get Sun Application instance
      *
+     * @param $make
+     *
      * @return mixed
      */
-    function app()
+    function app($make = null)
     {
-        return Sun\Application::getInstance();
+        if(is_null($make)) {
+            return Sun\Application::getInstance();
+        }
+
+        return Sun\Application::getInstance()->make($make);
     }
 }
 
@@ -94,7 +100,7 @@ if (!function_exists('config')) {
      */
     function config($location)
     {
-        $config = new Sun\Support\Config('../config');
+        $config = new Sun\Support\Config(config_path());
         $hold = explode('.', $location);
 
         $filename = 'get' . strtoupper(array_shift($hold));

@@ -1,0 +1,52 @@
+<?php
+
+namespace dummyNamespace\Console;
+
+use Sun\Console\Command;
+use Sun\Contracts\Application;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+
+class dummyConsoleCommandName extends Command
+{
+    /**
+     * @var string Command name
+     */
+    protected $name = 'Your command name';
+
+    /**
+     * @var string Command description
+     */
+    protected $description = "Command description";
+
+    /**
+     * @param Application $app
+     */
+    public function __construct(Application $app)
+    {
+        parent::__construct();
+        $this->app = $app;
+    }
+
+    /**
+     * To handle console command
+     */
+    public function handle()
+    {
+        //
+    }
+
+    protected function getArguments()
+    {
+        return [
+            ['arg', InputArgument::REQUIRED, 'Give a name for your argument.']
+        ];
+    }
+
+    protected function getOptions()
+    {
+        return [
+            ['option', null, InputOption::VALUE_NONE, 'Give a name for your option.']
+        ];
+    }
+}

@@ -9,23 +9,24 @@
             "email": "iftekhersunny@hotmail.com"
         }
     ],
-  "require": {    
-    "sun/filesystem": "~1",
-    "sun/alien": "~1",
-    "sun/session": "~1",
-    "sun/sunmailer": "~1",
-    "sun/flash": "~1",
-    "nikic/fast-route": "^0.6.0",
-    "php-di/php-di": "^5.0",
-    "illuminate/database": "~5.1",
-    "nesbot/carbon": "~1",
-    "duncan3dc/blade": "~2.2",
-    "alexgarrett/violin": "2.*"
-  },
-  "autoload": {
-    "psr-4": {
-      "Sun\\": "src/sun/"
+    "require": {
+      "sun/alien": "~1",
+      "sun/flash": "~1",
+      "sun/session": "~1",
+      "sun/sunmailer": "~1",
+      "sun/filesystem": "~1",
+      "php-di/php-di": "^5.0",
+      "nikic/fast-route": "^0.6.0",
+      "symfony/console": "~2",
+      "illuminate/database": "~5.1",
+      "duncan3dc/blade": "~2.2",
+      "nesbot/carbon": "~1",
+      "alexgarrett/violin": "2.*"
     },
-    "files": ["src/sun/Function/functions.php"]
-  }
+    "autoload": {
+      "psr-4": {
+        "Sun\\": "src/sun/"
+      },
+      "files": ["src/sun/Function/functions.php"]
+    }
 }

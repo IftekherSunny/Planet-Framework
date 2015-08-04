@@ -86,6 +86,11 @@ class Validator extends Violin
         return false;
     }
 
+    /**
+     * To skip validation rule
+     *
+     * @return bool
+     */
     public function canSkip()
     {
         return true;

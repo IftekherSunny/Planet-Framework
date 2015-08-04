@@ -1,0 +1,24 @@
+<?php
+
+namespace dummyNamespace\Filters;
+
+use Sun\Routing\Filter;
+
+class dummyFilterName extends Filter
+{
+    /**
+     * To create filter
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * To handle request
+     */
+    public function handle()
+    {
+        //
+    }
+}
