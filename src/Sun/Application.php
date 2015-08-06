@@ -345,10 +345,10 @@ class Application extends Container implements ApplicationContract
      */
     protected function registerBindings()
     {
-        $binding = config('binding');
+        $binding = config('binding')?: [];
 
-        foreach($binding as $key => $value) {
-            $this->bind($key, $value);
+        foreach($binding as $contract => $implementation) {
+            $this->bind($contract, $implementation);
         }
     }
 }

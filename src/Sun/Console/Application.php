@@ -31,7 +31,9 @@ class Application extends SymfonyApplication implements ApplicationContract
         $this->app = $app;
 
         $command = require_once __DIR__.'/Register.php';
-        $this->commands = array_merge($command, config('console'));
+        $applicationCommand = config('console')?: [];
+
+        $this->commands = array_merge($command, $applicationCommand);
     }
 
     /**
