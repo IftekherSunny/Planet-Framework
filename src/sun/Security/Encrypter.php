@@ -3,8 +3,9 @@
 namespace Sun\Security;
 
 use Exception;
+use Sun\Contracts\Security\Encrypter as EncrypterContract;
 
-class Encrypter
+class Encrypter implements EncrypterContract
 {
     /**
      * IV size
@@ -34,6 +35,11 @@ class Encrypter
      */
     protected $key;
 
+    /**
+     * Create a new encrypt instance
+     *
+     * @throws Exception
+     */
     public function __construct()
     {
         $this->ivSize = 16;

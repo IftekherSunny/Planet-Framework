@@ -2,10 +2,10 @@
 
 namespace Sun\Http;
 
+use Sun\Contracts\Session\Session;
+use Sun\Contracts\Http\Response as ResponseContract;
 
-use Sun\Session;
-
-class Response
+class Response implements ResponseContract
 {
     /**
      * @var Session
@@ -13,6 +13,8 @@ class Response
     private $session;
 
     /**
+     * Create a new response instance
+     *
      * @param Session $session
      */
     public function __construct(Session $session)

@@ -74,6 +74,8 @@ class Application extends Container implements ApplicationContract
     protected static $instance;
 
     /**
+     * Create a new application
+     *
      * @param $option
      */
     public function __construct($option = null)

@@ -2,7 +2,9 @@
 
 namespace Sun\Routing;
 
-class UrlGenerator
+use Sun\Contracts\Routing\UrlGenerator as UrlGeneratorContract;
+
+class UrlGenerator implements UrlGeneratorContract
 {
     /**
      * To get uri

@@ -2,10 +2,11 @@
 
 namespace Sun\Http;
 
-use Sun\Session;
-use Sun\Routing\UrlGenerator;
+use Sun\Contracts\Session\Session;
+use Sun\Contracts\Routing\UrlGenerator;
+use Sun\Contracts\Http\Redirect as RedirectContract;
 
-class Redirect
+class Redirect implements RedirectContract
 {
     /**
      * @var UrlGenerator
@@ -23,6 +24,8 @@ class Redirect
     protected $session;
 
     /**
+     * Create a new redirect instance
+     *
      * @param UrlGenerator $urlGenerator
      * @param Session      $session
      */

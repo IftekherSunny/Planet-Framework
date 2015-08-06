@@ -2,9 +2,10 @@
 
 namespace Sun\Http;
 
-use Sun\Session;
+use Sun\Contracts\Session\Session;
+use Sun\Contracts\Http\Request as RequestContract;
 
-class Request
+class Request implements RequestContract
 {
     /**
      * @var Session
@@ -12,6 +13,8 @@ class Request
     private $session;
 
     /**
+     * Create a new request instance
+     *
      * @param Session $session
      */
     public function __construct(Session $session)

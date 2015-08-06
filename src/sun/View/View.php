@@ -3,8 +3,9 @@
 namespace Sun\View;
 
 use duncan3dc\Laravel\BladeInstance;
+use Sun\Contracts\View\View as ViewContract;
 
-class View
+class View implements ViewContract
 {
     /**
      * To render view

@@ -3,8 +3,10 @@
 namespace Sun\Bus;
 
 use Sun\Contracts\Application;
+use Sun\Contracts\Bus\CommandTranslator;
+use Sun\Contracts\Bus\Dispatcher as DispatcherContract;
 
-class Dispatcher
+class Dispatcher implements DispatcherContract
 {
     /**
      * @var CommandTranslator
@@ -17,6 +19,8 @@ class Dispatcher
     private $app;
 
     /**
+     * Create a new dispatcher instance
+     *
      * @param CommandTranslator $commandTranslator
      * @param Application       $app
      */

@@ -2,7 +2,9 @@
 
 namespace Sun\Support;
 
-class Config
+use Sun\Contracts\Support\Config as ConfigContract;
+
+class Config implements ConfigContract
 {
     /**
      * To store all settings
@@ -23,6 +25,9 @@ class Config
      */
     private $found = false;
 
+    /**
+     * Create a new config instance
+     */
     public function __construct()
     {
         if(!count($this->settings)) {

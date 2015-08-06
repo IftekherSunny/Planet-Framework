@@ -40,6 +40,9 @@ abstract class Command extends SymfonyCommand
     protected $output;
 
 
+    /**
+     * SetUp
+     */
     protected function configure()
     {
         $this->setName($this->name);

@@ -2,9 +2,10 @@
 
 namespace Sun\Security;
 
-use Sun\Session;
+use Sun\Contracts\Session\Session;
+use Sun\Contracts\Security\Csrf as CsrfContract;
 
-class Csrf
+class Csrf implements CsrfContract
 {
     /**
      * To store session data
@@ -13,6 +14,11 @@ class Csrf
      */
     protected $session;
 
+    /**
+     * Create a new csrf instance
+     *
+     * @param Session $session
+     */
     public function __construct(Session $session)
     {
         $this->session = $session;

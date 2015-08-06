@@ -2,7 +2,9 @@
 
 namespace Sun\Security;
 
-class Hash
+use Sun\Contracts\Security\Hash as HashContract;
+
+class Hash implements HashContract
 {
     /**
      * To make password hash

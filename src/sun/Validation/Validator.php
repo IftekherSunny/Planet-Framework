@@ -2,11 +2,12 @@
 
 namespace Sun\Validation;
 
-use Sun\Session;
 use Violin\Violin;
-use Sun\Security\Hash;
+use Sun\Contracts\Security\Hash;
+use Sun\Contracts\Session\Session;
+use Sun\Contracts\Validation\Validator as ValidatorContract;
 
-class Validator extends Violin
+class Validator extends Violin implements ValidatorContract
 {
     /**
      * @var Session

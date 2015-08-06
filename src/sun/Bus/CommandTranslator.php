@@ -3,8 +3,9 @@
 namespace Sun\Bus;
 
 use ReflectionClass;
+use Sun\Contracts\Bus\CommandTranslator as CommandTranslatorContract;
 
-class CommandTranslator
+class CommandTranslator implements CommandTranslatorContract
 {
     /**
      * To translate command to command handler

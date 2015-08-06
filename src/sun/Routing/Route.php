@@ -3,15 +3,16 @@
 namespace Sun\Routing;
 
 use Exception;
-use Sun\Http\Response;
 use FastRoute\RouteCollector;
 use FastRoute\RouteParser\Std;
+use Sun\Contracts\Http\Response;
 use Sun\Contracts\Container\Container;
 use DI\Definition\Exception\DefinitionException;
+use Sun\Contracts\Routing\Route as RouteContract;
 use FastRoute\Dispatcher\GroupCountBased as Dispatcher;
 use FastRoute\DataGenerator\GroupCountBased as DataGenerator;
 
-class Route
+class Route implements RouteContract
 {
     /**
      * Route uri
@@ -68,6 +69,8 @@ class Route
     protected $response;
 
     /**
+     * Create a new route instance
+     *
      * @param Container $container
      * @param Response  $response
      */
