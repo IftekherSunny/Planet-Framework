@@ -4,23 +4,35 @@ namespace Sun\Support;
 
 class Config
 {
-    private $commonSettings = array();
-    private $currentItem = array();
+    /**
+     * To store all settings
+     *
+     * @var array
+     */
+    private $settings = [];
+
+    /**
+     * Current item
+     *
+     * @var array
+     */
+    private $currentItem = [];
+
+    /**
+     * @var bool
+     */
     private $found = false;
 
-    public function __construct($path = null)
+    public function __construct()
     {
-        if(is_null($path)) {
-            throw new \Exception("Path required to load configuration files from");
-        }
-
-        if(!count($this->commonSettings)) {
-            $this->load($path);
+        if(!count($this->settings)) {
+            $this->load(config_path());
         }
     }
 
     /**
      * __call required for set and get methods
+     *
      * @param  String $method [name of the calling method]
      * @param  Array $params [Method's parameters]
      * @return Mixed/Nothing
@@ -39,7 +51,7 @@ class Config
 
                 $key = strtolower($methodName).'.'.$params[0];
                 $value = $params[1];
-                $this->array_set($this->commonSettings, $key, $value);
+                $this->array_set($this->settings, $key, $value);
                 return $this;
             }
 
@@ -51,15 +63,15 @@ class Config
 
                 if($params==null){
                     $key = strtolower($methodName);
-                    if($key === 'all') $result = $this->commonSettings;
-                    else $result = $this->array_get($this->commonSettings, $key);
+                    if($key === 'all') $result = $this->settings;
+                    else $result = $this->array_get($this->settings, $key);
                 }
                 else {
                     $key = strtolower($methodName);
                     $key .= isset($params[0]) ? '.' . $params[0] : '';
 
                     // If a closure is given in 2nd argumet with getMethod(), call it
-                    $result = $this->array_get($this->commonSettings, $key, $default);
+                    $result = $this->array_get($this->settings, $key, $default);
                     if(isset($params[1]) && is_callable($params[1])) {
                         return $params[1]($result);
                     }
@@ -78,6 +90,7 @@ class Config
 
     /**
      * Loads all configurations from application/config/ php files
+     *
      * @param  String $path
      * @return Array
      */
@@ -89,16 +102,13 @@ class Config
                 $array = include $fileInfo->getPathname();
                 $fileName = $fileInfo->getFilename();
                 $keyName = substr($fileName, 0, strpos($fileName, '.'));
-                $this->commonSettings[$keyName] = $array;
+                $this->settings[$keyName] = $array;
             }
         }
     }
 
-
-
-    /** Helper functions **/
-
-    /** Get an item from an array using "dot" notation.
+    /**
+     * Get an item from an array using "dot" notation.
      *
      * @param  array   $array
      * @param  string  $key
@@ -142,13 +152,13 @@ class Config
             {
                 $array[$key] = array();
             }
-            $array =& $array[$key];
+            $array = &$array[$key];
         }
         $array[array_shift($keys)] = $value;
     }
 
     /**
-     * Recursively finds an item from the commonSettings array
+     * Recursively finds an item from the settings array
      *
      * @param  string   $item
      * @param  array   $array
@@ -157,7 +167,6 @@ class Config
     public function find($item = null, $array = null)
     {
         if(is_null($item)) return null;
-        //$this->found = false;
 
         if(strpos($item, '.')) {
             $arr = explode('.', $item);
@@ -170,7 +179,7 @@ class Config
             return $this->findItemIn($itemToSearch, $arr[0]);
         }
         else {
-            $array = !is_null($array) ? $array : $this->commonSettings;
+            $array = !is_null($array) ? $array : $this->settings;
             foreach ($array as $key => $value) {
                 if($key === $item) {
                     $this->currentItem = $value;
@@ -193,10 +202,10 @@ class Config
 
 
     /**
-     * Recursively finds an item from the commonSettings array
+     * Recursively finds an item from the settings array
      *
      * @param  string   $item
-     * @param  array   $array
+     * @param  array   $key
      * @return object/$this
      */
     private function findItemIn($item, $key)
@@ -209,6 +218,7 @@ class Config
     /**
      * Checks if the given item exists in the array
      * that is currently available after find call
+     *
      * @return mixed
      */
     public function isExist($key = null)

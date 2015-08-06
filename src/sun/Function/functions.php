@@ -100,7 +100,7 @@ if (!function_exists('config')) {
      */
     function config($location)
     {
-        $config = new Sun\Support\Config(config_path());
+        $config = app()->config;
         $hold = explode('.', $location);
 
         $filename = 'get' . strtoupper(array_shift($hold));
@@ -199,5 +199,62 @@ if(!function_exists('dispatch')) {
     function dispatch()
     {
         return app()->make('Sun\Bus\Dispatcher');
+    }
+}
+
+if(!function_exists('bcrypt')) {
+    /**
+     * To make password hash
+     *
+     * @param $password
+     *
+     * @return mixed
+     */
+    function bcrypt($password)
+    {
+        return app()->make('Sun\Security\Hash')->make($password);
+    }
+}
+
+if(!function_exists('bcrypt_verify')) {
+    /**
+     * To make password hash
+     *
+     * @param $password
+     * @param $hash
+     *
+     * @return mixed
+     */
+    function bcrypt_verify($password, $hash)
+    {
+        return app()->make('Sun\Security\Hash')->verify($password, $hash);
+    }
+}
+
+if(!function_exists('encrypt')) {
+    /**
+     * To encrypt given data
+     *
+     * @param $data
+     *
+     * @return mixed
+     */
+    function encrypt($data)
+    {
+        return app()->make('Sun\Security\Encrypter')->encrypt($data);
+    }
+}
+
+if(!function_exists('decrypt')) {
+    /**
+     * To decrypt given data
+     *
+     * @param $data
+     *
+     * @return mixed
+     */
+    function decrypt($data)
+    {
+        return app()->make('Sun\Security\Encrypter')->decrypt($data);
     }
 }

@@ -64,6 +64,11 @@ class Application extends Container implements ApplicationContract
     protected $appNamespace;
 
     /**
+     * @var \Sun\Support\Config
+     */
+    public $config;
+
+    /**
      * @var \Sun\Application
      */
     protected static $instance;
@@ -81,6 +86,8 @@ class Application extends Container implements ApplicationContract
 
         $this->bindObject('Sun\Contracts\Application', $this);
 
+        $this->config = $this->make('Sun\Support\Config');
+
         $this->registerBindings();
 
         $this->response = $this->make('Sun\Http\Response');
@@ -90,6 +97,7 @@ class Application extends Container implements ApplicationContract
         $this->database = $this->make('Sun\Database\Database');
 
         $this->urlGenerator = $this->make('Sun\Routing\UrlGenerator');
+
     }
 
     /**
