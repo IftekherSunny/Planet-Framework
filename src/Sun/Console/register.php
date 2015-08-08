@@ -12,5 +12,6 @@ return [
     'Sun\Console\Commands\MakeModel',
     'Sun\Console\Commands\MakeFilter',
     'Sun\Console\Commands\MakeCommand',
+    'Sun\Console\Commands\MakeAlien',
     'Sun\Console\Commands\ViewClear',
 ];

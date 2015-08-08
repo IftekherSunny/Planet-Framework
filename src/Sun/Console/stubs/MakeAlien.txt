@@ -1,0 +1,18 @@
+<?php
+
+namespace dummyNamespace\Alien;
+
+use Sun\Alien;
+
+class dummyAlienNameAlien extends Alien
+{
+    /**
+     * To register Alien
+     *
+     * @return string namespace
+     */
+    public static function registerAlien()
+    {
+        // return 'your class namespace';
+    }
+}

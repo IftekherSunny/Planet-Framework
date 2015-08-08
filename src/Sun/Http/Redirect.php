@@ -55,7 +55,7 @@ class Redirect implements RedirectContract
 
         header('location: ' . $url);
 
-        if(! $this->hasData) exit();
+        if($this->hasData) exit();
     }
 
     /**
