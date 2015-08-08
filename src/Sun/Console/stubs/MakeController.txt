@@ -2,7 +2,7 @@
 
 namespace dummyNamespace\Controllers;
 
-class dummyControllerName extends Controller
+class dummyControllerNameController extends Controller
 {
     public function getIndex()
     {

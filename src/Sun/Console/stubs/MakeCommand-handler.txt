@@ -9,12 +9,12 @@ class dummyCommandNameCommandHandler
     /**
      * To handle command
      *
-     * @param dummyCommandNameCommand $command
+     * @param dummyCommandNameCommand $dummyCommandNameCommand
      *
      * @return mixed
      */
-    public function handle(dummyCommandNameCommand $command)
+    public function handle(dummyCommandNameCommand $dummyCommandNameCommand)
     {
-       return $command->name;
+       return $dummyCommandNameCommand->name;
     }
 }

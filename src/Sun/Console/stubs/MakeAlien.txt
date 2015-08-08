@@ -2,8 +2,6 @@
 
 namespace dummyNamespace\Alien;
 
-use Sun\Alien;
-
 class dummyAlienNameAlien extends Alien
 {
     /**

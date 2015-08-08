@@ -49,7 +49,7 @@ class MakeAlien extends Command
         $success = $this->filesystem->create(app_path() ."/Alien/{$alienName}Alien.php", $alienStubs);
 
         if($success) {
-            $this->info("{$alienName} alien has been created successfully.");
+            $this->info("{$alienName}Alien has been created successfully.");
         }
     }
 

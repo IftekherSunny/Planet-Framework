@@ -51,10 +51,10 @@ class MakeController extends Command
         }
 
         $controllerStubs = str_replace([ 'dummyControllerName', 'dummyNamespace', '\\\\' ], [ $controllerName, $this->app->getNamespace(), '\\' ], $controllerStubs);
-        $success = $this->filesystem->create(app_path() ."/Controllers/{$controllerName}.php", $controllerStubs);
+        $success = $this->filesystem->create(app_path() ."/Controllers/{$controllerName}Controller.php", $controllerStubs);
 
         if($success) {
-            $this->info("{$controllerName} has been created successfully.");
+            $this->info("{$controllerName}Controller has been created successfully.");
         }
     }
 
