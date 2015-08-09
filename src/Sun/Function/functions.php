@@ -184,8 +184,13 @@ if (!function_exists('url')) {
      *
      * @return string
      */
-    function url($path)
+    function url($path = null)
     {
+        if(is_null($path)) {
+            $url = app()->make('Sun\Routing\UrlGenerator');
+            return $url->url($url->getUri());
+        }
+
         return app()->make('Sun\Routing\UrlGenerator')->url($path);
     }
 }

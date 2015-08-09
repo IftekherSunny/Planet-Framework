@@ -2,6 +2,7 @@
 
 namespace Sun\Database;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Sun\Contracts\Database\Database as DatabaseContract;
 
@@ -35,6 +36,8 @@ class Database implements DatabaseContract
         $capsule->setAsGlobal();
 
         $capsule->bootEloquent();
+
+        $this->bootPaginator();
     }
 
     /**
@@ -70,5 +73,19 @@ class Database implements DatabaseContract
             'collation' => config('database.connection.sqlite.collation'),
             'prefix' => config('database.connection.sqlite.prefix')
         ]);
+    }
+
+    /**
+     * To boot Paginator
+     */
+    private function bootPaginator()
+    {
+        Paginator::currentPathResolver(function () {
+            return url();
+        });
+
+        Paginator::currentPageResolver(function ($pageName = 'page') {
+            return request()->input($pageName);
+        });
     }
 }
