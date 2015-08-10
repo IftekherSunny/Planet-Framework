@@ -2,8 +2,6 @@
 
 namespace Sun\Contracts\Session;
 
-use Exception;
-
 interface Session
 {
     /**
@@ -22,8 +20,7 @@ interface Session
      * @param string $name
      * @param string $value
      *
-     * @return string
-     * @throws Exception
+     * @return mixed
      */
     public function get($name, $value = '');
 
@@ -51,7 +48,7 @@ interface Session
      * @param string $name
      * @param string $value
      *
-     * @return string
+     * @return mixed
      */
     public function pull($name, $value = '');
 
@@ -70,7 +67,7 @@ interface Session
      *
      * @param string $name
      *
-     * @return array
+     * @return string
      */
     public function pop($name);
 
@@ -79,7 +76,7 @@ interface Session
      *
      * @param string $name
      *
-     * @return array
+     * @return string
      */
     public function shift($name);
 
