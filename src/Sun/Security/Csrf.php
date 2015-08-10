@@ -31,10 +31,12 @@ class Csrf implements CsrfContract
      */
     public function token()
     {
-        $token = base64_encode(openssl_random_pseudo_bytes(32));
-        $this->session->create('token', $token);
+        if(!$this->session->has('token')) {
+            $token = base64_encode(openssl_random_pseudo_bytes(32));
+            $this->session->create('token', $token);
+        }
 
-        return $token;
+        return $this->session->get('token');
     }
 
     /**

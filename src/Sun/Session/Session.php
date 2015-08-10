@@ -2,7 +2,7 @@
 
 namespace Sun\Session;
 
-use Exception;
+use Sun\Contracts\Application;
 use Sun\Contracts\Security\Encrypter;
 use Sun\Contracts\Session\Session as SessionContract;
 
@@ -14,14 +14,29 @@ class Session implements SessionContract
     protected $encrypter;
 
     /**
+     * @var bool
+     */
+    protected $expireOnClose;
+
+    /**
+     * Session expire time
+     *
+     * @var int
+     */
+    protected $expireTime;
+
+    /**
      * Create a new session instance
      *
+     * @param \Sun\Contracts\Application        $app
      * @param \Sun\Contracts\Security\Encrypter $encrypter
      */
-    public function __construct(Encrypter $encrypter)
+    public function __construct(Application $app, Encrypter $encrypter)
     {
-        $this->startSession();
+        $this->expireOnClose = $app->config->getSession('expire_on_close')?: false;
+        $this->expireTime = $app->config->getSession('expire_time')?: 0;
         $this->encrypter = $encrypter;
+        $this->startSession();
     }
 
     /**
@@ -30,6 +45,13 @@ class Session implements SessionContract
     protected function startSession()
     {
         if (session_status() == PHP_SESSION_NONE) {
+            session_save_path(realpath(storage_path().'/framework/sessions/'));
+
+            if(!$this->expireOnClose) {
+                session_cache_limiter('private');
+                session_cache_expire($this->expireTime);
+            }
+
             session_start();
         }
     }
@@ -60,8 +82,7 @@ class Session implements SessionContract
      * @param string $name
      * @param string $value
      *
-     * @return string
-     * @throws Exception
+     * @return mixed
      */
     public function get($name, $value = '')
     {
@@ -74,8 +95,6 @@ class Session implements SessionContract
 
             return $value;
         }
-
-        throw new Exception("Session [ $name ] does not exists.");
     }
 
     /**
@@ -120,7 +139,7 @@ class Session implements SessionContract
      * @param string $name
      * @param string $value
      *
-     * @return string
+     * @return mixed
      */
     public function pull($name, $value = '')
     {
@@ -152,7 +171,7 @@ class Session implements SessionContract
      *
      * @param string $name
      *
-     * @return array
+     * @return string
      */
     public function pop($name)
     {
@@ -170,7 +189,7 @@ class Session implements SessionContract
      *
      * @param string $name
      *
-     * @return array
+     * @return string
      */
     public function shift($name)
     {
