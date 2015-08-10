@@ -62,9 +62,8 @@ interface Session
      * @param string $value
      *
      * @return bool
-     * @throws Exception
      */
-    public function push($name, $value = '');
+    public function push($name, $value);
 
     /**
      * To pop session data from session array

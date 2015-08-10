@@ -3,16 +3,23 @@
 namespace Sun\Session;
 
 use Exception;
+use Sun\Contracts\Security\Encrypter;
 use Sun\Contracts\Session\Session as SessionContract;
 
 class Session implements SessionContract
 {
     /**
+     * @var \Sun\Contracts\Security\Encrypter
+     */
+    protected $encrypter;
+
+    /**
      * Create a new session instance
      */
-    public function __construct()
+    public function __construct(Encrypter $encrypter)
     {
         $this->startSession();
+        $this->encrypter = $encrypter;
     }
 
     /**
@@ -35,9 +42,9 @@ class Session implements SessionContract
      */
     public function create($name, $value = '')
     {
-        $_SESSION[$name] = $value;
+        $_SESSION[$name] = $this->encrypter->encrypt($value);
 
-        if(isset($_SESSION[$name])) {
+        if (isset($_SESSION[$name])) {
 
             return true;
         }
@@ -58,10 +65,10 @@ class Session implements SessionContract
     {
         if ($this->has($name)) {
 
-            return $_SESSION[$name] ?: $value;
+            return $_SESSION[$name] ? $this->encrypter->decrypt($_SESSION[$name]) : $value;
         }
 
-        if(! empty($value)) {
+        if (!empty($value)) {
 
             return $value;
         }
@@ -80,7 +87,7 @@ class Session implements SessionContract
     {
         unset($_SESSION[$name]);
 
-        if(! isset($_SESSION[$name])){
+        if (!isset($_SESSION[$name])) {
 
             return true;
         }
@@ -128,18 +135,14 @@ class Session implements SessionContract
      * @param string $value
      *
      * @return bool
-     * @throws Exception
      */
-    public function push($name, $value = '')
+    public function push($name, $value)
     {
-        if (is_array($this->get($name))) {
-            $newValue = $this->get($name);
-            $newValue[] = $value;
+        $decryptData = $this->get($name, []);
 
-            return $this->create($name, $newValue);
-        }
+        $decryptData[] = $value;
 
-        throw new Exception("Session [ $name ] does not exists.");
+        return $this->create($name, $decryptData);
     }
 
     /**
@@ -151,7 +154,13 @@ class Session implements SessionContract
      */
     public function pop($name)
     {
-        return array_pop($_SESSION[$name]);
+        $decryptData = $this->get($name);
+
+        $data = array_pop($decryptData);
+
+        $this->create($name, $decryptData);
+
+        return $data;
     }
 
     /**
@@ -163,7 +172,13 @@ class Session implements SessionContract
      */
     public function shift($name)
     {
-        return array_shift($_SESSION[$name]);
+        $decryptData = $this->get($name);
+
+        $data = array_shift($decryptData);
+
+        $this->create($name, $decryptData);
+
+        return $data;
     }
 
     /**
