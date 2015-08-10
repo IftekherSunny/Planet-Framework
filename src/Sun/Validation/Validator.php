@@ -10,17 +10,18 @@ use Sun\Contracts\Validation\Validator as ValidatorContract;
 class Validator extends Violin implements ValidatorContract
 {
     /**
-     * @var Session
+     * @var \Sun\Contracts\Session\Session
      */
-    private $session;
-    /**
-     * @var Hash
-     */
-    private $hash;
+    protected $session;
 
     /**
-     * @param Session   $session
-     * @param Hash $hash
+     * @var \Sun\Contracts\Security\Hash
+     */
+    protected $hash;
+
+    /**
+     * @param \Sun\Contracts\Session\Session   $session
+     * @param \Sun\Contracts\Security\Hash $hash
      */
     public function __construct(Session $session, Hash $hash)
     {

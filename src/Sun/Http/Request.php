@@ -8,14 +8,14 @@ use Sun\Contracts\Http\Request as RequestContract;
 class Request implements RequestContract
 {
     /**
-     * @var Session
+     * @var \Sun\Contracts\Session\Session
      */
-    private $session;
+    protected $session;
 
     /**
      * Create a new request instance
      *
-     * @param Session $session
+     * @param \Sun\Contracts\Session\Session $session
      */
     public function __construct(Session $session)
     {

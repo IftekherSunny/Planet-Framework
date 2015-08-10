@@ -52,7 +52,7 @@ class Route implements RouteContract
     /**
      * Application Container
      *
-     * @var Container
+     * @var \Sun\Contracts\Container\Container
      */
     protected $container;
 
@@ -64,15 +64,15 @@ class Route implements RouteContract
     protected $dispatcher;
 
     /**
-     * @var \Sun\Http\Response
+     * @var \Sun\Contracts\Http\Response
      */
     protected $response;
 
     /**
      * Create a new route instance
      *
-     * @param Container $container
-     * @param Response  $response
+     * @param \Sun\Contracts\Container\Container $container
+     * @param \Sun\Contracts\Http\Response  $response
      */
     public function __construct(Container $container, Response $response)
     {

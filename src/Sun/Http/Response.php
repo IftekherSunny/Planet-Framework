@@ -8,14 +8,14 @@ use Sun\Contracts\Http\Response as ResponseContract;
 class Response implements ResponseContract
 {
     /**
-     * @var Session
+     * @var \Sun\Contracts\Session\Session
      */
-    private $session;
+    protected $session;
 
     /**
      * Create a new response instance
      *
-     * @param Session $session
+     * @param \Sun\Contracts\Session\Session $session
      */
     public function __construct(Session $session)
     {

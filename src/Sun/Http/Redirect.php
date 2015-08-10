@@ -9,7 +9,7 @@ use Sun\Contracts\Http\Redirect as RedirectContract;
 class Redirect implements RedirectContract
 {
     /**
-     * @var UrlGenerator
+     * @var \Sun\Contracts\Routing\UrlGenerator
      */
     protected $urlGenerator;
 
@@ -19,15 +19,15 @@ class Redirect implements RedirectContract
     protected $hasData;
 
     /**
-     * @var \Sun\Session
+     * @var \Sun\Contracts\Session\Session
      */
     protected $session;
 
     /**
      * Create a new redirect instance
      *
-     * @param UrlGenerator $urlGenerator
-     * @param Session      $session
+     * @param \Sun\Contracts\Routing\UrlGenerator $urlGenerator
+     * @param \Sun\Contracts\Session\Session      $session
      */
     public function __construct(UrlGenerator $urlGenerator, Session $session)
     {

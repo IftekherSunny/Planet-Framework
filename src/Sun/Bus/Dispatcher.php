@@ -9,20 +9,20 @@ use Sun\Contracts\Bus\Dispatcher as DispatcherContract;
 class Dispatcher implements DispatcherContract
 {
     /**
-     * @var CommandTranslator
+     * @var \Sun\Contracts\Bus\CommandTranslator
      */
-    private $commandTranslator;
+    protected $commandTranslator;
 
     /**
-     * @var Application
+     * @var \Sun\Contracts\Application
      */
-    private $app;
+    protected $app;
 
     /**
      * Create a new dispatcher instance
      *
-     * @param CommandTranslator $commandTranslator
-     * @param Application       $app
+     * @param \Sun\Contracts\Bus\CommandTranslator $commandTranslator
+     * @param \Sun\Contracts\Application       $app
      */
     public function __construct(CommandTranslator $commandTranslator, Application $app)
     {

@@ -10,14 +10,14 @@ class Csrf implements CsrfContract
     /**
      * To store session data
      *
-     * @var \Sun\Session
+     * @var \Sun\Contracts\Session\Session
      */
     protected $session;
 
     /**
      * Create a new csrf instance
      *
-     * @param Session $session
+     * @param \Sun\Contracts\Session\Session $session
      */
     public function __construct(Session $session)
     {

@@ -11,7 +11,7 @@ use Symfony\Component\Console\Command\Command as SymfonyCommand;
 abstract class Command extends SymfonyCommand
 {
     /**
-     * @var \Sun\Application
+     * @var \Sun\Contracts\Application
      */
     protected $app;
 

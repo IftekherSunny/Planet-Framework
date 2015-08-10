@@ -15,6 +15,8 @@ class Session implements SessionContract
 
     /**
      * Create a new session instance
+     *
+     * @param \Sun\Contracts\Security\Encrypter $encrypter
      */
     public function __construct(Encrypter $encrypter)
     {

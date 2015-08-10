@@ -19,8 +19,9 @@ class View implements ViewContract
     public function render($view, array $data = [])
     {
         $blade = new BladeInstance(
-            app_path(). '/Views',
-            storage_path() . '/framework/views');
+                    app_path(). '/Views',
+                    storage_path() . '/framework/views'
+                );
 
         return $blade->render($view, $data);
     }
