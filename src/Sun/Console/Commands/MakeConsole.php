@@ -2,9 +2,9 @@
 
 namespace Sun\Console\Commands;
 
-use Sun\Filesystem;
 use Sun\Console\Command;
 use Sun\Contracts\Application;
+use Sun\Contracts\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -21,7 +21,7 @@ class MakeConsole extends Command
     protected $description = "Create a new console command";
 
     /**
-     * @var \Sun\Filesystem
+     * @var \Sun\Contracts\Filesystem\Filesystem
      */
     protected $filesystem;
 

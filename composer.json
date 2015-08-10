@@ -13,7 +13,6 @@
       "sun/alien": "~1",
       "sun/flash": "~1",
       "sun/sunmailer": "~1",
-      "sun/filesystem": "~1",
       "php-di/php-di": "^5.0",
       "nikic/fast-route": "^0.6.0",
       "symfony/console": "~2",
