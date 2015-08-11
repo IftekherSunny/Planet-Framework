@@ -9,7 +9,7 @@ use DI\ContainerBuilder;
 use Sun\Exception\BindingException;
 use Sun\Exception\MethodNotFoundException;
 use DI\Definition\Exception\DefinitionException;
-use Sun\contracts\Support\Alien as AlienContract;
+use Sun\Contracts\Support\Alien as AlienContract;
 
 abstract class Alien implements AlienContract
 {
