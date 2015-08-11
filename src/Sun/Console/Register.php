@@ -13,5 +13,6 @@ return [
     'Sun\Console\Commands\MakeFilter',
     'Sun\Console\Commands\MakeCommand',
     'Sun\Console\Commands\MakeAlien',
+    'Sun\Console\Commands\SessionClear',
     'Sun\Console\Commands\ViewClear',
 ];
