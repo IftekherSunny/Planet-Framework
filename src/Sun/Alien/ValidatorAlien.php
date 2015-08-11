@@ -2,9 +2,9 @@
 
 namespace Sun\Alien;
 
-use Sun\Alien as SunAlien;
+use Sun\Support\Alien;
 
-class ValidatorAlien extends SunAlien
+class ValidatorAlien extends Alien
 {
     /**
      * To register Alien

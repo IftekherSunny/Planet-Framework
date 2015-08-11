@@ -2,9 +2,9 @@
 
 namespace Sun\Alien;
 
-use Sun\Alien as BaseAlien;
+use Sun\Support\Alien;
 
-class SessionAlien extends BaseAlien
+class SessionAlien extends Alien
 {
     /**
      * To register Alien

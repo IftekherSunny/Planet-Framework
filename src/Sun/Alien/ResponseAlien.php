@@ -2,9 +2,9 @@
 
 namespace Sun\Alien;
 
-use Sun\Alien as SunAlien;
+use Sun\Support\Alien;
 
-class ResponseAlien extends SunAlien
+class ResponseAlien extends Alien
 {
     /**
      * To register Alien

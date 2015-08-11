@@ -285,7 +285,11 @@ class Application extends Container implements ApplicationContract
      */
     public function loadAlien()
     {
-        AlienLoader::load();
+        $alien = $this->config->getAlien();
+
+        foreach ($alien as $alias => $namespace) {
+            class_alias($namespace, $alias);
+        }
     }
 
     /**
