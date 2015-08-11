@@ -9,10 +9,10 @@ class FilesystemAlien extends SunAlien
     /**
      * To register Alien
      *
-     * @return namespace
+     * @return string namespace
      */
     public static function registerAlien()
     {
-        return 'Sun\Filesystem';
+        return 'Sun\Filesystem\Filesystem';
     }
 }
