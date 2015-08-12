@@ -1,6 +1,6 @@
 <?php
 
-namespace Sun\Exception;
+namespace Sun\Support\Exception;
 
 use Exception;
 

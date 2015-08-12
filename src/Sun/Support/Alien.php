@@ -6,10 +6,10 @@ use Exception;
 use ReflectionMethod;
 use ReflectionException;
 use DI\ContainerBuilder;
-use Sun\Exception\BindingException;
-use Sun\Exception\MethodNotFoundException;
+use Sun\Support\Exception\BindingException;
 use DI\Definition\Exception\DefinitionException;
 use Sun\Contracts\Support\Alien as AlienContract;
+use Sun\Support\Exception\MethodNotFoundException;
 
 abstract class Alien implements AlienContract
 {
