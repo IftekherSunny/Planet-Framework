@@ -48,7 +48,7 @@ class Csrf implements CsrfContract
      */
     public function check($token)
     {
-        if($this->session->has('token') && ($this->session->get('token') === $token)) {
+        if($this->session->get('token') === $token) {
 
             return true;
         }
