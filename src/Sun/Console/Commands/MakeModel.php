@@ -47,7 +47,7 @@ class MakeModel extends Command
 
         $modelStubs = str_replace([ 'dummyModelName', 'dummyNamespace', '\\\\' ], [ $modelName, $this->app->getNamespace(), '\\' ], $modelStubs);
 
-        if(file_exists($filename = app_path() ."/Models/{$modelName}.php")) {
+        if(!file_exists($filename = app_path() ."/Models/{$modelName}.php")) {
             $this->filesystem->create($filename, $modelStubs);
             $this->info("{$modelName} model has been created successfully.");
         } else {

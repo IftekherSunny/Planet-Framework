@@ -47,7 +47,7 @@ class MakeConsole extends Command
 
         $consoleStubs = str_replace([ 'dummyConsoleCommandName', 'dummyNamespace', '\\\\' ], [ $consoleName, $this->app->getNamespace(), '\\' ], $consoleStubs);
 
-        if(file_exists($filename = app_path() ."/Console/{$consoleName}.php")) {
+        if(!file_exists($filename = app_path() ."/Console/{$consoleName}.php")) {
             $this->filesystem->create($filename, $consoleStubs);
             $this->info("{$consoleName} console command has been created successfully.");
         } else {

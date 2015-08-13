@@ -47,7 +47,7 @@ class MakeFilter extends Command
 
         $filterStubs = str_replace([ 'dummyFilterName', 'dummyNamespace', '\\\\' ], [ $filterName, $this->app->getNamespace(), '\\' ], $filterStubs);
 
-        if(file_exists($filename = app_path() ."/Filters/{$filterName}.php")) {
+        if(!file_exists($filename = app_path() ."/Filters/{$filterName}.php")) {
             $this->filesystem->create($filename, $filterStubs);
             $this->info("{$filterName} filter has been created successfully.");
         } else {

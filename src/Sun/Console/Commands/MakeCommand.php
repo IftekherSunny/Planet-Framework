@@ -46,7 +46,7 @@ class MakeCommand extends Command
         $commandStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeCommand.txt');
         $commandStubs = str_replace([ 'dummyCommandName', 'dummyNamespace', '\\\\' ], [ $commandName, $this->app->getNamespace(), '\\' ], $commandStubs);
 
-        if(file_exists($filename = app_path() ."/Commands/{$commandName}Command.php")) {
+        if(!file_exists($filename = app_path() ."/Commands/{$commandName}Command.php")) {
             $this->filesystem->create($filename, $commandStubs);
             $this->info("{$commandName} command has been created successfully.");
         } else {
@@ -56,7 +56,7 @@ class MakeCommand extends Command
         $commandHanderStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeCommand-handler.txt');
         $commandHanderStubs = str_replace([ 'dummyCommandName', 'dummyNamespace', '\\\\' ], [ $commandName, $this->app->getNamespace(), '\\' ], $commandHanderStubs);
 
-        if(file_exists($filename = app_path() ."/Handlers/{$commandName}CommandHandler.php")) {
+        if(!file_exists($filename = app_path() ."/Handlers/{$commandName}CommandHandler.php")) {
             $this->filesystem->create($filename, $commandHanderStubs);
             $this->info("{$commandName} handler has been created successfully.");
         } else {
