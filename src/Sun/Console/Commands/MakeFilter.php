@@ -46,13 +46,20 @@ class MakeFilter extends Command
         $filterStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeFilter.txt');
 
         $filterStubs = str_replace([ 'dummyFilterName', 'dummyNamespace', '\\\\' ], [ $filterName, $this->app->getNamespace(), '\\' ], $filterStubs);
-        $success = $this->filesystem->create(app_path() ."/Filters/{$filterName}.php", $filterStubs);
 
-        if($success) {
+        if(file_exists($filename = app_path() ."/Filters/{$filterName}.php")) {
+            $this->filesystem->create($filename, $filterStubs);
             $this->info("{$filterName} filter has been created successfully.");
+        } else {
+            $this->info("{$filterName} filter already exists.");
         }
     }
 
+    /**
+     * Set your command arguments
+     *
+     * @return array
+     */
     protected function getArguments()
     {
         return [
@@ -60,6 +67,11 @@ class MakeFilter extends Command
         ];
     }
 
+    /**
+     * Set your command options
+     *
+     * @return array
+     */
     protected function getOptions()
     {
         return [

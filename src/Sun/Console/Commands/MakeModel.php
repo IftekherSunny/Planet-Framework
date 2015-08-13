@@ -46,13 +46,20 @@ class MakeModel extends Command
         $modelStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeModel.txt');
 
         $modelStubs = str_replace([ 'dummyModelName', 'dummyNamespace', '\\\\' ], [ $modelName, $this->app->getNamespace(), '\\' ], $modelStubs);
-        $success = $this->filesystem->create(app_path() ."/Models/{$modelName}.php", $modelStubs);
 
-        if($success) {
+        if(file_exists($filename = app_path() ."/Models/{$modelName}.php")) {
+            $this->filesystem->create($filename, $modelStubs);
             $this->info("{$modelName} model has been created successfully.");
+        } else {
+            $this->info("{$modelName} model already exists.");
         }
     }
 
+    /**
+     * Set your command arguments
+     *
+     * @return array
+     */
     protected function getArguments()
     {
         return [
@@ -60,6 +67,11 @@ class MakeModel extends Command
         ];
     }
 
+    /**
+     * Set your command options
+     *
+     * @return array
+     */
     protected function getOptions()
     {
         return [

@@ -46,13 +46,20 @@ class MakeAlien extends Command
         $alienStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeAlien.txt');
 
         $alienStubs = str_replace([ 'dummyAlienName', 'dummyNamespace', '\\\\' ], [ $alienName, $this->app->getNamespace(), '\\' ], $alienStubs);
-        $success = $this->filesystem->create(app_path() ."/Alien/{$alienName}Alien.php", $alienStubs);
 
-        if($success) {
+        if(!file_exists($filename = app_path() ."/Alien/{$alienName}Alien.php")) {
+            $this->filesystem->create($filename, $alienStubs);
             $this->info("{$alienName}Alien has been created successfully.");
+        } else {
+            $this->info("{$alienName}Alien already exists.");
         }
     }
 
+    /**
+     * Set your command arguments
+     *
+     * @return array
+     */
     protected function getArguments()
     {
         return [
@@ -60,6 +67,11 @@ class MakeAlien extends Command
         ];
     }
 
+    /**
+     * Set your command options
+     *
+     * @return array
+     */
     protected function getOptions()
     {
         return [

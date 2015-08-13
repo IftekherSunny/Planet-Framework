@@ -2,10 +2,10 @@
 
 namespace Sun\Console;
 
-use Sun\Contracts\Console\Application as ApplicationContract;
+use Sun\Contracts\Application as ApplicationContract;
 use Symfony\Component\Console\Application as SymfonyApplication;
 
-class Application extends SymfonyApplication implements ApplicationContract
+class Application extends SymfonyApplication
 {
     /**
      * @var \Sun\Application
@@ -22,9 +22,9 @@ class Application extends SymfonyApplication implements ApplicationContract
     /**
      * Create a new console command instance
      *
-     * @param string $app
+     * @param \Sun\Contracts\Application $app
      */
-    public function __construct($app)
+    public function __construct(ApplicationContract $app)
     {
         parent::__construct('Planet Framework', $app::VERSION);
 
@@ -34,12 +34,14 @@ class Application extends SymfonyApplication implements ApplicationContract
         $applicationCommand = config('console')?: [];
 
         $this->commands = array_merge($command, $applicationCommand);
+
+        $this->bootCommand();
     }
 
     /**
      * Resolve all dependencies
      */
-    public function bootCommand()
+    protected function bootCommand()
     {
         foreach ($this->commands as $command) {
             $this->add($this->app->make($command));

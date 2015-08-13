@@ -46,13 +46,20 @@ class MakeConsole extends Command
         $consoleStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeConsole.txt');
 
         $consoleStubs = str_replace([ 'dummyConsoleCommandName', 'dummyNamespace', '\\\\' ], [ $consoleName, $this->app->getNamespace(), '\\' ], $consoleStubs);
-        $success = $this->filesystem->create(app_path() ."/Console/{$consoleName}.php", $consoleStubs);
 
-        if($success) {
+        if(file_exists($filename = app_path() ."/Console/{$consoleName}.php")) {
+            $this->filesystem->create($filename, $consoleStubs);
             $this->info("{$consoleName} console command has been created successfully.");
+        } else {
+            $this->info("{$consoleName} console command already exists.");
         }
     }
 
+    /**
+     * Set your command arguments
+     *
+     * @return array
+     */
     protected function getArguments()
     {
         return [
@@ -60,6 +67,11 @@ class MakeConsole extends Command
         ];
     }
 
+    /**
+     * Set your command options
+     *
+     * @return array
+     */
     protected function getOptions()
     {
         return [

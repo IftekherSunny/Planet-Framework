@@ -45,21 +45,30 @@ class MakeCommand extends Command
 
         $commandStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeCommand.txt');
         $commandStubs = str_replace([ 'dummyCommandName', 'dummyNamespace', '\\\\' ], [ $commandName, $this->app->getNamespace(), '\\' ], $commandStubs);
-        $success = $this->filesystem->create(app_path() ."/Commands/{$commandName}Command.php", $commandStubs);
 
-        if($success) {
+        if(file_exists($filename = app_path() ."/Commands/{$commandName}Command.php")) {
+            $this->filesystem->create($filename, $commandStubs);
             $this->info("{$commandName} command has been created successfully.");
+        } else {
+            $this->info("{$commandName} command already exists.");
         }
 
         $commandHanderStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeCommand-handler.txt');
         $commandHanderStubs = str_replace([ 'dummyCommandName', 'dummyNamespace', '\\\\' ], [ $commandName, $this->app->getNamespace(), '\\' ], $commandHanderStubs);
-        $success = $this->filesystem->create(app_path() ."/Handlers/{$commandName}CommandHandler.php", $commandHanderStubs);
 
-        if($success) {
+        if(file_exists($filename = app_path() ."/Handlers/{$commandName}CommandHandler.php")) {
+            $this->filesystem->create($filename, $commandHanderStubs);
             $this->info("{$commandName} handler has been created successfully.");
+        } else {
+            $this->info("{$commandName} handler already exists.");
         }
     }
 
+    /**
+     * Set your command arguments
+     *
+     * @return array
+     */
     protected function getArguments()
     {
         return [
@@ -67,6 +76,11 @@ class MakeCommand extends Command
         ];
     }
 
+    /**
+     * Set your command options
+     *
+     * @return array
+     */
     protected function getOptions()
     {
         return [

@@ -55,6 +55,11 @@ class AppName extends Command
         $this->composerDumpAutoload();
     }
 
+    /**
+     * Set your command arguments
+     *
+     * @return array
+     */
     protected function getArguments()
     {
         return [
@@ -62,6 +67,11 @@ class AppName extends Command
         ];
     }
 
+    /**
+     * Set your command options
+     *
+     * @return array
+     */
     protected function getOptions()
     {
         return [
@@ -74,8 +84,6 @@ class AppName extends Command
      *
      * @param $oldNamespace
      * @param $newNamespace
-     *
-     * @throws \Sun\FileNotFoundException
      */
     private function setAppNamespace($oldNamespace, $newNamespace)
     {
@@ -94,7 +102,6 @@ class AppName extends Command
      * @param $newNamespace
      *
      * @return array
-     * @throws \Sun\FileNotFoundException
      */
     private function setBootstrapNamespace($oldNamespace, $newNamespace)
     {
@@ -113,7 +120,6 @@ class AppName extends Command
      * @param $newNamespace
      *
      * @return array
-     * @throws \Sun\FileNotFoundException
      */
     private function setConfigNamespace($oldNamespace, $newNamespace)
     {
@@ -130,8 +136,6 @@ class AppName extends Command
      *
      * @param $oldNamespace
      * @param $newNamespace
-     *
-     * @throws \Sun\FileNotFoundException
      */
     private function setComposerNamespace($oldNamespace, $newNamespace)
     {

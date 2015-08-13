@@ -51,13 +51,20 @@ class MakeController extends Command
         }
 
         $controllerStubs = str_replace([ 'dummyControllerName', 'dummyNamespace', '\\\\' ], [ $controllerName, $this->app->getNamespace(), '\\' ], $controllerStubs);
-        $success = $this->filesystem->create(app_path() ."/Controllers/{$controllerName}Controller.php", $controllerStubs);
 
-        if($success) {
+        if(file_exists($filename = app_path() ."/Controllers/{$controllerName}Controller.php")) {
+            $this->filesystem->create($filename, $controllerStubs);
             $this->info("{$controllerName}Controller has been created successfully.");
+        } else {
+            $this->info("{$controllerName}Controller already exists.");
         }
     }
 
+    /**
+     * Set your command arguments
+     *
+     * @return array
+     */
     protected function getArguments()
     {
         return [
@@ -65,6 +72,11 @@ class MakeController extends Command
         ];
     }
 
+    /**
+     * Set your command options
+     *
+     * @return array
+     */
     protected function getOptions()
     {
         return [
