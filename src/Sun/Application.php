@@ -11,7 +11,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Planet Framework Version
      */
-    const VERSION = 'v1.0-beta.2';
+    const VERSION = 'v1.0-beta.3';
 
     /**
      * @var \Sun\Routing\Route
