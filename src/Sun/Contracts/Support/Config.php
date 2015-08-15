@@ -30,4 +30,11 @@ interface Config
      * @return mixed
      */
     public function isExist($key = null);
+
+    /**
+     * To get configuration settings
+     *
+     * @return array
+     */
+    public function getSettings();
 }

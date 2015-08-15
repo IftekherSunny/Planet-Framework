@@ -2,6 +2,8 @@
 
 namespace Sun\Support;
 
+use Exception;
+use DirectoryIterator;
 use Sun\Contracts\Support\Config as ConfigContract;
 
 class Config implements ConfigContract
@@ -11,27 +13,31 @@ class Config implements ConfigContract
      *
      * @var array
      */
-    private $settings = [];
+    protected $settings = [];
 
     /**
      * Current item
      *
      * @var array
      */
-    private $currentItem = [];
+    protected $currentItem = [];
 
     /**
      * @var bool
      */
-    private $found = false;
+    protected $found = false;
 
     /**
      * Create a new config instance
      */
     public function __construct()
     {
-        if(!count($this->settings)) {
-            $this->load(config_path());
+        if(file_exists($config = storage_path() . '/framework/cache/config')) {
+            $this->settings = json_decode(file_get_contents($config), true);
+        } else {
+            if(!count($this->settings)) {
+                $this->load(config_path());
+            }
         }
     }
 
@@ -51,7 +57,7 @@ class Config implements ConfigContract
             // This part will set properties using set
             if($methodPrefix=='set'){
                 if(count($params) < 2){
-                    throw new \Exception("Invalid parameter(s) given, method <strong>$method</strong> requires 2 parameter(s),  but " . count($params) . " given!");
+                    throw new Exception("Invalid parameter(s) given, method <strong>$method</strong> requires 2 parameter(s),  but " . count($params) . " given!");
                 }
 
                 $key = strtolower($methodName).'.'.$params[0];
@@ -84,10 +90,10 @@ class Config implements ConfigContract
                 return $result;
             }
             else{
-                throw new \Exception("Undefined method <strong>$method</strong> has been called!");
+                throw new Exception("Undefined method <strong>$method</strong> has been called!");
             }
         }
-        catch(\Exception $e){
+        catch(Exception $e){
             exit($e->getMessage());
         }
     }
@@ -101,7 +107,7 @@ class Config implements ConfigContract
      */
     public function load($path)
     {
-        $dir = new \DirectoryIterator(realpath($path));
+        $dir = new DirectoryIterator(realpath($path));
         foreach ($dir as $fileInfo) {
             if($fileInfo->isFile() && $fileInfo->isReadable() && $fileInfo->getExtension()=='php') {
                 $array = include $fileInfo->getPathname();
@@ -229,5 +235,15 @@ class Config implements ConfigContract
     public function isExist($key = null)
     {
         return $key = is_null($key) ? false : ($this->find($key) ? true : false);
+    }
+
+    /**
+     * To get configuration settings
+     *
+     * @return array
+     */
+    public function getSettings()
+    {
+        return $this->settings;
     }
 }
