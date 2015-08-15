@@ -8,7 +8,7 @@ use Sun\Contracts\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class KeyGenerator extends Command
+class AppKey extends Command
 {
     /**
      * @var string Command name
@@ -56,13 +56,13 @@ class KeyGenerator extends Command
                 $string .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $length);
             }
 
-            $content = $this->filesystem->get(config_path().'/app.php');
+            $content = $this->filesystem->get(base_path() . '/.env');
 
             $key = config('app.key');
 
             $content = str_replace($key, $string, $content);
 
-            $this->filesystem->create(config_path().'/app.php', $content);
+            $this->filesystem->create(base_path() . '/.env', $content);
 
             $this->info("Application key set successfully.");
         }

@@ -263,3 +263,22 @@ if(!function_exists('decrypt')) {
         return app()->make('Sun\Security\Encrypter')->decrypt($data);
     }
 }
+
+if(!function_exists('env')) {
+    /**
+     * To get environment variable data
+     *
+     * @param string $name
+     * @param string $default
+     *
+     * @return string
+     */
+    function env($name, $default = null)
+    {
+        if($value = getenv($name)) {
+            return $value;
+        }
+
+        return $default;
+    }
+}

@@ -5,10 +5,10 @@
  */
 return [
     'Sun\Console\Commands\Run',
+    'Sun\Console\Commands\AppKey',
     'Sun\Console\Commands\AppName',
     'Sun\Console\Commands\ConfigCache',
     'Sun\Console\Commands\ConfigClear',
-    'Sun\Console\Commands\KeyGenerator',
     'Sun\Console\Commands\MakeConsole',
     'Sun\Console\Commands\MakeController',
     'Sun\Console\Commands\MakeModel',

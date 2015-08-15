@@ -3,6 +3,7 @@
 namespace Sun\Support;
 
 use Exception;
+use Dotenv\Dotenv;
 use DirectoryIterator;
 use Sun\Contracts\Support\Config as ConfigContract;
 
@@ -32,10 +33,13 @@ class Config implements ConfigContract
      */
     public function __construct()
     {
-        if(file_exists($config = storage_path() . '/framework/cache/config')) {
-            $this->settings = json_decode(file_get_contents($config), true);
-        } else {
-            if(!count($this->settings)) {
+        if(!count($this->settings)) {
+            $dotenv = new Dotenv(base_path());
+            $dotenv->overload();
+
+            if (file_exists($config = storage_path() . '/framework/cache/config')) {
+                $this->settings = json_decode(file_get_contents($config), true);
+            } else {
                 $this->load(config_path());
             }
         }

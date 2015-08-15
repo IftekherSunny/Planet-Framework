@@ -39,24 +39,9 @@ class Application extends Container implements ApplicationContract
     protected $path;
 
     /**
-     * @var \Sun\Database\Database
-     */
-    protected $database;
-
-    /**
      * @var Capsule
      */
     public $db;
-
-    /**
-     * @var \Sun\Http\Response
-     */
-    protected $response;
-
-    /**
-     * @var \Sun\Routing\UrlGenerator
-     */
-    protected $urlGenerator;
 
     /**
      * store application namespace
@@ -76,11 +61,11 @@ class Application extends Container implements ApplicationContract
     /**
      * Create a new application
      *
-     * @param $option
+     * @param $basePath
      */
-    public function __construct($option = null)
+    public function __construct($basePath = null)
     {
-        $this->path = $option['path'];
+        $this->path = $basePath;
 
         $this->bootContainer();
 
@@ -92,14 +77,7 @@ class Application extends Container implements ApplicationContract
 
         $this->registerBindings();
 
-        $this->response = $this->make('Sun\Http\Response');
-
         $this->route = $this->make('Sun\Routing\Route');
-
-        $this->database = $this->make('Sun\Database\Database');
-
-        $this->urlGenerator = $this->make('Sun\Routing\UrlGenerator');
-
     }
 
     /**
@@ -219,11 +197,11 @@ class Application extends Container implements ApplicationContract
         $this->route->routeRegister();
 
         $httpMethod = $_SERVER['REQUEST_METHOD'];
-        $uri = $this->urlGenerator->getUri();
+        $uri = $this->make('Sun\Routing\UrlGenerator')->getUri();
 
         $data = $this->route->routeDispatcher($httpMethod, $uri);
 
-        $this->response->html($data);
+        $this->make('Sun\Http\Response')->html($data);
     }
 
     /**
@@ -297,8 +275,9 @@ class Application extends Container implements ApplicationContract
      */
     public function bootDatabase()
     {
-        $this->database->boot();
-        $this->db = $this->database->getCapsuleInstance();
+        $database = $this->make('Sun\Database\Database');
+        $database->boot();
+        $this->db = $database->getCapsuleInstance();
     }
 
     /**
