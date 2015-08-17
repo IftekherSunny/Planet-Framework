@@ -1,6 +1,6 @@
 <?php
 
-namespace Sun\contracts\Support;
+namespace Sun\Contracts\Support;
 
 use Sun\Exception\BindingException;
 use Sun\Exception\MethodNotFoundException;
