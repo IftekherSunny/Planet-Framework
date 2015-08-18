@@ -61,7 +61,7 @@ class Application extends Container implements ApplicationContract
     /**
      * Create a new application
      *
-     * @param $basePath
+     * @param string $basePath
      */
     public function __construct($basePath = null)
     {
@@ -84,7 +84,7 @@ class Application extends Container implements ApplicationContract
      * Route GROUP
      *
      * @param array $routeOption
-     * @param       $callback
+     * @param callback $callback
      */
     public function group(array $routeOption = [], $callback)
     {
@@ -102,8 +102,8 @@ class Application extends Container implements ApplicationContract
     /**
      * Route GET
      *
-     * @param       $uri
-     * @param       $pattern
+     * @param string $uri
+     * @param string $pattern
      * @param array $options
      */
     public function get($uri, $pattern, array $options = [])
@@ -120,8 +120,8 @@ class Application extends Container implements ApplicationContract
     /**
      * Route POST
      *
-     * @param       $uri
-     * @param       $pattern
+     * @param string $uri
+     * @param string $pattern
      * @param array $options
      */
     public function post($uri, $pattern, array $options = [])
@@ -138,8 +138,8 @@ class Application extends Container implements ApplicationContract
     /**
      * Route DELETE
      *
-     * @param       $uri
-     * @param       $pattern
+     * @param string $uri
+     * @param string $pattern
      * @param array $options
      */
     public function delete($uri, $pattern, array $options = [])
@@ -156,8 +156,8 @@ class Application extends Container implements ApplicationContract
     /**
      * Route PUT
      *
-     * @param       $uri
-     * @param       $pattern
+     * @param string $uri
+     * @param string $pattern
      * @param array $options
      */
     public function put($uri, $pattern, array $options = [])
@@ -174,8 +174,8 @@ class Application extends Container implements ApplicationContract
     /**
      * Route PATCH
      *
-     * @param       $uri
-     * @param       $pattern
+     * @param string $uri
+     * @param string $pattern
      * @param array $options
      */
     public function patch($uri, $pattern, array $options = [])
@@ -283,7 +283,7 @@ class Application extends Container implements ApplicationContract
     /**
      * To get \Sun\Application instance
      *
-     * @return mixed
+     * @return \Sun\Application
      */
     public static function getInstance()
     {
@@ -292,8 +292,6 @@ class Application extends Container implements ApplicationContract
 
     /**
      * To set \Sun\Application instance
-     *
-     * @return $this
      */
     private function setInstance()
     {

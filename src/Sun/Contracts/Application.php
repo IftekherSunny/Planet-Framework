@@ -1,4 +1,5 @@
 <?php
+
 namespace Sun\Contracts;
 
 use Exception;
@@ -9,15 +10,15 @@ interface Application
      * Route GROUP
      *
      * @param array $routeOption
-     * @param       $callback
+     * @param callback $callback
      */
     public function group(array $routeOption = [], $callback);
 
     /**
      * Route GET
      *
-     * @param       $uri
-     * @param       $pattern
+     * @param string $uri
+     * @param string $pattern
      * @param array $options
      */
     public function get($uri, $pattern, array $options = []);
@@ -25,8 +26,8 @@ interface Application
     /**
      * Route POST
      *
-     * @param       $uri
-     * @param       $pattern
+     * @param string $uri
+     * @param string $pattern
      * @param array $options
      */
     public function post($uri, $pattern, array $options = []);
@@ -34,8 +35,8 @@ interface Application
     /**
      * Route DELETE
      *
-     * @param       $uri
-     * @param       $pattern
+     * @param string $uri
+     * @param string $pattern
      * @param array $options
      */
     public function delete($uri, $pattern, array $options = []);
@@ -43,8 +44,8 @@ interface Application
     /**
      * Route PUT
      *
-     * @param       $uri
-     * @param       $pattern
+     * @param string $uri
+     * @param string $pattern
      * @param array $options
      */
     public function put($uri, $pattern, array $options = []);
@@ -52,8 +53,8 @@ interface Application
     /**
      * Route PATCH
      *
-     * @param       $uri
-     * @param       $pattern
+     * @param string $uri
+     * @param string $pattern
      * @param array $options
      */
     public function patch($uri, $pattern, array $options = []);
@@ -115,7 +116,7 @@ interface Application
     /**
      * To get \Sun\Application instance
      *
-     * @return mixed
+     * @return \Sun\Application
      */
     public static function getInstance();
 
