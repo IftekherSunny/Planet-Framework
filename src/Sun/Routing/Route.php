@@ -72,7 +72,7 @@ class Route implements RouteContract
      * Create a new route instance
      *
      * @param \Sun\Contracts\Container\Container $container
-     * @param \Sun\Contracts\Http\Response  $response
+     * @param \Sun\Contracts\Http\Response       $response
      */
     public function __construct(Container $container, Response $response)
     {
@@ -116,10 +116,11 @@ class Route implements RouteContract
     /**
      * To dispatch a route
      *
-     * @param $method
-     * @param $uri
+     * @param string $method
+     * @param string $uri
      *
-     * @return mixed|void
+     * @return mixed
+     * @throws Exception
      */
     public function routeDispatcher($method, $uri)
     {
@@ -127,32 +128,30 @@ class Route implements RouteContract
 
         $routeInfo = $this->dispatcher->dispatch($method, $uri);
 
-        switch ($routeInfo[0]) {
-            case Dispatcher::NOT_FOUND:
-                $this->response->code(404)->message("Route [ {$uri} ] not found.");
+        if($routeInfo[0] === Dispatcher::NOT_FOUND) {
+            throw new Exception("Route [ {$uri} ] not found.");
+        }
 
-                break;
-            case Dispatcher::METHOD_NOT_ALLOWED:
-                $this->response->code(405)->message("Route [ {$uri} ] not found.");
+        if($routeInfo[0] === Dispatcher::METHOD_NOT_ALLOWED) {
+            $method = $_SERVER['REQUEST_METHOD'];
+            throw new Exception("[ $method ] method not allowed.");
+        }
 
-                break;
-            case Dispatcher::FOUND:
-                $handler = $routeInfo[1];
-                $params = $routeInfo[2];
+        if($routeInfo[0] === Dispatcher::FOUND) {
+            $handler = $routeInfo[1];
+            $params = $routeInfo[2];
 
-                return $this->methodDispatcher($handler, $params);
-
-                break;
+            return $this->methodDispatcher($handler, $params);
         }
     }
 
     /**
      * To execute route handler
      *
-     * @param $handler
-     * @param $params
+     * @param string $handler
+     * @param array $params
      *
-     * @return mixed|void
+     * @return mixed
      * @throws BindingException
      * @throws Exception
      */
@@ -178,15 +177,15 @@ class Route implements RouteContract
     /**
      * To execute handler
      *
-     * @param $controller
-     * @param $method
-     * @param $params
+     * @param string $controller
+     * @param string $method
+     * @param string $params
      *
      * @return mixed
      * @throws BindingException
      * @throws Exception
      */
-    public function invoke($controller, $method, $params)
+    protected function invoke($controller, $method, $params)
     {
         if (!class_exists($controller)) {
             throw new Exception("Controller [ $controller ] does not exist.");
@@ -195,7 +194,7 @@ class Route implements RouteContract
         try {
             $instance = $this->container->make($controller);
 
-            return call_user_func([$instance, $method], $params);
+            return call_user_func_array([$instance, $method], $params);
 
         } catch (DefinitionException $e) {
             throw new BindingException("Binding Error [ ". $e->getMessage() ." ]");
@@ -206,8 +205,8 @@ class Route implements RouteContract
     /**
      * To filter http request
      *
-     * @param $uri
-     * @param $method
+     * @param string $uri
+     * @param string $method
      */
     protected function filter($uri, $method)
     {
