@@ -2,6 +2,7 @@
 
 namespace Sun\Http;
 
+use Exception;
 use Sun\Contracts\Session\Session;
 use Sun\Contracts\Http\Response as ResponseContract;
 
@@ -20,13 +21,11 @@ class Response implements ResponseContract
     public function __construct(Session $session)
     {
         $this->session = $session;
-
-        $this->debugChecker();
     }
     /**
      * To response with html
      *
-     * @param $data
+     * @param string $data
      */
     public function html($data)
     {
@@ -38,7 +37,7 @@ class Response implements ResponseContract
     /**
      * To response with json
      *
-     * @param $data
+     * @param string $data
      */
     public function json($data)
     {
@@ -48,7 +47,7 @@ class Response implements ResponseContract
     /**
      * To response with download
      *
-     * @param $filepath
+     * @param string $filepath
      */
     public function download($filepath)
     {
@@ -65,17 +64,17 @@ class Response implements ResponseContract
     /**
      * To show 404 page
      *
-     * @return string
+     * @throws Exception
      */
     public function abort()
     {
-        echo 'Page not found';
+        throw new Exception('Page not found.');
     }
 
     /**
      * To show message
      *
-     * @param $message
+     * @param string|array $message
      */
     public function message($message)
     {
@@ -90,7 +89,7 @@ class Response implements ResponseContract
     /**
      * To add http status code
      *
-     * @param $code
+     * @param int $code
      *
      * @return $this
      */
@@ -102,13 +101,16 @@ class Response implements ResponseContract
     }
 
     /**
-     * Checking debug mode to show/hide error
+     * To get header data
+     *
+     * @param string $message
+     *
+     * @return $this
      */
-    private function debugChecker()
+    public function header($message)
     {
-        if(config('app.debug')) {
-            error_reporting(-1);
-            ini_set('display_errors', 1);
-        }
+        header($message);
+
+        return $this;
     }
 }
