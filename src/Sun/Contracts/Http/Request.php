@@ -14,7 +14,7 @@ interface Request
     /**
      * To check request type
      *
-     * @param $name
+     * @param string $name
      *
      * @return bool
      */
@@ -30,7 +30,7 @@ interface Request
     /**
      * To get value from a request
      *
-     * @param $fieldName
+     * @param string $fieldName
      *
      * @return mixed
      */
@@ -39,7 +39,7 @@ interface Request
     /**
      * To get old input value
      *
-     * @param $fieldName
+     * @param string $fieldName
      *
      * @return string
      */
@@ -60,7 +60,7 @@ interface Request
     /**
      * To get file from a request
      *
-     * @param $name
+     * @param string $name
      *
      * @return mixed
      */
@@ -69,9 +69,18 @@ interface Request
     /**
      * To get request data from session
      *
-     * @param $name
+     * @param string $name
      *
      * @return string
      */
     public function get($name);
+
+    /**
+     * To get header data
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public function header($name);
 }

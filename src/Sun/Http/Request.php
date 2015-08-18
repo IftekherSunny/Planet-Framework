@@ -13,6 +13,11 @@ class Request implements RequestContract
     protected $session;
 
     /**
+     * To store all headers data
+     */
+    protected $headers;
+
+    /**
      * Create a new request instance
      *
      * @param \Sun\Contracts\Session\Session $session
@@ -21,8 +26,11 @@ class Request implements RequestContract
     {
         $this->session = $session;
 
+        $this->headers = getAllHeaders();
+
         $this->storeInput();
     }
+
     /**
      * To know request method type
      *
@@ -30,27 +38,37 @@ class Request implements RequestContract
      */
     public function method()
     {
-        if($_SERVER['REQUEST_METHOD'] == 'POST') {
-
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             return 'POST';
         }
 
-        if($_SERVER['REQUEST_METHOD'] == 'GET') {
-
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             return 'GET';
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+            return 'PUT';
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'PATCH') {
+            return 'PATCH';
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+            return 'DELETE';
         }
     }
 
     /**
      * To check request type
      *
-     * @param $name
+     * @param string $name
      *
      * @return bool
      */
     public function isMethod($name)
     {
-        if($this->method() === strtoupper($name)) {
+        if ($this->method() === strtoupper($name)) {
             return true;
         }
 
@@ -73,37 +91,55 @@ class Request implements RequestContract
     /**
      * To get value from a request
      *
-     * @param $fieldName
+     * @param string $fieldName
      *
      * @return mixed
      */
     public function input($fieldName)
     {
-        if($this->isMethod('post')) {
-            return (isset($_POST[$fieldName]))? $_POST[$fieldName] : '';
+        if ($this->isMethod('post')) {
+            return (isset($_POST[$fieldName])) ? $_POST[$fieldName] : '';
         }
 
-        if($this->isMethod('get')) {
-            return (isset($_GET[$fieldName]))? $_GET[$fieldName] : '';
+        if ($this->isMethod('get')) {
+            return (isset($_GET[$fieldName])) ? $_GET[$fieldName] : '';
+        }
+
+        if ($this->isMethod('put')) {
+            parse_str(file_get_contents("php://input"), $PUT);
+
+            return (isset($PUT[$fieldName])) ? $PUT[$fieldName] : '';
+        }
+
+        if ($this->isMethod('patch')) {
+            parse_str(file_get_contents("php://input"), $PATCH);
+
+            return (isset($PATCH[$fieldName])) ? $PATCH[$fieldName] : '';
+        }
+
+        if ($this->isMethod('delete')) {
+            parse_str(file_get_contents("php://input"), $DELETE);
+
+            return (isset($DELETE[$fieldName])) ? $DELETE[$fieldName] : '';
         }
     }
 
     /**
      * To get old input value
      *
-     * @param $fieldName
+     * @param string $fieldName
      *
      * @return string
      */
     public function old($fieldName)
     {
-       if($this->isMethod('get') && $this->session->has('planet_oldInput')) {
+        if ($this->isMethod('get') && $this->session->has('planet_oldInput')) {
 
-               $oldInput = $this->session->get('planet_oldInput');
+            $oldInput = $this->session->get('planet_oldInput');
 
-               return ($oldInput != null)? $oldInput[$fieldName] : '';
+            return ($oldInput != null) ? $oldInput[$fieldName] : '';
 
-       }
+        }
     }
 
     /**
@@ -111,10 +147,9 @@ class Request implements RequestContract
      */
     public function storeInput()
     {
-        if($this->isMethod('post')) {
+        if ($this->isMethod('post')) {
             $this->session->create('planet_oldInput', $_POST);
         }
-
     }
 
     /**
@@ -124,37 +159,48 @@ class Request implements RequestContract
      */
     public function all()
     {
-        if($this->isMethod('POST')) {
-            return (isset($_POST))? $_POST : [];
+        if ($this->isMethod('POST')) {
+            return (isset($_POST)) ? $_POST : [];
         }
 
-        if($this->isMethod('GET')) {
-            return (isset($_GET))? $_GET : [];
+        if ($this->isMethod('GET')) {
+            return (isset($_GET)) ? $_GET : [];
         }
     }
 
     /**
      * To get file from a request
      *
-     * @param $name
+     * @param string $name
      *
      * @return mixed
      */
     public function file($name)
     {
-        return (isset($_FILES[$name]))? $_FILES[$name] : [];
+        return (isset($_FILES[$name])) ? $_FILES[$name] : [];
     }
 
     /**
      * To get request data from session
      *
-     * @param $name
+     * @param string $name
      *
      * @return string
      */
     public function get($name)
     {
-        return ($this->session->has($name))? $this->session->get($name) : '';
+        return ($this->session->has($name)) ? $this->session->get($name) : '';
     }
 
+    /**
+     * To get header data
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public function header($name)
+    {
+        return (isset($this->headers[$name])) ? $this->headers[$name] : '';
+    }
 }
