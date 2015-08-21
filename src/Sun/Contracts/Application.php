@@ -60,6 +60,15 @@ interface Application
     public function patch($uri, $pattern, array $options = []);
 
     /**
+     * Route ANY
+     *
+     * @param string $uri
+     * @param string $pattern
+     * @param array $options
+     */
+    public function any($uri, $pattern, array $options = []);
+
+    /**
      * To run application
      */
     public function run();

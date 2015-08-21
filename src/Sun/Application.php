@@ -190,6 +190,23 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
+     * Route ANY
+     *
+     * @param string $uri
+     * @param string $pattern
+     * @param array $options
+     */
+    public function any($uri, $pattern, array $options = [])
+    {
+        $patterns = explode('@', $pattern);
+        $controller = $patterns[0];
+        $method = ucfirst($patterns[1]);
+
+        $this->get($uri, "$controller@get$method", $options);
+        $this->post($uri, "$controller@post$method", $options);
+    }
+
+    /**
      * To run application
      */
     public function run()
