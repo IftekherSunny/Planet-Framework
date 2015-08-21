@@ -11,7 +11,6 @@ class Application
      */
     protected $app;
 
-
     /**
      * Create a new instance
      *
