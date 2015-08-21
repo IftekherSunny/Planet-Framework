@@ -282,3 +282,114 @@ if(!function_exists('env')) {
         return $default;
     }
 }
+
+if(!function_exists('group')) {
+    /**
+     * Route GROUP
+     *
+     * @param array $routeOption
+     * @param callback $callback
+     */
+    function group(array $routeOption = [], $callback)
+    {
+        app()->group($routeOption, $callback);
+    }
+}
+
+if(!function_exists('get')) {
+    /**
+     * Route GET
+     *
+     * @param string $uri
+     * @param string $pattern
+     * @param array $options
+     */
+    function get($uri, $pattern, array $options = [])
+    {
+        app()->get($uri, $pattern, $options);
+    }
+}
+
+if(!function_exists('post')) {
+    /**
+     * Route POST
+     *
+     * @param string $uri
+     * @param string $pattern
+     * @param array $options
+     */
+    function post($uri, $pattern, array $options = [])
+    {
+        app()->post($uri, $pattern, $options);
+    }
+}
+
+if(!function_exists('delete')) {
+    /**
+     * Route DELETE
+     *
+     * @param string $uri
+     * @param string $pattern
+     * @param array $options
+     */
+    function delete($uri, $pattern, array $options = [])
+    {
+        app()->delete($uri, $pattern, $options);
+    }
+}
+
+if(!function_exists('put')) {
+    /**
+     * Route PUT
+     *
+     * @param string $uri
+     * @param string $pattern
+     * @param array $options
+     */
+    function put($uri, $pattern, array $options = [])
+    {
+        app()->put($uri, $pattern, $options);
+    }
+}
+
+if(!function_exists('patch')) {
+    /**
+     * Route PATCH
+     *
+     * @param string $uri
+     * @param string $pattern
+     * @param array $options
+     */
+    function patch($uri, $pattern, array $options = [])
+    {
+        app()->patch($uri, $pattern, $options);
+    }
+}
+
+if(!function_exists('any')) {
+    /**
+     * Route ANY
+     *
+     * @param string $uri
+     * @param string $pattern
+     * @param array $options
+     */
+    function any($uri, $pattern, array $options = [])
+    {
+        app()->any($uri, $pattern, $options);
+    }
+}
+
+if(!function_exists('resource')) {
+    /**
+     * Route RESOURCE
+     *
+     * @param string $uri
+     * @param string $controller
+     * @param array $options
+     */
+    function resource($uri, $controller, array $options = [])
+    {
+        app()->resource($uri, $controller, $options);
+    }
+}
