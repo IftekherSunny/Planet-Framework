@@ -14,7 +14,7 @@ interface UrlGenerator
     /**
      * To get URL link
      *
-     * @param $path
+     * @param string $path
      *
      * @return string
      */

@@ -41,7 +41,7 @@ class Redirect implements RedirectContract
     /**
      * To redirect
      *
-     * @param       $url
+     * @param string $url
      * @param array $values
      */
     public function to($url, array $values = [])
@@ -61,8 +61,8 @@ class Redirect implements RedirectContract
     /**
      * To store data in a session
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param mixed $value
      *
      * @return $this
      */
@@ -88,8 +88,8 @@ class Redirect implements RedirectContract
     /**
      * To redirect back with value
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param mixed $value
      */
     public function backWith($key, $value)
     {

@@ -7,7 +7,7 @@ interface Redirect
     /**
      * To redirect
      *
-     * @param       $url
+     * @param string $url
      * @param array $values
      */
     public function to($url, array $values = []);
@@ -15,8 +15,8 @@ interface Redirect
     /**
      * To store data in a session
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param mixed $value
      *
      * @return \Sun\Http\Redirect
      */
@@ -30,8 +30,8 @@ interface Redirect
     /**
      * To redirect back with value
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param mixed $value
      */
     public function backWith($key, $value);
 }

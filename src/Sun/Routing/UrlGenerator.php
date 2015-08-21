@@ -23,7 +23,7 @@ class UrlGenerator implements UrlGeneratorContract
     /**
      * To get URL link
      *
-     * @param $path
+     * @param string $path
      *
      * @return string
      */

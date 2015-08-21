@@ -10,7 +10,7 @@ class View implements ViewContract
     /**
      * To render view
      *
-     * @param       $view
+     * @param string $view
      * @param array $data
      *
      * @return string

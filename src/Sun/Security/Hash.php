@@ -9,7 +9,7 @@ class Hash implements HashContract
     /**
      * To make password hash
      *
-     * @param $value
+     * @param string $value
      *
      * @return bool|string
      */
@@ -21,8 +21,8 @@ class Hash implements HashContract
     /**
      * To verify password
      *
-     * @param $password
-     * @param $hash
+     * @param string $password
+     * @param string $hash
      *
      * @return bool
      */

@@ -377,6 +377,9 @@ class Application extends Container implements ApplicationContract
         throw new Exception("Namespace detect problem.");
     }
 
+    /**
+     * Bootstrapping application required class
+     */
     protected function bootstrap()
     {
         $this->bootContainer();

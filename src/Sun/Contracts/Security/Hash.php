@@ -7,7 +7,7 @@ interface Hash
     /**
      * To make password hash
      *
-     * @param $value
+     * @param string $value
      *
      * @return bool|string
      */
@@ -16,8 +16,8 @@ interface Hash
     /**
      * To verify password
      *
-     * @param $password
-     * @param $hash
+     * @param string $password
+     * @param string $hash
      *
      * @return bool
      */

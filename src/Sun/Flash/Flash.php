@@ -25,7 +25,7 @@ class Flash implements FlashContract
     /**
      * To show flash message with twitter bootstrap alert-danger
      *
-     * @param $message
+     * @param string $message
      */
     public function error($message)
     {
@@ -47,7 +47,7 @@ class Flash implements FlashContract
     /**
      * To show flash message with twitter bootstrap alert-info
      *
-     * @param $message
+     * @param string $message
      */
     public function info($message)
     {
@@ -57,7 +57,7 @@ class Flash implements FlashContract
     /**
      * To show flash message with twitter bootstrap alert-warning
      *
-     * @param $message
+     * @param string $message
      */
     public function warning($message)
     {
@@ -67,7 +67,7 @@ class Flash implements FlashContract
     /**
      * To show flash message with twitter bootstrap alert-success
      *
-     * @param $message
+     * @param string $message
      */
     public function success($message)
     {
@@ -77,8 +77,8 @@ class Flash implements FlashContract
     /**
      * To show confirm modal
      *
-     * @param $title
-     * @param $message
+     * @param string $title
+     * @param string $message
      */
     public function confirm($title, $message)
     {

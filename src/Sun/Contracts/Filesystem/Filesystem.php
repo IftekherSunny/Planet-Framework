@@ -7,8 +7,8 @@ interface Filesystem
     /**
      * To create file
      *
-     * @param $filename
-     * @param $content
+     * @param string $filename
+     * @param string $content
      *
      * @return int
      */
@@ -17,7 +17,7 @@ interface Filesystem
     /**
      * To delete file
      *
-     * @param $filename
+     * @param string $filename
      *
      * @return bool
      */
@@ -26,7 +26,7 @@ interface Filesystem
     /**
      * To check file exists
      *
-     * @param $filename
+     * @param string $filename
      *
      * @return bool
      */
@@ -35,8 +35,8 @@ interface Filesystem
     /**
      * To update file
      *
-     * @param $filename
-     * @param $content
+     * @param string $filename
+     * @param string $content
      *
      * @return init
      */
@@ -45,7 +45,7 @@ interface Filesystem
     /**
      * To get file content
      *
-     * @param $filename
+     * @param string $filename
      *
      * @return string
      */
@@ -54,8 +54,8 @@ interface Filesystem
     /**
      * To append file
      *
-     * @param $filename
-     * @param $content
+     * @param string $filename
+     * @param string $content
      *
      * @return int
      */
@@ -64,8 +64,8 @@ interface Filesystem
     /**
      * To copy a file
      *
-     * @param $source
-     * @param $destination
+     * @param string $source
+     * @param string $destination
      *
      * @return bool
      */
@@ -74,8 +74,8 @@ interface Filesystem
     /**
      * To move a file
      *
-     * @param $source
-     * @param $destination
+     * @param string $source
+     * @param string $destination
      *
      * @return bool
      */
@@ -84,7 +84,7 @@ interface Filesystem
     /**
      * To get a filesize in byte
      *
-     * @param $filename
+     * @param string $filename
      *
      * @return int
      */
@@ -93,7 +93,7 @@ interface Filesystem
     /**
      * To get all files in a directory
      *
-     * @param $directoryName
+     * @param string $directoryName
      *
      * @return array
      */
@@ -103,7 +103,7 @@ interface Filesystem
     /**
      * To get all directories in a directory
      *
-     * @param $directoryName
+     * @param string $directoryName
      *
      * @return array
      */
@@ -112,7 +112,7 @@ interface Filesystem
     /**
      * To create a directory
      *
-     * @param $path
+     * @param string $path
      *
      * @return bool
      */
@@ -121,7 +121,7 @@ interface Filesystem
     /**
      * To delete a directory
      *
-     * @param $directoryName
+     * @param string $directoryName
      *
      * @return bool
      * @throws FileNotFoundException
@@ -131,7 +131,7 @@ interface Filesystem
     /**
      * To clean a directory
      *
-     * @param $directoryName
+     * @param string $directoryName
      *
      * @throws FileNotFoundException
      */
@@ -140,7 +140,7 @@ interface Filesystem
     /**
      * To check is file
      *
-     * @param $filename
+     * @param string $filename
      *
      * @return bool
      */
@@ -149,7 +149,7 @@ interface Filesystem
     /**
      * To check is directory
      *
-     * @param $directoryName
+     * @param string $directoryName
      *
      * @return bool
      */

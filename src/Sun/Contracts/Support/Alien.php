@@ -10,7 +10,7 @@ interface Alien
     /**
      * To execute method
      *
-     * @param $namespace
+     * @param string $namespace
      *
      * @return mixed
      * @throws BindingException
