@@ -13,6 +13,6 @@ class RequestAlien extends Alien
      */
     public static function registerAlien()
     {
-        return 'Sun\Http\Request';
+        return 'Sun\Contracts\Http\Request';
     }
 }

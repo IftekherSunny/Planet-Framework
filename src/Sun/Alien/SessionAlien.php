@@ -13,6 +13,6 @@ class SessionAlien extends Alien
      */
     public static function registerAlien()
     {
-        return 'Sun\Session\Session';
+        return 'Sun\Contracts\Session\Session';
     }
 }

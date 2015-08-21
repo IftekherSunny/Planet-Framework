@@ -13,6 +13,6 @@ class HashAlien extends Alien
      */
     public static function registerAlien()
     {
-        return 'Sun\Security\Hash';
+        return 'Sun\Contracts\Security\Hash';
     }
 }

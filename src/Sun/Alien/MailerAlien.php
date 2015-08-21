@@ -13,6 +13,6 @@ class MailerAlien extends Alien
      */
     public static function registerAlien()
     {
-        return 'Sun\Mail\Mailer';
+        return 'Sun\Contracts\Mail\Mailer';
     }
 }

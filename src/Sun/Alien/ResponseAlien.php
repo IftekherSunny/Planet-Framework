@@ -13,6 +13,6 @@ class ResponseAlien extends Alien
      */
     public static function registerAlien()
     {
-        return 'Sun\Http\Response';
+        return 'Sun\Contracts\Http\Response';
     }
 }

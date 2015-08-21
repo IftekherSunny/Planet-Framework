@@ -13,6 +13,6 @@ class CsrfAlien extends Alien
      */
     public static function registerAlien()
     {
-        return 'Sun\Security\Csrf';
+        return 'Sun\Contracts\Security\Csrf';
     }
 }

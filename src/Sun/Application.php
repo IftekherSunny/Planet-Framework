@@ -253,11 +253,11 @@ class Application extends Container implements ApplicationContract
         $this->route->routeRegister();
 
         $httpMethod = $_SERVER['REQUEST_METHOD'];
-        $uri = $this->make('Sun\Routing\UrlGenerator')->getUri();
+        $uri = $this->make('Sun\Contracts\Routing\UrlGenerator')->getUri();
 
         $data = $this->route->routeDispatcher($httpMethod, $uri);
 
-        $this->make('Sun\Http\Response')->html($data);
+        $this->make('Sun\Contracts\Http\Response')->html($data);
     }
 
     /**
@@ -331,7 +331,7 @@ class Application extends Container implements ApplicationContract
      */
     public function bootDatabase()
     {
-        $database = $this->make('Sun\Database\Database');
+        $database = $this->make('Sun\Contracts\Database\Database');
         $database->boot();
         $this->db = $database->getCapsuleInstance();
     }

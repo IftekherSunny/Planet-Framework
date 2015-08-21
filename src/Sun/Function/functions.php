@@ -86,7 +86,7 @@ if (!function_exists('csrf_token')) {
      */
     function csrf_token()
     {
-        return app()->make('Sun\Security\Csrf')->token();
+        return app()->make('Sun\Contracts\Security\Csrf')->token();
     }
 }
 
@@ -124,7 +124,7 @@ if (!function_exists('view')) {
      */
     function view($name, array $data = [])
     {
-        return app()->make('Sun\View\View')->render($name, $data);
+        return app()->make('Sun\Contracts\View\View')->render($name, $data);
     }
 }
 
@@ -136,7 +136,7 @@ if (!function_exists('redirect')) {
      */
     function redirect()
     {
-        return app()->make('Sun\Http\Redirect');
+        return app()->make('Sun\Contracts\Http\Redirect');
     }
 }
 
@@ -148,7 +148,7 @@ if (!function_exists('request')) {
      */
     function request()
     {
-        return app()->make('Sun\Http\Request');
+        return app()->make('Sun\Contracts\Http\Request');
     }
 }
 
@@ -160,7 +160,7 @@ if (!function_exists('response')) {
      */
     function response()
     {
-        return app()->make('Sun\Http\Response');
+        return app()->make('Sun\Contracts\Http\Response');
     }
 }
 
@@ -172,7 +172,7 @@ if (!function_exists('validator')) {
      */
     function validator()
     {
-        return app()->make('Sun\Validation\Validator');
+        return app()->make('Sun\Contracts\Validation\Validator');
     }
 }
 
@@ -187,11 +187,11 @@ if (!function_exists('url')) {
     function url($path = null)
     {
         if(is_null($path)) {
-            $url = app()->make('Sun\Routing\UrlGenerator');
+            $url = app()->make('Sun\Contracts\Routing\UrlGenerator');
             return $url->url($url->getUri());
         }
 
-        return app()->make('Sun\Routing\UrlGenerator')->url($path);
+        return app()->make('Sun\Contracts\Routing\UrlGenerator')->url($path);
     }
 }
 
@@ -203,7 +203,7 @@ if(!function_exists('dispatch')) {
      */
     function dispatch()
     {
-        return app()->make('Sun\Bus\Dispatcher');
+        return app()->make('Sun\Contracts\Bus\Dispatcher');
     }
 }
 
@@ -217,7 +217,7 @@ if(!function_exists('bcrypt')) {
      */
     function bcrypt($password)
     {
-        return app()->make('Sun\Security\Hash')->make($password);
+        return app()->make('Sun\Contracts\Security\Hash')->make($password);
     }
 }
 
@@ -232,7 +232,7 @@ if(!function_exists('bcrypt_verify')) {
      */
     function bcrypt_verify($password, $hash)
     {
-        return app()->make('Sun\Security\Hash')->verify($password, $hash);
+        return app()->make('Sun\Contracts\Security\Hash')->verify($password, $hash);
     }
 }
 
@@ -246,7 +246,7 @@ if(!function_exists('encrypt')) {
      */
     function encrypt($data)
     {
-        return app()->make('Sun\Security\Encrypter')->encrypt($data);
+        return app()->make('Sun\Contracts\Security\Encrypter')->encrypt($data);
     }
 }
 
@@ -260,7 +260,7 @@ if(!function_exists('decrypt')) {
      */
     function decrypt($data)
     {
-        return app()->make('Sun\Security\Encrypter')->decrypt($data);
+        return app()->make('Sun\Contracts\Security\Encrypter')->decrypt($data);
     }
 }
 

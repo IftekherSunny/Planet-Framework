@@ -13,6 +13,6 @@ class ValidatorAlien extends Alien
      */
     public static function registerAlien()
     {
-        return 'Sun\Validation\Validator';
+        return 'Sun\Contracts\Validation\Validator';
     }
 }

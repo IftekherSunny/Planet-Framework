@@ -13,6 +13,6 @@ class ViewAlien extends Alien
      */
     public static function registerAlien()
     {
-        return 'Sun\View\View';
+        return 'Sun\Contracts\View\View';
     }
 }

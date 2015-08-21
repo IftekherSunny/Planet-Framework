@@ -13,6 +13,6 @@ class FlashAlien extends Alien
      */
     public static function registerAlien()
     {
-        return 'Sun\Flash\Flash';
+        return 'Sun\Contracts\Flash\Flash';
     }
 }

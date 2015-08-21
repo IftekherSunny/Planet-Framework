@@ -13,6 +13,6 @@ class RedirectAlien extends Alien
      */
     public static function registerAlien()
     {
-        return 'Sun\Http\Redirect';
+        return 'Sun\Contracts\Http\Redirect';
     }
 }
