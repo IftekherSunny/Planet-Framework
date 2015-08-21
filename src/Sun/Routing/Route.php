@@ -215,11 +215,16 @@ class Route implements RouteContract
     protected function filter($uri, $method)
     {
         if (!empty($this->filter[$uri][$method])) {
-            $name = app()->getNamespace() . 'Filters\\' . $this->filter[$uri][$method];
 
-            $instance = $this->container->make($name);
+            $filters = explode('|', $this->filter[$uri][$method]);
 
-            $instance->handle();
+            foreach ($filters as $filter) {
+                $name = app()->getNamespace() . 'Filters\\' . trim($filter, ' ');
+
+                $instance = $this->container->make($name);
+
+                $instance->handle();
+            }
         }
     }
 }
