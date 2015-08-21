@@ -43,9 +43,12 @@ class MakeController extends Command
     {
         $controllerName = $this->input->getArgument('name');
         $isPlain = $this->input->getOption('plain');
+        $isResource = $this->input->getOption('resource');
 
         if($isPlain) {
             $controllerStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeControllerPlain.txt');
+        } elseif($isResource) {
+            $controllerStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeControllerResource.txt');
         } else {
             $controllerStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeController.txt');
         }
@@ -80,7 +83,8 @@ class MakeController extends Command
     protected function getOptions()
     {
         return [
-            ['plain', null, InputOption::VALUE_NONE, 'To create plain controller.']
+            ['plain', null, InputOption::VALUE_NONE, 'To create plain controller.'],
+            ['resource', null, InputOption::VALUE_NONE, 'To create resource controller.']
         ];
     }
 }
