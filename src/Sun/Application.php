@@ -387,6 +387,8 @@ class Application extends Container implements ApplicationContract
 
         $this->config = $this->make('Sun\Support\Config');
 
+        $this->make('Sun\Bootstrap\HandleExceptions')->bootstrap();
+
         $this->make('Sun\Bootstrap\Application')->bootstrap();
     }
 
