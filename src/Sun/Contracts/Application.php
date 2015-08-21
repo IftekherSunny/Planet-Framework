@@ -69,6 +69,15 @@ interface Application
     public function any($uri, $pattern, array $options = []);
 
     /**
+     * Route RESOURCE
+     *
+     * @param string $uri
+     * @param string $controller
+     * @param array $options
+     */
+    public function resource($uri, $controller, array $options = []);
+
+    /**
      * To run application
      */
     public function run();
