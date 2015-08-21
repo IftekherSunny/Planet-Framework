@@ -67,13 +67,7 @@ class Application extends Container implements ApplicationContract
     {
         $this->path = $basePath;
 
-        $this->bootContainer();
-
-        $this->setInstance();
-
-        $this->bindObject('Sun\Contracts\Application', $this);
-
-        $this->config = $this->make('Sun\Support\Config');
+        $this->bootstrap();
 
         $this->registerBindings();
 
@@ -381,6 +375,19 @@ class Application extends Container implements ApplicationContract
         }
 
         throw new Exception("Namespace detect problem.");
+    }
+
+    protected function bootstrap()
+    {
+        $this->bootContainer();
+
+        $this->setInstance();
+
+        $this->bindObject('Sun\Contracts\Application', $this);
+
+        $this->config = $this->make('Sun\Support\Config');
+
+        $this->make('Sun\Bootstrap\Application')->bootstrap();
     }
 
     /**

@@ -45,8 +45,6 @@ class Session implements SessionContract
     protected function startSession()
     {
         if (session_status() == PHP_SESSION_NONE) {
-            session_save_path(realpath(storage_path().'/framework/sessions/'));
-
             if(!$this->expireOnClose) {
                 session_cache_limiter('private');
                 session_cache_expire($this->expireTime);
