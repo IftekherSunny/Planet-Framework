@@ -129,6 +129,7 @@ class Route implements RouteContract
         $routeInfo = $this->dispatcher->dispatch($method, $uri);
 
         if($routeInfo[0] === Dispatcher::NOT_FOUND) {
+            $this->filter('*', $method);
             $routeInfo = $this->dispatcher->dispatch($method, '*');
             if(!$routeInfo[0]) {
                 throw new Exception("Route [ {$uri} ] not found.");

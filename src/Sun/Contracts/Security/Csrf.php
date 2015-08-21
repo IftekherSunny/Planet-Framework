@@ -13,9 +13,7 @@ interface Csrf
     /**
      * To check token
      *
-     * @param $token
-     *
      * @return bool
      */
-    public function check($token);
+    public function check();
 }

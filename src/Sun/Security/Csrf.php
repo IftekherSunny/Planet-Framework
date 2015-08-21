@@ -2,11 +2,19 @@
 
 namespace Sun\Security;
 
+use Sun\Contracts\Http\Request;
 use Sun\Contracts\Session\Session;
 use Sun\Contracts\Security\Csrf as CsrfContract;
 
 class Csrf implements CsrfContract
 {
+    /**
+     * To get http request data
+     *
+     * @var \Sun\Contracts\Http\Request
+     */
+    protected $request;
+
     /**
      * To store session data
      *
@@ -17,10 +25,12 @@ class Csrf implements CsrfContract
     /**
      * Create a new csrf instance
      *
+     * @param \Sun\Contracts\Http\Request $request
      * @param \Sun\Contracts\Session\Session $session
      */
-    public function __construct(Session $session)
+    public function __construct(Request $request, Session $session)
     {
+        $this->request = $request;
         $this->session = $session;
     }
 
@@ -42,14 +52,11 @@ class Csrf implements CsrfContract
     /**
      * To check token
      *
-     * @param $token
-     *
      * @return bool
      */
-    public function check($token)
+    public function check()
     {
-        if($this->session->get('token') === $token) {
-
+        if($this->session->get('token') === $this->request->input('token') || $this->session->get('token') === $this->request->header('X-CSRF-TOKEN')) {
             return true;
         }
 
