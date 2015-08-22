@@ -45,7 +45,7 @@ class ConfigCache extends Command
 
         $config = $this->app->config;
 
-        $this->filesystem->create(storage_path() . '/framework/cache/config.php', '<?php return '. var_export($config->getSettings(), true) . ';');
+        $this->filesystem->create($this->app->configurationCacheFilePath(), '<?php return '. var_export($config->getSettings(), true) . ';');
 
         $this->info('Configuration cached successfully.');
     }

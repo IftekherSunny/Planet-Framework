@@ -2,7 +2,7 @@
 
 namespace Sun\Bootstrap;
 
-use Sun\Contracts\Application;
+use Sun\Contracts\Application as App;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -17,13 +17,18 @@ class HandleExceptions
     protected $app;
 
     /**
+     * @var \Sun\Contracts\Log\Log
+     */
+    protected $log;
+
+    /**
      * Create a new instance
      *
-     * @param \Sun\Contracts\Application $application
+     * @param \Sun\Contracts\Application $app
      */
-    public function __construct(Application $application)
+    public function __construct(App $app)
     {
-        $this->app = $application;
+        $this->app = $app;
     }
 
     /**
@@ -44,13 +49,9 @@ class HandleExceptions
 
     /**
      * To handle application error
-     *
-     * @param $message
      */
-    public function errorHandler($message)
+    public function errorHandler()
     {
-        error_log("Planet " . $message);
-
         ErrorHandler::register();
     }
 
@@ -61,7 +62,7 @@ class HandleExceptions
      */
     public function exceptionHandler($message)
     {
-        error_log("Planet " . $message);
+        error_log("planet.ERROR ".$message->getMessage() . "\nStack trace:\n" . $message->getTraceAsString());
 
         if(php_sapi_name() == 'cli') {
             (new ConsoleApplication)->renderException($message, new ConsoleOutput);

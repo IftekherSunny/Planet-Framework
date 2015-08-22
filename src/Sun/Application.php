@@ -315,6 +315,36 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
+     * To get log file path
+     *
+     * @return string
+     */
+    public function logFilePath()
+    {
+        return $this->storage_path() . '/framework/logs/planet.log';
+    }
+
+    /**
+     * To get session directory path
+     *
+     * @return string
+     */
+    public function sessionDirectoryPath()
+    {
+        return $this->storage_path().'/framework/sessions/';
+    }
+
+    /**
+     * To get configuration cache file path
+     *
+     * @return string
+     */
+    public function configurationCacheFilePath()
+    {
+        return $this->storage_path() . '/framework/cache/config.php';
+    }
+
+    /**
      * To load alien
      */
     public function loadAlien()
@@ -390,9 +420,9 @@ class Application extends Container implements ApplicationContract
 
         $this->config = $this->make('Sun\Support\Config');
 
-        $this->make('Sun\Bootstrap\HandleExceptions')->bootstrap();
-
         $this->make('Sun\Bootstrap\Application')->bootstrap();
+
+        $this->make('Sun\Bootstrap\HandleExceptions')->bootstrap();
     }
 
     /**

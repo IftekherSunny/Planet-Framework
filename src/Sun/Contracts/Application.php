@@ -122,6 +122,27 @@ interface Application
     public function public_path();
 
     /**
+     * To get log file path
+     *
+     * @return string
+     */
+    public function logFilePath();
+
+    /**
+     * To get session directory path
+     *
+     * @return string
+     */
+    public function sessionDirectoryPath();
+
+    /**
+     * To get configuration cache file path
+     *
+     * @return string
+     */
+    public function configurationCacheFilePath();
+
+    /**
      * To load alien
      */
     public function loadAlien();

@@ -30,9 +30,9 @@ class Application
         date_default_timezone_set($this->app->config->getApp('timezone'));
 
         # set application error log path
-        ini_set("error_log", $this->app->storage_path() . '/framework/logs/planet.log');
+        ini_set("error_log", $this->app->logFilePath());
 
         # set application session storage path
-        session_save_path(realpath(storage_path().'/framework/sessions/'));
+        session_save_path(realpath($this->app->sessionDirectoryPath()));
     }
 }

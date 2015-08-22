@@ -5,10 +5,15 @@ namespace Sun\Support;
 use Exception;
 use Dotenv\Dotenv;
 use DirectoryIterator;
+use Sun\Contracts\Application;
 use Sun\Contracts\Support\Config as ConfigContract;
 
 class Config implements ConfigContract
 {
+    /**
+     * @var \Sun\Contracts\Application
+     */
+    protected $app;
     /**
      * To store all settings
      *
@@ -30,14 +35,18 @@ class Config implements ConfigContract
 
     /**
      * Create a new config instance
+     *
+     * @param Application $app
      */
-    public function __construct()
+    public function __construct(Application $app)
     {
+        $this->app = $app;
+
         if(!count($this->settings)) {
             $dotenv = new Dotenv(base_path());
             $dotenv->overload();
 
-            if (file_exists($config = storage_path() . '/framework/cache/config.php')) {
+            if (file_exists($config = $this->app->configurationCacheFilePath())) {
                 $this->settings = require($config);
             } else {
                 $this->load(config_path());

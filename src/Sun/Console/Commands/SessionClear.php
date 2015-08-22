@@ -41,7 +41,7 @@ class SessionClear extends Command
      */
     public function handle()
     {
-        $isSuccess = $this->filesystem->cleanDirectory(storage_path().'/framework/sessions');
+        $isSuccess = $this->filesystem->cleanDirectory($this->app->sessionDirectoryPath());
 
         if($isSuccess) {
             $this->info('Session cleared!');
