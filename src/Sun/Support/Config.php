@@ -37,8 +37,8 @@ class Config implements ConfigContract
             $dotenv = new Dotenv(base_path());
             $dotenv->overload();
 
-            if (file_exists($config = storage_path() . '/framework/cache/config')) {
-                $this->settings = json_decode(file_get_contents($config), true);
+            if (file_exists($config = storage_path() . '/framework/cache/config.php')) {
+                $this->settings = require($config);
             } else {
                 $this->load(config_path());
             }

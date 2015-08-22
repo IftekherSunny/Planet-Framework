@@ -41,8 +41,11 @@ class ConfigCache extends Command
      */
     public function handle()
     {
+        $this->call('config:clear');
+
         $config = $this->app->config;
-        $this->filesystem->create(storage_path() . '/framework/cache/config', json_encode($config->getSettings()));
+
+        $this->filesystem->create(storage_path() . '/framework/cache/config.php', '<?php return '. var_export($config->getSettings(), true) . ';');
 
         $this->info('Configuration cached successfully.');
     }

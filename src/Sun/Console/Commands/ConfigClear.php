@@ -41,7 +41,9 @@ class ConfigClear extends Command
      */
     public function handle()
     {
-        $this->filesystem->delete(storage_path() . '/framework/cache/config');
+        if(file_exists($filename = storage_path() . '/framework/cache/config.php')) {
+            $this->filesystem->delete($filename);
+        }
 
         $this->info('Configuration cache cleared.');
     }
