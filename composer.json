@@ -10,22 +10,24 @@
         }
     ],
     "require": {
-      "php-di/php-di": "^5.0",
-      "nikic/fast-route": "^0.6.0",
-      "symfony/console": "~2",
-      "symfony/debug": "~2.7",
+      "alexgarrett/violin": "2.*",
+      "duncan3dc/blade": "~2.2",
       "illuminate/database": "~5.1",
       "illuminate/pagination": "~5.1",
-      "duncan3dc/blade": "~2.2",
+      "monolog/monolog": "~1.16",
       "nesbot/carbon": "~1",
-      "alexgarrett/violin": "2.*",
+      "nikic/fast-route": "^0.6.0",
+      "php-di/php-di": "^5.0",
       "phpmailer/phpmailer": "5.2.9",
+      "symfony/console": "~2",
+      "symfony/debug": "~2.7",
       "vlucas/phpdotenv": "^2.0"
     },
     "autoload": {
       "psr-4": {
         "Sun\\": "src/Sun/"
       },
+
       "files": ["src/Sun/Function/functions.php"]
     }
 }
