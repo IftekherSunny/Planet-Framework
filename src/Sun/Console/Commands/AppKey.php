@@ -4,6 +4,7 @@ namespace Sun\Console\Commands;
 
 use Sun\Console\Command;
 use Sun\Contracts\Application;
+use Sun\Support\String;
 use Sun\Contracts\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -46,26 +47,15 @@ class AppKey extends Command
      */
     public function handle()
     {
-        $bytes = openssl_random_pseudo_bytes($this->size, $strong);
+        $content = $this->filesystem->get(base_path() . '/.env');
 
-        if ($bytes !== false && $strong !== false) {
-            $string = '';
-            while (($len = strlen($string)) < $this->size) {
-                $length = $this->size - $len;
+        $key = config('app.key');
 
-                $string .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $length);
-            }
+        $content = str_replace($key, String::random(), $content);
 
-            $content = $this->filesystem->get(base_path() . '/.env');
+        $this->filesystem->create(base_path() . '/.env', $content);
 
-            $key = config('app.key');
-
-            $content = str_replace($key, $string, $content);
-
-            $this->filesystem->create(base_path() . '/.env', $content);
-
-            $this->info("Application key set successfully.");
-        }
+        $this->info("Application key set successfully.");
     }
 
     /**

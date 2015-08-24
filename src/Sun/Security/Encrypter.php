@@ -3,6 +3,7 @@
 namespace Sun\Security;
 
 use Exception;
+use Sun\Support\String;
 use Sun\Contracts\Security\Encrypter as EncrypterContract;
 
 class Encrypter implements EncrypterContract
@@ -108,7 +109,7 @@ class Encrypter implements EncrypterContract
      */
     protected function hashCheck($iv, $value, $mac)
     {
-        $salt = $this->keyGenerate();
+        $salt = String::random($this->keySize);
 
         $mainMac = hash_hmac('sha256', $this->hash($iv, $value), $salt);
 
@@ -159,27 +160,5 @@ class Encrypter implements EncrypterContract
         }
 
         return $key;
-    }
-
-
-    /**
-     * To generate new key
-     *
-     * @return string
-     */
-    protected function keyGenerate()
-    {
-        $bytes = openssl_random_pseudo_bytes($this->keySize, $strong);
-
-        if ($bytes !== false && $strong !== false) {
-            $string = '';
-            while (($len = strlen($string)) < $this->keySize) {
-                $length = $this->keySize - $len;
-
-                $string .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $length);
-            }
-
-            return $string;
-        }
     }
 }
