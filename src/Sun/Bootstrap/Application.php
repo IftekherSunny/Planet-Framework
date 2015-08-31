@@ -32,6 +32,9 @@ class Application
         # set application error log path
         ini_set("error_log", $this->app->logFilePath());
 
+        # set application session name
+        ini_set('session.name', 'planet_session');
+
         # set application session storage path
         session_save_path(realpath($this->app->sessionDirectoryPath()));
     }

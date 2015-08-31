@@ -45,12 +45,12 @@ class Session implements SessionContract
     protected function startSession()
     {
         if (session_status() == PHP_SESSION_NONE) {
-            if(!$this->expireOnClose) {
-                session_cache_limiter('private');
-                session_cache_expire($this->expireTime);
-            }
 
             session_start();
+
+            if(!$this->expireOnClose) {
+                setcookie('planet_session', session_id(), time() + ($this->expireTime * 60 ), '/', null, false, false);
+            }
         }
     }
 
