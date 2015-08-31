@@ -148,9 +148,9 @@ interface Application
     public function loadAlien();
 
     /**
-     * To boot database configuration
+     * To boot Eloquent
      */
-    public function bootDatabase();
+    public function bootEloquent();
 
     /**
      * To get \Sun\Application instance

@@ -9,35 +9,44 @@ use Sun\Contracts\Database\Database as DatabaseContract;
 class Database implements DatabaseContract
 {
     /**
+     * @var \Illuminate\Database\Capsule\Manager
+     */
+    protected $capsule;
+
+    /**
      * To get Capsule instance
      *
      * @return Capsule
      */
     public function getCapsuleInstance()
     {
-        return new Capsule;
+        if(is_null($this->capsule)) {
+            return new Capsule;
+        }
+
+        return $this->capsule;
+    }
+
+    /**
+     * To boot database configuration
+     */
+    public function boot()
+    {
+        $this->capsule = $this->getCapsuleInstance();
+
+        $this->{config('database.driver').'ConnectionSetup'}($this->capsule);
+
+        $this->capsule->setAsGlobal();
+
+        $this->bootPaginator();
     }
 
     /**
      * To boot Eloquent
      */
-    public function boot()
+    public function bootEloquent()
     {
-        $capsule = $this->getCapsuleInstance();
-
-        if (config('database.driver') == 'mysql') {
-            $this->mysqlConnectionSetup($capsule);
-        }
-
-        if (config('database.driver') == 'sqlite') {
-            $this->sqliteConnectionSetup($capsule);
-        }
-
-        $capsule->setAsGlobal();
-
-        $capsule->bootEloquent();
-
-        $this->bootPaginator();
+        $this->capsule->bootEloquent();
     }
 
     /**
@@ -48,14 +57,14 @@ class Database implements DatabaseContract
     private function mysqlConnectionSetup($capsule)
     {
         $capsule->addConnection([
-            'driver' => 'mysql',
-            'host' => config('database.connection.mysql.host'),
-            'database' => config('database.connection.mysql.database'),
-            'username' => config('database.connection.mysql.username'),
-            'password' => config('database.connection.mysql.password'),
-            'charset' => config('database.connection.mysql.charset'),
-            'collation' => config('database.connection.mysql.collation'),
-            'prefix' => config('database.connection.mysql.prefix')
+            'driver'        => 'mysql',
+            'host'          => config('database.connection.mysql.host'),
+            'database'      => config('database.connection.mysql.database'),
+            'username'      => config('database.connection.mysql.username'),
+            'password'      => config('database.connection.mysql.password'),
+            'charset'       => config('database.connection.mysql.charset'),
+            'collation'     => config('database.connection.mysql.collation'),
+            'prefix'        => config('database.connection.mysql.prefix')
         ]);
     }
 
@@ -67,11 +76,11 @@ class Database implements DatabaseContract
     private function sqliteConnectionSetup($capsule)
     {
         $capsule->addConnection([
-            'driver' => 'sqlite',
-            'database' => config('database.connection.sqlite.database'),
-            'charset' => config('database.connection.sqlite.charset'),
-            'collation' => config('database.connection.sqlite.collation'),
-            'prefix' => config('database.connection.sqlite.prefix')
+            'driver'        => 'sqlite',
+            'database'      => config('database.connection.sqlite.database'),
+            'charset'       => config('database.connection.sqlite.charset'),
+            'collation'     => config('database.connection.sqlite.collation'),
+            'prefix'        => config('database.connection.sqlite.prefix')
         ]);
     }
 

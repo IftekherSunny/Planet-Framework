@@ -14,7 +14,12 @@ interface Database
     public function getCapsuleInstance();
 
     /**
-     * To boot Eloquent
+     * To boot database configuration
      */
     public function boot();
+
+    /**
+     * To boot Eloquent
+     */
+    public function bootEloquent();
 }

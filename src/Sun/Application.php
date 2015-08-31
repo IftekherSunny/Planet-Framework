@@ -44,6 +44,11 @@ class Application extends Container implements ApplicationContract
     public $db;
 
     /**
+     * @var \Sun\Contracts\Database\Database
+     */
+    protected $database;
+
+    /**
      * store application namespace
      */
     protected $appNamespace;
@@ -70,6 +75,8 @@ class Application extends Container implements ApplicationContract
         $this->bootstrap();
 
         $this->registerBindings();
+
+        $this->bootDatabase();
 
         $this->route = $this->make('Sun\Routing\Route');
     }
@@ -359,11 +366,19 @@ class Application extends Container implements ApplicationContract
     /**
      * To boot database configuration
      */
-    public function bootDatabase()
+    protected function bootDatabase()
     {
-        $database = $this->make('Sun\Contracts\Database\Database');
-        $database->boot();
-        $this->db = $database->getCapsuleInstance();
+        $this->database = $this->make('Sun\Contracts\Database\Database');
+        $this->database->boot();
+        $this->db = $this->database->getCapsuleInstance();
+    }
+
+    /**
+     * To boot Eloquent
+     */
+    public function bootEloquent()
+    {
+        $this->database->bootEloquent();
     }
 
     /**

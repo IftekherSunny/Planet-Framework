@@ -393,3 +393,15 @@ if(!function_exists('resource')) {
         app()->resource($uri, $controller, $options);
     }
 }
+
+if(!function_exists('db')) {
+    /**
+     * Capsule Instance
+     *
+     * @return \Illuminate\Database\Capsule\Manager
+     */
+    function db()
+    {
+        return app()->db;
+    }
+}
