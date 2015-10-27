@@ -165,9 +165,7 @@ class Route implements RouteContract
          *  call when pass closure as handler
          **/
         if (is_callable($handler)) {
-            echo call_user_func_array($handler, $params);
-
-            return;
+            return call_user_func_array($handler, $params);
         }
 
         /**

@@ -3,7 +3,7 @@
 namespace Sun\Security;
 
 use Exception;
-use Sun\Support\String;
+use Sun\Support\Str;
 use Sun\Contracts\Security\Encrypter as EncrypterContract;
 
 class Encrypter implements EncrypterContract
@@ -109,7 +109,7 @@ class Encrypter implements EncrypterContract
      */
     protected function hashCheck($iv, $value, $mac)
     {
-        $salt = String::random($this->keySize);
+        $salt = Str::random($this->keySize);
 
         $mainMac = hash_hmac('sha256', $this->hash($iv, $value), $salt);
 

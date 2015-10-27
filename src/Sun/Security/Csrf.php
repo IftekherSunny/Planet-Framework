@@ -2,7 +2,7 @@
 
 namespace Sun\Security;
 
-use Sun\Support\String;
+use Sun\Support\Str;
 use Sun\Contracts\Http\Request;
 use Sun\Contracts\Session\Session;
 use Sun\Contracts\Security\Csrf as CsrfContract;
@@ -43,7 +43,7 @@ class Csrf implements CsrfContract
     public function token()
     {
         if(!$this->session->has('token')) {
-            $this->session->create('token', String::random(40));
+            $this->session->create('token', Str::random(40));
         }
 
         return $this->session->get('token');

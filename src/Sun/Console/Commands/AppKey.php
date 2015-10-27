@@ -2,9 +2,9 @@
 
 namespace Sun\Console\Commands;
 
+use Sun\Support\Str;
 use Sun\Console\Command;
 use Sun\Contracts\Application;
-use Sun\Support\String;
 use Sun\Contracts\Filesystem\Filesystem;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -51,7 +51,7 @@ class AppKey extends Command
 
         $key = config('app.key');
 
-        $content = str_replace($key, String::random(), $content);
+        $content = str_replace($key, Str::random(), $content);
 
         $this->filesystem->create(base_path() . '/.env', $content);
 

@@ -369,7 +369,9 @@ class Application extends Container implements ApplicationContract
     protected function bootDatabase()
     {
         $this->database = $this->make('Sun\Contracts\Database\Database');
+
         $this->database->boot();
+
         $this->db = $this->database->getCapsuleInstance();
     }
 

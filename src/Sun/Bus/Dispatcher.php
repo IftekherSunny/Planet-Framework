@@ -3,8 +3,8 @@
 namespace Sun\Bus;
 
 use Sun\Contracts\Application;
-use Sun\Contracts\Bus\CommandTranslator;
 use Sun\Contracts\Bus\Dispatcher as DispatcherContract;
+use Sun\Contracts\Bus\CommandTranslator as CommandTranslatorContract;
 
 class Dispatcher implements DispatcherContract
 {
@@ -24,7 +24,7 @@ class Dispatcher implements DispatcherContract
      * @param \Sun\Contracts\Bus\CommandTranslator $commandTranslator
      * @param \Sun\Contracts\Application       $app
      */
-    public function __construct(CommandTranslator $commandTranslator, Application $app)
+    public function __construct(CommandTranslatorContract $commandTranslator, Application $app)
     {
         $this->commandTranslator = $commandTranslator;
 

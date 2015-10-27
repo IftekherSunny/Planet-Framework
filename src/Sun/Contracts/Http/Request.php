@@ -83,4 +83,11 @@ interface Request
      * @return string
      */
     public function header($name);
+
+    /**
+     * To get all headers data
+     *
+     * @return array
+     */
+    public function getAllHeaders();
 }

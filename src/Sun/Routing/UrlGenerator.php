@@ -30,9 +30,8 @@ class UrlGenerator implements UrlGeneratorContract
     public function url($path)
     {
         $protocol = "http" . $this->isSecure();
-        $port = $this->port();
 
-        return $protocol . $_SERVER['SERVER_NAME'] .  $port .$this->getBaseUri() . $path;
+        return $protocol . $_SERVER['HTTP_HOST'] .$this->getBaseUri() . $path;
     }
 
     /**

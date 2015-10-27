@@ -29,7 +29,12 @@ class Response implements ResponseContract
      */
     public function html($data)
     {
-        echo $data;
+        if(is_array($data)) {
+            $this->json($data);
+        } else {
+            echo $data;
+        }
+
         $this->session->create('previous_uri', $_SERVER['REQUEST_URI']);
         $this->session->create('planet_oldInput', null);
     }
@@ -41,6 +46,8 @@ class Response implements ResponseContract
      */
     public function json($data)
     {
+        $this->header('Content-Type: application/json');
+
         echo json_encode($data);
     }
 

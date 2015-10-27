@@ -1,4 +1,5 @@
 <?php
+
 namespace Sun\Contracts\Security;
 
 interface Csrf

@@ -26,7 +26,7 @@ class Request implements RequestContract
     {
         $this->session = $session;
 
-        $this->headers = getAllHeaders();
+        $this->headers = $this->getAllHeaders();
 
         $this->storeInput();
     }
@@ -202,5 +202,25 @@ class Request implements RequestContract
     public function header($name)
     {
         return (isset($this->headers[$name])) ? $this->headers[$name] : '';
+    }
+
+    /**
+     * To get all headers data
+     *
+     * @return array
+     */
+    public function getAllHeaders()
+    {
+            $headers = [];
+
+            foreach ($_SERVER as $name => $value)
+            {
+                if (substr($name, 0, 5) == 'HTTP_')
+                {
+                    $headers[str_replace(' ', '-', strtolower(str_replace('_', ' ', substr($name, 5))))] = $value;
+                }
+            }
+
+            return $headers;
     }
 }
