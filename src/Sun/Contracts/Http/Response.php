@@ -17,8 +17,11 @@ interface Response
      * To response with json
      *
      * @param string $data
+     * @param int    $status
+     *
+     * @return string
      */
-    public function json($data);
+    public function json($data, $status = 200);
 
     /**
      * To response with download
@@ -48,7 +51,7 @@ interface Response
      *
      * @return \Sun\Http\Response
      */
-    public function code($code);
+    public function statusCode($code);
 
     /**
      * To get header data

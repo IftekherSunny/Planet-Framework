@@ -30,7 +30,7 @@ class Response implements ResponseContract
     public function html($data)
     {
         if(is_array($data)) {
-            $this->json($data);
+            echo $this->json($data);
         } else {
             echo $data;
         }
@@ -43,12 +43,17 @@ class Response implements ResponseContract
      * To response with json
      *
      * @param string $data
+     * @param int    $status
+     *
+     * @return string
      */
-    public function json($data)
+    public function json($data, $status = 200)
     {
         $this->header('Content-Type: application/json');
 
-        echo json_encode($data);
+        $this->statusCode($status);
+
+        return json_encode($data);
     }
 
     /**
@@ -100,7 +105,7 @@ class Response implements ResponseContract
      *
      * @return $this
      */
-    public function code($code)
+    public function statusCode($code)
     {
         http_response_code($code);
 
