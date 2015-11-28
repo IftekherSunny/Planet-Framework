@@ -100,16 +100,7 @@ if (!function_exists('config')) {
      */
     function config($location)
     {
-        $config = app()->config;
-        $hold = explode('.', $location);
-
-        $filename = 'get' . strtoupper(array_shift($hold));
-        $location = implode('.', $hold);
-        if(empty($location)) {
-            return $config->{$filename}();
-        }
-
-        return $config->{$filename}($location);
+        return app()->config($location);
     }
 }
 

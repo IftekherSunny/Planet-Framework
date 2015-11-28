@@ -166,4 +166,13 @@ interface Application
      * @throws Exception
      */
     public function getNamespace();
+
+    /**
+     * To get configuration
+     *
+     * @param $location
+     *
+     * @return mixed
+     */
+    public function config($location);
 }

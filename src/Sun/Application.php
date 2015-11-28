@@ -453,4 +453,26 @@ class Application extends Container implements ApplicationContract
             $this->bind($contract, $implementation);
         }
     }
+
+    /**
+     * To get configuration
+     *
+     * @param $location
+     *
+     * @return mixed
+     */
+    public function config($location)
+    {
+        $keys = explode('.', $location);
+
+        $filename = 'get' . strtoupper(array_shift($keys));
+
+        $location = implode('.', $keys);
+
+        if(empty($location)) {
+            return $this->config->{$filename}();
+        }
+
+        return $this->config->{$filename}($location);
+    }
 }
