@@ -2,9 +2,7 @@
 
 namespace dummyNamespace\Filters;
 
-use Sun\Routing\Filter;
-
-class dummyFilterName extends Filter
+class dummyFilterName
 {
     /**
      * To create filter
@@ -20,5 +18,7 @@ class dummyFilterName extends Filter
     public function handle()
     {
         //
+
+        return request();
     }
 }

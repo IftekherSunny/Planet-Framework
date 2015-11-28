@@ -5,6 +5,7 @@ namespace Sun\Routing;
 use Exception;
 use FastRoute\RouteCollector;
 use FastRoute\RouteParser\Std;
+use Sun\Contracts\Http\Request;
 use Sun\Contracts\Http\Response;
 use Sun\Contracts\Container\Container;
 use DI\Definition\Exception\DefinitionException;
@@ -124,8 +125,6 @@ class Route implements RouteContract
      */
     public function routeDispatcher($method, $uri)
     {
-        $this->filter($uri, $method);
-
         $routeInfo = $this->dispatcher->dispatch($method, $uri);
 
         if($routeInfo[0] === Dispatcher::NOT_FOUND) {
@@ -144,6 +143,10 @@ class Route implements RouteContract
         if($routeInfo[0] === Dispatcher::FOUND) {
             $handler = $routeInfo[1];
             $params = $routeInfo[2];
+
+            if(!empty($filterResponse = $this->filterRequest($uri, $method))) {
+                return $filterResponse;
+            }
 
             return $this->methodDispatcher($handler, $params);
         }
@@ -209,20 +212,47 @@ class Route implements RouteContract
      *
      * @param string $uri
      * @param string $method
+     *
+     * @return mixed
      */
-    protected function filter($uri, $method)
+    protected function filterRequest($uri, $method)
     {
-        if (!empty($this->filter[$uri][$method])) {
+        if (!empty($filtersPattern = $this->filter[$uri][$method])) {
 
-            $filters = explode('|', $this->filter[$uri][$method]);
+            $filters = explode('|', $filtersPattern);
 
             foreach ($filters as $filter) {
-                $name = app()->getNamespace() . 'Filters\\' . trim($filter, ' ');
+
+                list($className, $params) = $this->getClassNameWithParams($filter);
+
+                $name = app()->getNamespace() . 'Filters\\' . $className;
 
                 $instance = $this->container->make($name);
 
-                $instance->handle();
+                $filterResponse = call_user_func_array([$instance, 'handle'], $params);
+
+                if(!$filterResponse instanceof Request) {
+                    return $filterResponse;
+                }
             }
         }
+    }
+
+    /**
+     * Get filterable class name and params
+     *
+     * @param string $filter
+     *
+     * @return array
+     */
+    protected function getClassNameWithParams($filter)
+    {
+        $pattern = explode(':', $filter);
+
+        $className = trim($pattern[0]);
+
+        $params = array_map('trim', explode(',', $pattern[1]));
+
+        return [$className, $params];
     }
 }
