@@ -19,7 +19,7 @@ interface Route
     /**
      * To register route
      */
-    public function routeRegister();
+    public function register();
 
     /**
      * To dispatch a route
@@ -30,5 +30,5 @@ interface Route
      * @return mixed
      * @throws Exception
      */
-    public function routeDispatcher($method, $uri);
+    public function dispatcher($method, $uri);
 }

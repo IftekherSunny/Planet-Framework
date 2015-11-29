@@ -257,12 +257,12 @@ class Application extends Container implements ApplicationContract
      */
     public function run()
     {
-        $this->route->routeRegister();
+        $this->route->register();
 
         $httpMethod = $_SERVER['REQUEST_METHOD'];
         $uri = $this->make('Sun\Contracts\Routing\UrlGenerator')->getUri();
 
-        $data = $this->route->routeDispatcher($httpMethod, $uri);
+        $data = $this->route->dispatcher($httpMethod, $uri);
 
         $this->make('Sun\Contracts\Http\Response')->html($data);
     }

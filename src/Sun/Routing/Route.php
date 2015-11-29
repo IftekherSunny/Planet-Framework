@@ -104,7 +104,7 @@ class Route implements RouteContract
     /**
      * To register route
      */
-    public function routeRegister()
+    public function register()
     {
         $route = new RouteCollector(new Std(), new DataGenerator());
         for ($i = 0; $i < count($this->uri); $i++) {
@@ -123,7 +123,7 @@ class Route implements RouteContract
      * @return mixed
      * @throws Exception
      */
-    public function routeDispatcher($method, $uri)
+    public function dispatcher($method, $uri)
     {
         $routeInfo = $this->dispatcher->dispatch($method, $uri);
 
