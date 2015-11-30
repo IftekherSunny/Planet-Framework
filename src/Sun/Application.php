@@ -79,8 +79,6 @@ class Application extends Container implements ApplicationContract
         $this->bootstrap();
 
         $this->bootDatabase();
-
-        $this->route = $this->make('Sun\Contracts\Routing\Route');
     }
 
     /**
@@ -100,6 +98,10 @@ class Application extends Container implements ApplicationContract
         (isset($routeOption['filter'])) ? $this->filter = ['filter' => $routeOption['filter']] : $this->filter = [];
 
         call_user_func_array($callback, $routeOption);
+
+        $this->prefix = '';
+
+        $this->filter = [];
     }
 
     /**
@@ -259,6 +261,8 @@ class Application extends Container implements ApplicationContract
      */
     public function run()
     {
+        $this->make('Sun\Bootstrap\ServiceProvider')->registerRoute();
+
         $this->route->register();
 
         $httpMethod = $_SERVER['REQUEST_METHOD'];
@@ -455,6 +459,10 @@ class Application extends Container implements ApplicationContract
         $this->make('Sun\Bootstrap\Route')->bootstrap();
 
         $this->make('Sun\Bootstrap\Event')->bootstrap();
+
+        $this->make('Sun\Bootstrap\ServiceProvider')->bootstrap();
+
+        $this->route = $this->make('Sun\Contracts\Routing\Route');
     }
 
     /**

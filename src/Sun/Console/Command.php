@@ -237,4 +237,35 @@ abstract class Command extends SymfonyCommand
 
         return $command->run(new ArrayInput($parameters), $this->output);
     }
+
+    /**
+     * @param $providerName
+     *
+     * @return array
+     */
+    protected function getLocation($providerName)
+    {
+        $folder = explode('/', $providerName);
+        $filename = array_pop($folder);
+
+        return array($folder, $filename);
+    }
+
+    /**
+     * Create file from stubs
+     *
+     * @param string $folder
+     * @param string $filename
+     * @param string $stubs
+     */
+    protected function createFile($folder, $filename, $stubs, $defaultFolder = '')
+    {
+        if(!empty($folder = implode('/', $folder))) {
+            $dir = app_path() . "{$defaultFolder}/{$folder}";
+            $this->filesystem->createDirectory($dir);
+            $this->filesystem->create("{$dir}/{$filename}.php", $stubs);
+        } {
+        $this->filesystem->create(app_path() ."{$defaultFolder}/{$filename}.php", $stubs);
+    }
+    }
 }
