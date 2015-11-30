@@ -22,7 +22,7 @@ class Route
     }
 
     /**
-     * Bootstrap application configuration
+     * Bootstrap route
      */
     public function bootstrap()
     {

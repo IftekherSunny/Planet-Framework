@@ -22,7 +22,7 @@ class Event
     }
 
     /**
-     * Bootstrap application configuration
+     * Bootstrap events
      */
     public function bootstrap()
     {
