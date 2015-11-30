@@ -261,7 +261,7 @@ class Application extends Container implements ApplicationContract
      */
     public function run()
     {
-        $this->make('Sun\Bootstrap\ServiceProvider')->registerRoute();
+        $this->make('Sun\Bootstrap\Provider')->registerRoute();
 
         $this->route->register();
 
@@ -460,7 +460,7 @@ class Application extends Container implements ApplicationContract
 
         $this->make('Sun\Bootstrap\Event')->bootstrap();
 
-        $this->make('Sun\Bootstrap\ServiceProvider')->bootstrap();
+        $this->make('Sun\Bootstrap\Provider')->bootstrap();
 
         $this->route = $this->make('Sun\Contracts\Routing\Route');
     }

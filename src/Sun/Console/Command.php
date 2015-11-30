@@ -264,8 +264,8 @@ abstract class Command extends SymfonyCommand
             $dir = app_path() . "{$defaultFolder}/{$folder}";
             $this->filesystem->createDirectory($dir);
             $this->filesystem->create("{$dir}/{$filename}.php", $stubs);
-        } {
-        $this->filesystem->create(app_path() ."{$defaultFolder}/{$filename}.php", $stubs);
-    }
+        } else {
+            $this->filesystem->create(app_path() ."{$defaultFolder}/{$filename}.php", $stubs);
+        }
     }
 }

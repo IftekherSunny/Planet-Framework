@@ -4,7 +4,7 @@ namespace Sun\Bootstrap;
 
 use Sun\Contracts\Application as App;
 
-class ServiceProvider
+class Provider
 {
     /**
      * @var \Sun\Contracts\Application
@@ -33,14 +33,13 @@ class ServiceProvider
      */
     public function bootstrap()
     {
-        $this->services = $this->app->config('bootstrap');
+        $this->services = $this->app->config('provider');
 
         if(!is_null($services = $this->services)) {
             foreach($services as $service) {
                 $this->app->make($service)->bootstrap();
             }
         }
-
     }
 
     /**
@@ -48,8 +47,6 @@ class ServiceProvider
      */
     public function registerRoute()
     {
-        $this->services = $this->app->config('bootstrap');
-
         if(!is_null($services = $this->services)) {
             foreach($services as $service) {
                 $this->app->make($service)->registerRoute();
