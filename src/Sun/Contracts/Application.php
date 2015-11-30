@@ -170,7 +170,7 @@ interface Application
     /**
      * To get configuration
      *
-     * @param $location
+     * @param string $location
      *
      * @return mixed
      */

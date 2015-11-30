@@ -1,0 +1,14 @@
+<?php
+
+namespace dummyNamespace\Listeners;
+
+class dummyListenerName
+{
+    /**
+     * To listen event
+     */
+    public function listen()
+    {
+        //
+    }
+}

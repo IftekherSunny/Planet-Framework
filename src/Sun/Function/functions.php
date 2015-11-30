@@ -396,3 +396,51 @@ if(!function_exists('db')) {
         return app()->db;
     }
 }
+
+if(!function_exists('event')) {
+    /**
+     * Broadcast event
+     *
+     * @param string $name
+     * @param array $data
+     *
+     * @return \Sun\Contracts\Event\Event
+     */
+    function event($name = null, $data = [])
+    {
+        if(is_null($name)) {
+            return app()->make('Sun\Contracts\Event\Event');
+        }
+
+        app()->make('Sun\Contracts\Event\Event')->broadcast($name, $data);
+    }
+}
+
+if(!function_exists('broadcast')) {
+    /**
+     * Broadcast event
+     *
+     * @param string $event
+     * @param array $data
+     *
+     * @throws \Sun\Event\EventNotFoundException
+     */
+    function broadcast($event, $data = [])
+    {
+        app()->make('Sun\Contracts\Event\Event')->broadcast($event, $data);
+    }
+}
+
+
+if(!function_exists('listen')) {
+    /**
+     * Event listener to listen broadcast
+     *
+     * @param string $event
+     * @param mixed $handler
+     */
+    function listen($event, $handler)
+    {
+        app()->make('Sun\Contracts\Event\Event')->listen($event, $handler);
+    }
+}

@@ -1,0 +1,14 @@
+<?php
+
+namespace dummyNamespace\Events;
+
+class dummyEventName
+{
+    /**
+     * To create event
+     */
+    public function __construct()
+    {
+        //
+    }
+}

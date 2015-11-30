@@ -260,9 +260,12 @@ class Application extends Container implements ApplicationContract
         $this->route->register();
 
         $httpMethod = $_SERVER['REQUEST_METHOD'];
+
         $uri = $this->make('Sun\Contracts\Routing\UrlGenerator')->getUri();
 
         $data = $this->route->dispatcher($httpMethod, $uri);
+
+        $this->make('Sun\Contracts\Event\Event')->dispatch();
 
         $this->make('Sun\Contracts\Http\Response')->html($data);
     }
@@ -440,6 +443,8 @@ class Application extends Container implements ApplicationContract
         $this->make('Sun\Bootstrap\Application')->bootstrap();
 
         $this->make('Sun\Bootstrap\HandleExceptions')->bootstrap();
+
+        $this->make('Sun\Bootstrap\Event')->bootstrap();
     }
 
     /**
@@ -457,7 +462,7 @@ class Application extends Container implements ApplicationContract
     /**
      * To get configuration
      *
-     * @param $location
+     * @param string $location
      *
      * @return mixed
      */
