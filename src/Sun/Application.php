@@ -72,13 +72,15 @@ class Application extends Container implements ApplicationContract
     {
         $this->path = $basePath;
 
-        $this->bootstrap();
+        $this->booting();
 
         $this->registerBindings();
 
+        $this->bootstrap();
+
         $this->bootDatabase();
 
-        $this->route = $this->make('Sun\Routing\Route');
+        $this->route = $this->make('Sun\Contracts\Routing\Route');
     }
 
     /**
@@ -263,7 +265,7 @@ class Application extends Container implements ApplicationContract
 
         $uri = $this->make('Sun\Contracts\Routing\UrlGenerator')->getUri();
 
-        $data = $this->route->dispatcher($httpMethod, $uri);
+        $data = $this->route->dispatch($httpMethod, $uri);
 
         $this->make('Sun\Contracts\Event\Event')->dispatch();
 
@@ -428,9 +430,9 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
-     * Bootstrapping application required class
+     * Booting application
      */
-    protected function bootstrap()
+    protected function booting()
     {
         $this->bootContainer();
 
@@ -439,10 +441,18 @@ class Application extends Container implements ApplicationContract
         $this->bindObject('Sun\Contracts\Application', $this);
 
         $this->config = $this->make('Sun\Support\Config');
+    }
 
+    /**
+     * Bootstrap application required class
+     */
+    protected function bootstrap()
+    {
         $this->make('Sun\Bootstrap\Application')->bootstrap();
 
         $this->make('Sun\Bootstrap\HandleExceptions')->bootstrap();
+
+        $this->make('Sun\Bootstrap\Route')->bootstrap();
 
         $this->make('Sun\Bootstrap\Event')->bootstrap();
     }

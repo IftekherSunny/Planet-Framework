@@ -30,5 +30,5 @@ interface Route
      * @return mixed
      * @throws Exception
      */
-    public function dispatcher($method, $uri);
+    public function dispatch($method, $uri);
 }

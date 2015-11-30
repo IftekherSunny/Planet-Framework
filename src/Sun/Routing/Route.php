@@ -123,7 +123,7 @@ class Route implements RouteContract
      * @return mixed
      * @throws Exception
      */
-    public function dispatcher($method, $uri)
+    public function dispatch($method, $uri)
     {
         $routeInfo = $this->dispatcher->dispatch($method, $uri);
 
