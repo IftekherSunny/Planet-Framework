@@ -1,0 +1,25 @@
+<?php
+
+use Phpmig\Migration\Migration;
+
+class %s extends Migration
+{
+    /**
+     * Do the migration
+     */
+    public function up()
+    {
+        Schema::create('tableName', function(Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Undo the migration
+     */
+    public function down()
+    {
+        Schema::drop('tableName');
+    }
+}

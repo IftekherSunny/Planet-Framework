@@ -11,6 +11,7 @@
     ],
     "require": {
       "alexgarrett/violin": "2.*",
+      "davedevelopment/phpmig": "~1",
       "duncan3dc/blade": "~2.2",
       "illuminate/database": "~5.1",
       "illuminate/pagination": "~5.1",
