@@ -42,27 +42,27 @@ interface Container
     public function make($class);
 
     /**
-     * @param mixed $class
+     * @param mixed $key
      *
      * @return mixed
      */
-    public function offsetExists($class);
+    public function offsetExists($key);
 
     /**
-     * @param mixed $class
+     * @param mixed $key
      *
      * @return mixed
      */
-    public function offsetGet($class);
+    public function offsetGet($key);
 
     /**
-     * @param mixed $contract
+     * @param mixed $key
      * @param mixed $implementation
      */
-    public function offsetSet($contract, $implementation);
+    public function offsetSet($key, $implementation);
 
     /**
-     * @param mixed $offset
+     * @param mixed $key
      */
-    public function offsetUnset($offset);
+    public function offsetUnset($key);
 }

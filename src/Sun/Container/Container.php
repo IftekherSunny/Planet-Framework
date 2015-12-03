@@ -2,6 +2,7 @@
 
 namespace Sun\Container;
 
+use Closure;
 use ArrayAccess;
 use DI\ContainerBuilder;
 use Sun\Contracts\Container\Container as ContainerContract;
@@ -42,7 +43,11 @@ class Container implements ContainerContract, ArrayAccess
      */
     public function bind($contract, $implementation)
     {
-        $this->container->set($contract, \DI\object($implementation));
+        if($implementation instanceof Closure) {
+          $this->container->set($contract, $implementation);
+        } else {
+          $this->container->set($contract, \DI\object($implementation));
+        }
     }
 
     /**
@@ -69,39 +74,39 @@ class Container implements ContainerContract, ArrayAccess
     }
 
     /**
-     * @param mixed $class
+     * @param mixed $key
      *
      * @return mixed
      */
-    public function offsetExists($class)
+    public function offsetExists($key)
     {
-        return $this->has($class);
+        return isset($this->make[$key]);
     }
 
     /**
-     * @param mixed $class
+     * @param mixed $key
      *
      * @return mixed
      */
-    public function offsetGet($class)
+    public function offsetGet($key)
     {
-       return $this->make($class);
+       return $this->make($key);
     }
 
     /**
-     * @param mixed $contract
+     * @param mixed $key
      * @param mixed $implementation
      */
-    public function offsetSet($contract, $implementation)
+    public function offsetSet($key, $implementation)
     {
-        $this->set($contract, $implementation);
+        $this->bind($key, $implementation);
     }
 
     /**
-     * @param mixed $offset
+     * @param mixed $key
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($key)
     {
-        unset($this->make[$offset]);
+        unset($this->make[$key]);
     }
 }
