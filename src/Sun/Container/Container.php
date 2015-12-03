@@ -2,7 +2,6 @@
 
 namespace Sun\Container;
 
-use Closure;
 use ArrayAccess;
 use DI\ContainerBuilder;
 use Sun\Contracts\Container\Container as ContainerContract;
@@ -43,10 +42,12 @@ class Container implements ContainerContract, ArrayAccess
      */
     public function bind($contract, $implementation)
     {
-        if($implementation instanceof Closure) {
-          $this->container->set($contract, $implementation);
-        } else {
+        if(is_string($implementation)) {
           $this->container->set($contract, \DI\object($implementation));
+        }
+
+        if(is_callable($implementation) || is_object($implementation)) {
+          $this->container->set($contract, $implementation);
         }
     }
 
@@ -80,7 +81,7 @@ class Container implements ContainerContract, ArrayAccess
      */
     public function offsetExists($key)
     {
-        return isset($this->make[$key]);
+        return $this->container->has($key);
     }
 
     /**
@@ -107,6 +108,6 @@ class Container implements ContainerContract, ArrayAccess
      */
     public function offsetUnset($key)
     {
-        unset($this->make[$key]);
+        $this->container->set($key, null);
     }
 }
