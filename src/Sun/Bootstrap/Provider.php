@@ -2,6 +2,7 @@
 
 namespace Sun\Bootstrap;
 
+use Sun\Support\Str;
 use Sun\Contracts\Application as App;
 
 class Provider
@@ -49,8 +50,23 @@ class Provider
     {
         if(!is_null($services = $this->services)) {
             foreach($services as $service) {
-                $this->app->make($service)->registerRoute();
+
+                $routes = $this->app->make($service)->registerRoute();
+
+                $this->requiredRoute($routes);
             }
+        }
+    }
+
+    /**
+     * Required all register routes
+     *
+     * @param array $routes
+     */
+    protected function requiredRoute($routes)
+    {
+        foreach($routes as $route) {
+            require_once(str::path($route));
         }
     }
 }

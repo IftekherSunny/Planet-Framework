@@ -26,4 +26,16 @@ class Str
             return $string;
         }
     }
+
+    /**
+     * Get universalize paths across oss
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function path($path)
+    {
+        return str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
+    }
 }

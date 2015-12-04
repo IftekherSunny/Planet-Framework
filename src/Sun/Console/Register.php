@@ -18,6 +18,7 @@ return [
     'Sun\Console\Commands\MakeListener',
     'Sun\Console\Commands\MakeModel',
     'Sun\Console\Commands\MakeProvider',
+    'Sun\Console\Commands\Publish',
     'Sun\Console\Commands\SessionClear',
     'Sun\Console\Commands\ViewClear',
 ];

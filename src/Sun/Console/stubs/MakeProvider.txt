@@ -34,6 +34,22 @@ class dummyProviderName
      */
     public function registerRoute()
     {
-        //
+        return [
+            // __DIR__ . '/routes/user.php',
+        ];
+    }
+
+    /**
+     * Publish assets
+     *
+     * @return array
+     */
+    public function publish()
+    {
+        return [
+            // __DIR__ .'/config/config.php'    =>  config_path() .'/packagename/config.php',
+            // __DIR__ .'/assets/style.css'     =>  public_path() .'/vendor/packagename/style.css',
+            // __DIR__ .'/assets/main.js'       =>  public_path() .'/vendor/packagename/main.js',
+        ];
     }
 }
