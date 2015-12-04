@@ -44,15 +44,18 @@ class MakeListener extends Command
         $listenerName  = $this->input->getArgument('name');
         $eventName = $this->input->getOption('event');
 
+        $listenerNamespace = $this->getNamespace('Listeners', $listenerName);
+
         if(!is_null($eventName)) {
+            $eventName = str_replace('/','\\', $eventName);
             $eventNamespace = $this->app->getNamespace(). "Events\\{$eventName}";
             $listenerStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeListenerEvent.txt');
             $listenerStubs = str_replace([ 'dummyListenerName', 'dummyEventNameVariable', 'dummyEventName', 'dummyNamespace', 'dummyUse', '\\\\' ],
-                                     [ $listenerName, lcfirst($eventName), $eventName, $this->app->getNamespace(), $eventNamespace, '\\' ], $listenerStubs);
+                                     [ basename($listenerName), lcfirst(basename($eventName)), basename($eventName), $listenerNamespace, $eventNamespace, '\\' ], $listenerStubs);
         } else {
             $listenerStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeListener.txt');
             $listenerStubs = str_replace([ 'dummyListenerName', 'dummyNamespace', '\\\\' ],
-                [ $listenerName, $this->app->getNamespace(), '\\' ], $listenerStubs);
+                [ basename($listenerName), $listenerNamespace, '\\' ], $listenerStubs);
         }
 
 

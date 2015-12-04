@@ -43,9 +43,11 @@ class MakeEvent extends Command
     {
         $eventName  = $this->input->getArgument('name');
 
+        $eventNamespace = $this->getNamespace('Events', $eventName);
+
         $eventStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeEvent.txt');
 
-        $eventStubs = str_replace([ 'dummyEventName', 'dummyNamespace', '\\\\' ], [ $eventName, $this->app->getNamespace(), '\\' ], $eventStubs);
+        $eventStubs = str_replace([ 'dummyEventName', 'dummyNamespace', '\\\\' ], [ basename($eventName), $eventNamespace, '\\' ], $eventStubs);
 
         if(!file_exists($filename = app_path() ."/Events/{$eventName}.php")) {
             $this->filesystem->create($filename, $eventStubs);

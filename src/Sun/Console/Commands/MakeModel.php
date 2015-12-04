@@ -43,9 +43,11 @@ class MakeModel extends Command
     {
         $modelName  = $this->input->getArgument('name');
 
+        $modelNamespace = $this->getNamespace('Models', $modelName);
+
         $modelStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeModel.txt');
 
-        $modelStubs = str_replace([ 'dummyModelName', 'dummyNamespace', '\\\\' ], [ $modelName, $this->app->getNamespace(), '\\' ], $modelStubs);
+        $modelStubs = str_replace([ 'dummyModelName', 'dummyNamespace', '\\\\' ], [ basename($modelName), $modelNamespace, '\\' ], $modelStubs);
 
         if(!file_exists($filename = app_path() ."/Models/{$modelName}.php")) {
             $this->filesystem->create($filename, $modelStubs);

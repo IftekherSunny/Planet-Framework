@@ -1,6 +1,6 @@
 <?php
 
-namespace dummyNamespace\Models;
+namespace dummyNamespace;
 
 use Sun\Database\Model;
 

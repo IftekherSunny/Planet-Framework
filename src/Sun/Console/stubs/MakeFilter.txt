@@ -1,6 +1,6 @@
 <?php
 
-namespace dummyNamespace\Filters;
+namespace dummyNamespace;
 
 class dummyFilterName
 {

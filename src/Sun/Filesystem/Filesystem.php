@@ -2,6 +2,7 @@
 
 namespace Sun\Filesystem;
 
+use Sun\Support\Str;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 use Sun\Contracts\Filesystem\Filesystem as FilesystemContract;
@@ -18,6 +19,10 @@ class Filesystem implements FilesystemContract
      */
     public function create($filename, $content)
     {
+        $filename = str::path($filename);
+
+        $this->createDirectory(dirname($filename));
+
         return file_put_contents($filename, $content);
     }
 
@@ -215,7 +220,9 @@ class Filesystem implements FilesystemContract
      */
     public function createDirectory($path)
     {
-        return mkdir($path, 777, true);
+        if(!$this->exists($path)) {
+            return mkdir($path, 777, true);
+        }
     }
 
     /**

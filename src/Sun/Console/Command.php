@@ -268,4 +268,27 @@ abstract class Command extends SymfonyCommand
             $this->filesystem->create(app_path() ."{$defaultFolder}/{$filename}.php", $stubs);
         }
     }
+
+    /**
+     * @param string $directory
+     * @param string $name
+     *
+     * @return string
+     */
+    protected function getNamespace($directory = null, $name)
+    {
+        if (is_null($directory)) {
+            $namespace = str_replace('\\', '', $this->app->getNamespace());
+
+            return $namespace;
+        } elseif (($name = str_replace('/', '\\', dirname($name))) !== ".") {
+            $namespace = $this->app->getNamespace() . "\\{$directory}\\" . $name;
+
+            return $namespace;
+        } else {
+            $namespace = $this->app->getNamespace() . "\\{$directory}";
+
+            return $namespace;
+        }
+    }
 }

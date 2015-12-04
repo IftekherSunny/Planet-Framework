@@ -43,9 +43,11 @@ class MakeFilter extends Command
     {
         $filterName  = $this->input->getArgument('name');
 
+        $filterNamespace = $this->getNamespace('Filters', $filterName);
+
         $filterStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeFilter.txt');
 
-        $filterStubs = str_replace([ 'dummyFilterName', 'dummyNamespace', '\\\\' ], [ $filterName, $this->app->getNamespace(), '\\' ], $filterStubs);
+        $filterStubs = str_replace([ 'dummyFilterName', 'dummyNamespace', '\\\\' ], [ basename($filterName), $filterNamespace, '\\' ], $filterStubs);
 
         if(!file_exists($filename = app_path() ."/Filters/{$filterName}.php")) {
             $this->filesystem->create($filename, $filterStubs);

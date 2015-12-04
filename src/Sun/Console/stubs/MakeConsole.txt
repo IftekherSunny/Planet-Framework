@@ -1,6 +1,6 @@
 <?php
 
-namespace dummyNamespace\Console;
+namespace dummyNamespace;
 
 use Sun\Console\Command;
 use Sun\Contracts\Application;
@@ -12,7 +12,7 @@ class dummyConsoleCommandName extends Command
     /**
      * @var string Command name
      */
-    protected $name = 'Your command name';
+    protected $name = 'command:name';
 
     /**
      * @var string Command description

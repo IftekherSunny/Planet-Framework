@@ -2,6 +2,7 @@
 
 namespace Sun\Console\Commands;
 
+use Sun\Support\Str;
 use Sun\Console\Command;
 use Sun\Contracts\Application;
 use Sun\Contracts\Filesystem\Filesystem;
@@ -41,10 +42,13 @@ class MakeCommand extends Command
      */
     public function handle()
     {
+        // generate command class
         $commandName  = $this->input->getArgument('name');
 
+        $commandNamespace = $this->getNamespace('Commands', $commandName);
+
         $commandStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeCommand.txt');
-        $commandStubs = str_replace([ 'dummyCommandName', 'dummyNamespace', '\\\\' ], [ $commandName, $this->app->getNamespace(), '\\' ], $commandStubs);
+        $commandStubs = str_replace([ 'dummyCommandName', 'dummyNamespace', '\\\\' ], [ basename($commandName), $commandNamespace, '\\' ], $commandStubs);
 
         if(!file_exists($filename = app_path() ."/Commands/{$commandName}Command.php")) {
             $this->filesystem->create($filename, $commandStubs);
@@ -53,11 +57,19 @@ class MakeCommand extends Command
             $this->info("{$commandName} command already exists.");
         }
 
-        $commandHanderStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeCommand-handler.txt');
-        $commandHanderStubs = str_replace([ 'dummyCommandName', 'dummyNamespace', '\\\\' ], [ $commandName, $this->app->getNamespace(), '\\' ], $commandHanderStubs);
+        // generate command handler class
+        $commandHandlerNamespace = $this->getNamespace('Handlers', $commandName);
+        $commandClassName = basename($commandName);
+        $commandHandlerUse = "{$commandNamespace}\\{$commandClassName}";
+
+        $commandHandlerStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeCommand-handler.txt');
+        $commandHandlerStubs = str_replace(
+            [ 'dummyCommandName', 'dummyNamespace', 'dummyUse', '\\\\' ],
+            [ basename($commandName), $commandHandlerNamespace, $commandHandlerUse, '\\' ], $commandHandlerStubs
+        );
 
         if(!file_exists($filename = app_path() ."/Handlers/{$commandName}CommandHandler.php")) {
-            $this->filesystem->create($filename, $commandHanderStubs);
+            $this->filesystem->create($filename, $commandHandlerStubs);
             $this->info("{$commandName} handler has been created successfully.");
         } else {
             $this->info("{$commandName} handler already exists.");

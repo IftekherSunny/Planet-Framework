@@ -1,6 +1,6 @@
 <?php
 
-namespace dummyNamespace\Controllers;
+namespace dummyNamespace;
 
 class dummyControllerNameController extends Controller
 {

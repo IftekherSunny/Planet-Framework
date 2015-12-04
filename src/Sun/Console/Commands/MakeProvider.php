@@ -41,31 +41,19 @@ class MakeProvider extends Command
      */
     public function handle()
     {
-        $providerName = $this->input->getArgument('name');
+        $providerName  = $this->input->getArgument('name');
 
-        $providerNamespace  = explode('/', $providerName);
-
-        $providerClassName = array_pop($providerNamespace);
-
-        $providerNamespace = implode('/', $providerNamespace);
+        $providerNamespace = $this->getNamespace(null, $providerName);
 
         $providerStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeProvider.txt');
 
-        if(empty($providerNamespace = str_replace('/', '\\', $providerNamespace))) {
-            $providerStubs = str_replace([ 'dummyProviderName', 'dummyNamespace', '\\\\' ], [ $providerClassName, str_replace('\\', '', $this->app->getNamespace()), '\\' ], $providerStubs);
-        } else {
-            $providerStubs = str_replace([ 'dummyProviderName', 'dummyNamespace', '\\\\' ], [ $providerClassName, $this->app->getNamespace() . str_replace('/', '\\', $providerNamespace), '\\' ], $providerStubs);
-        }
+        $providerStubs = str_replace([ 'dummyFilterName', 'dummyNamespace', '\\\\' ], [ basename($providerName), $providerNamespace, '\\' ], $providerStubs);
 
         if(!file_exists($filename = app_path() ."/{$providerName}.php")) {
-
-            list($folder, $filename) = $this->getLocation($providerName);
-
-            $this->createFile($folder, $filename, $providerStubs);
-
-            $this->info("{$providerName} has been created successfully.");
+            $this->filesystem->create($filename, $providerStubs);
+            $this->info("{$providerName} provider has been created successfully.");
         } else {
-            $this->info("{$providerName} already exists.");
+            $this->info("{$providerName} provider already exists.");
         }
     }
 

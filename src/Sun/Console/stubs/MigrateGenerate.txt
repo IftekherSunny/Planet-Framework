@@ -1,6 +1,6 @@
 <?php
 
-use Phpmig\Migration\Migration;
+use Sun\Database\Migration;
 
 class %s extends Migration
 {

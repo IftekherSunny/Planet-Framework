@@ -42,6 +42,9 @@ class MakeController extends Command
     public function handle()
     {
         $controllerName = $this->input->getArgument('name');
+
+        $controllerNamespace = $this->getNamespace('Controllers', $controllerName);
+
         $isPlain = $this->input->getOption('plain');
         $isResource = $this->input->getOption('resource');
 
@@ -53,7 +56,7 @@ class MakeController extends Command
             $controllerStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeController.txt');
         }
 
-        $controllerStubs = str_replace([ 'dummyControllerName', 'dummyNamespace', '\\\\' ], [ $controllerName, $this->app->getNamespace(), '\\' ], $controllerStubs);
+        $controllerStubs = str_replace([ 'dummyControllerName', 'dummyNamespace', '\\\\' ], [ basename($controllerName), $controllerNamespace, '\\' ], $controllerStubs);
 
         if(!file_exists($filename = app_path() ."/Controllers/{$controllerName}Controller.php")) {
             $this->filesystem->create($filename, $controllerStubs);

@@ -1,8 +1,8 @@
 <?php
 
-namespace dummyNamespace\Handlers;
+namespace dummyNamespace;
 
-use dummyNamespace\Commands\dummyCommandNameCommand;
+use dummyUseCommand;
 
 class dummyCommandNameCommandHandler
 {
