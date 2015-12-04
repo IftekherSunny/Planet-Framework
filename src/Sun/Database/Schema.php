@@ -32,7 +32,7 @@ class Schema
         });
 
         $this->app->bind('phpmig.migrations_path', function() {
-            return base_path() . DIRECTORY_SEPARATOR . 'migrations';
+            return $this->app->migrations_path();
         });
 
         $this->app->bind('phpmig.migrations_template_path', function() {

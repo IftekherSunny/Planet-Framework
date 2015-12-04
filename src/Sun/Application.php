@@ -321,6 +321,16 @@ class Application extends Container implements ApplicationContract
     }
 
     /**
+     * To get application migrations directory path
+     *
+     * @return string
+     */
+    public function migrations_path()
+    {
+        return $this->base_path() . DIRECTORY_SEPARATOR . 'migrations';
+    }
+
+    /**
      * To get application public directory path
      *
      * @return string

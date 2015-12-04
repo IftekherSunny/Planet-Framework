@@ -115,6 +115,13 @@ interface Application
     public function storage_path();
 
     /**
+     * To get application migrations directory path
+     *
+     * @return string
+     */
+    public function migrations_path();
+
+    /**
      * To get application public directory path
      *
      * @return string

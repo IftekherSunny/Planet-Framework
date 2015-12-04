@@ -66,6 +66,18 @@ if(!function_exists('storage_path')) {
     }
 }
 
+if(!function_exists('migrations_path')) {
+    /**
+     * To get migrations directory path
+     *
+     * @return mixed
+     */
+    function migrations_path()
+    {
+        return app()->migrations_path();
+    }
+}
+
 if(!function_exists('public_path')) {
     /**
      * To get public directory path
