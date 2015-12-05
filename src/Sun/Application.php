@@ -271,7 +271,7 @@ class Application extends Container implements ApplicationContract
 
         $data = $this->route->dispatch($httpMethod, $uri);
 
-        $this->make('Sun\Contracts\Event\Event')->dispatch();
+        $this->make('Sun\Bootstrap\Provider')->dispatch();
 
         $this->make('Sun\Contracts\Http\Response')->html($data);
     }
@@ -467,8 +467,6 @@ class Application extends Container implements ApplicationContract
         $this->make('Sun\Bootstrap\HandleExceptions')->bootstrap();
 
         $this->make('Sun\Bootstrap\Route')->bootstrap();
-
-        $this->make('Sun\Bootstrap\Event')->bootstrap();
 
         $this->make('Sun\Bootstrap\Provider')->bootstrap();
 

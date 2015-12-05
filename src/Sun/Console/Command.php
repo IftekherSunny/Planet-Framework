@@ -278,7 +278,7 @@ abstract class Command extends SymfonyCommand
     protected function getNamespace($directory = null, $name)
     {
         if (is_null($directory)) {
-            $namespace = str_replace('\\', '', $this->app->getNamespace());
+            $namespace = $this->app->getNamespace() . "\\" . str_replace('/', '\\', dirname($name));
 
             return $namespace;
         } elseif (($name = str_replace('/', '\\', dirname($name))) !== ".") {

@@ -47,7 +47,7 @@ class MakeProvider extends Command
 
         $providerStubs = $this->filesystem->get(__DIR__.'/../stubs/MakeProvider.txt');
 
-        $providerStubs = str_replace([ 'dummyFilterName', 'dummyNamespace', '\\\\' ], [ basename($providerName), $providerNamespace, '\\' ], $providerStubs);
+        $providerStubs = str_replace([ 'dummyProviderName', 'dummyNamespace', '\\\\' ], [ basename($providerName), $providerNamespace, '\\' ], $providerStubs);
 
         if(!file_exists($filename = app_path() ."/{$providerName}.php")) {
             $this->filesystem->create($filename, $providerStubs);

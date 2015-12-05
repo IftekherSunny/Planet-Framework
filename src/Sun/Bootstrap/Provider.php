@@ -44,7 +44,7 @@ class Provider
     }
 
     /**
-     * Register route
+     * Register service provider routes
      */
     public function registerRoute()
     {
@@ -54,6 +54,18 @@ class Provider
                 $routes = $this->app->make($service)->registerRoute();
 
                 $this->requiredRoute($routes);
+            }
+        }
+    }
+
+    /**
+     * Dispatch services
+     */
+    public function dispatch()
+    {
+        if(!is_null($services = $this->services)) {
+            foreach($services as $service) {
+                $this->app->make($service)->dispatch();
             }
         }
     }
