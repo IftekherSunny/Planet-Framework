@@ -9,6 +9,11 @@ use Sun\Contracts\Session\Session as SessionContract;
 class Session implements SessionContract
 {
     /**
+     * @var \Sun\Contracts\Application
+     */
+    protected $app;
+
+    /**
      * @var \Sun\Contracts\Security\Encrypter
      */
     protected $encrypter;
@@ -33,10 +38,14 @@ class Session implements SessionContract
      */
     public function __construct(Application $app, Encrypter $encrypter)
     {
+        $this->app = $app;
         $this->expireOnClose = $app->config->getSession('expire_on_close')?: false;
         $this->expireTime = $app->config->getSession('expire_time')?: 0;
         $this->encrypter = $encrypter;
-        $this->startSession();
+
+        if($this->app->config('session.enable')) {
+            $this->startSession();
+        }
     }
 
     /**
@@ -64,10 +73,13 @@ class Session implements SessionContract
      */
     public function create($name, $value = '')
     {
-        $_SESSION[$name] = $this->encrypter->encrypt($value);
+        if($this->app->config('session.encryption')) {
+            $_SESSION[$name] = $this->encrypter->encrypt($value);
+        } else {
+            $_SESSION[$name] = $value;
+        }
 
         if (isset($_SESSION[$name])) {
-
             return true;
         }
 
@@ -85,14 +97,18 @@ class Session implements SessionContract
     public function get($name, $value = '')
     {
         if ($this->has($name)) {
-
-            return $_SESSION[$name] ? $this->encrypter->decrypt($_SESSION[$name]) : $value;
+            if($this->app->config('session.encryption')) {
+                return $_SESSION[$name] ? $this->encrypter->decrypt($_SESSION[$name]) : $value;
+            } else {
+                return $_SESSION[$name] ? $_SESSION[$name] : $value;
+            }
         }
 
         if (!empty($value)) {
-
             return $value;
         }
+
+        return null;
     }
 
     /**
@@ -107,7 +123,6 @@ class Session implements SessionContract
         unset($_SESSION[$name]);
 
         if (!isset($_SESSION[$name])) {
-
             return true;
         }
 
@@ -124,7 +139,6 @@ class Session implements SessionContract
     public function has($name)
     {
         if (isset($_SESSION[$name])) {
-
             return true;
         }
 
@@ -157,11 +171,11 @@ class Session implements SessionContract
      */
     public function push($name, $value)
     {
-        $decryptData = $this->get($name, []);
+        $previousValue = $this->get($name, []);
 
-        $decryptData[] = $value;
+        $previousValue[] = $value;
 
-        return $this->create($name, $decryptData);
+        return $this->create($name, $previousValue);
     }
 
     /**
@@ -173,13 +187,13 @@ class Session implements SessionContract
      */
     public function pop($name)
     {
-        $decryptData = $this->get($name);
+        $previousValue = $this->get($name);
 
-        $data = array_pop($decryptData);
+        $value = array_pop($previousValue);
 
-        $this->create($name, $decryptData);
+        $this->create($name, $previousValue);
 
-        return $data;
+        return $value;
     }
 
     /**
@@ -191,13 +205,13 @@ class Session implements SessionContract
      */
     public function shift($name)
     {
-        $decryptData = $this->get($name);
+        $previousValue = $this->get($name);
 
-        $data = array_shift($decryptData);
+        $value = array_shift($previousValue);
 
-        $this->create($name, $decryptData);
+        $this->create($name, $previousValue);
 
-        return $data;
+        return $value;
     }
 
     /**

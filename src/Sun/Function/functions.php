@@ -22,7 +22,7 @@ if(!function_exists('app_path')) {
     /**
      * To get App directory path
      *
-     * @return mixed
+     * @return string
      */
     function app_path()
     {
@@ -34,7 +34,7 @@ if(!function_exists('base_path')) {
     /**
      * To get base directory path
      *
-     * @return mixed
+     * @return string
      */
     function base_path()
     {
@@ -46,7 +46,7 @@ if(!function_exists('config_path')) {
     /**
      * To get config directory path
      *
-     * @return mixed
+     * @return string
      */
     function config_path()
     {
@@ -58,7 +58,7 @@ if(!function_exists('storage_path')) {
     /**
      * To get storage directory path
      *
-     * @return mixed
+     * @return string
      */
     function storage_path()
     {
@@ -70,7 +70,7 @@ if(!function_exists('migrations_path')) {
     /**
      * To get migrations directory path
      *
-     * @return mixed
+     * @return string
      */
     function migrations_path()
     {
@@ -82,7 +82,7 @@ if(!function_exists('public_path')) {
     /**
      * To get public directory path
      *
-     * @return mixed
+     * @return string
      */
     function public_path()
     {
@@ -94,7 +94,7 @@ if (!function_exists('csrf_token')) {
     /**
      * To get csrf token
      *
-     * @return mixed
+     * @return string
      */
     function csrf_token()
     {
@@ -120,7 +120,7 @@ if (!function_exists('view')) {
     /**
      * To render view
      *
-     * @param       $name
+     * @param string $name
      * @param array $data
      *
      * @return mixed
@@ -135,7 +135,7 @@ if (!function_exists('redirect')) {
     /**
      * To redirect
      *
-     * @return \Sun\Http\Redirect
+     * @return \Sun\Contracts\Http\Redirect
      */
     function redirect()
     {
@@ -147,7 +147,7 @@ if (!function_exists('request')) {
     /**
      * To get request data
      *
-     * @return \Sun\Http\Request
+     * @return \Sun\Contracts\Http\Request
      */
     function request()
     {
@@ -159,7 +159,7 @@ if (!function_exists('response')) {
     /**
      * To response incoming request
      *
-     * @return \Sun\Http\Response
+     * @return \Sun\Contracts\Http\Response
      */
     function response()
     {
@@ -167,11 +167,29 @@ if (!function_exists('response')) {
     }
 }
 
+if (!function_exists('session')) {
+    /**
+     * To get session value
+     *
+     * @param null $name
+     *
+     * @return mixed
+     */
+    function session($name = null)
+    {
+        if(is_null($name)) {
+            return app()->make('Sun\Contracts\Session\Session');
+        }
+
+        return app()->make('Sun\Contracts\Session\Session')->get($name);
+    }
+}
+
 if (!function_exists('validator')) {
     /**
      * To validate form
      *
-     * @return \Sun\Validation\Validator
+     * @return \Sun\Contracts\Validation\Validator
      */
     function validator()
     {
@@ -202,7 +220,7 @@ if(!function_exists('dispatch')) {
     /**
      * To dispatch command
      *
-     * @return \Sun\Bus\Dispatcher
+     * @return \Sun\Contracts\Bus\Dispatcher
      */
     function dispatch()
     {
@@ -216,7 +234,7 @@ if(!function_exists('bcrypt')) {
      *
      * @param $password
      *
-     * @return mixed
+     * @return string
      */
     function bcrypt($password)
     {
@@ -231,7 +249,7 @@ if(!function_exists('bcrypt_verify')) {
      * @param $password
      * @param $hash
      *
-     * @return mixed
+     * @return bool
      */
     function bcrypt_verify($password, $hash)
     {
@@ -245,7 +263,7 @@ if(!function_exists('encrypt')) {
      *
      * @param $data
      *
-     * @return mixed
+     * @return string
      */
     function encrypt($data)
     {

@@ -3,11 +3,17 @@
 namespace Sun\Http;
 
 use Exception;
+use Sun\Contracts\Application;
 use Sun\Contracts\Session\Session;
 use Sun\Contracts\Http\Response as ResponseContract;
 
 class Response implements ResponseContract
 {
+    /**
+     * @var \Sun\Contracts\Application
+     */
+    protected $app;
+
     /**
      * @var \Sun\Contracts\Session\Session
      */
@@ -16,10 +22,13 @@ class Response implements ResponseContract
     /**
      * Create a new response instance
      *
+     * @param \Sun\Contracts\Application
      * @param \Sun\Contracts\Session\Session $session
      */
-    public function __construct(Session $session)
+    public function __construct(Application $app, Session $session)
     {
+        $this->app = $app;
+
         $this->session = $session;
     }
     /**
@@ -35,8 +44,10 @@ class Response implements ResponseContract
             echo $data;
         }
 
-        $this->session->create('previous_uri', $_SERVER['REQUEST_URI']);
-        $this->session->create('planet_oldInput', null);
+        if($this->app->config('session.enable')) {
+            $this->session->create('previous_uri', $_SERVER['REQUEST_URI']);
+            $this->session->create('planet_oldInput', null);
+        }
     }
 
     /**
