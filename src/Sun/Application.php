@@ -220,40 +220,11 @@ class Application extends Container implements ApplicationContract
      */
     public function resource($uri, $controller, array $options = [])
     {
-        if (!empty($options['nested']) === true) {
-            list($uri, $options) = $this->generateNestedUri($uri, $options);
-        }
-
         $this->get($uri, "$controller@index", $options);
         $this->post($uri, "$controller@store", $options);
         $this->get("$uri/{placeholder}", "$controller@show", $options);
         $this->put("$uri/{placeholder}", "$controller@update", $options);
         $this->delete("$uri/{placeholder}", "$controller@delete", $options);
-    }
-
-    /**
-     * To generate nested uri
-     *
-     * @param string $uri
-     * @param string $options
-     *
-     * @return array
-     */
-    private function generateNestedUri($uri, $options)
-    {
-        $base = '/';
-
-        $patterns = explode('/', trim($uri, '/'));
-
-        $uri = array_pop($patterns);
-
-        foreach ($patterns as $pattern) {
-            $base .= "$pattern/{{$pattern}}/";
-        }
-
-        $uri = $base . $uri;
-
-        return [$uri, $options];
     }
 
     /**
@@ -265,7 +236,7 @@ class Application extends Container implements ApplicationContract
 
         $this->route->register();
 
-        $httpMethod = $_SERVER['REQUEST_METHOD'];
+        $httpMethod = $this->make('Sun\Contracts\Http\Request')->method();
 
         $uri = $this->make('Sun\Contracts\Routing\UrlGenerator')->getUri();
 

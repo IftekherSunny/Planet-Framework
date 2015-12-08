@@ -38,25 +38,7 @@ class Request implements RequestContract
      */
     public function method()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            return 'POST';
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            return 'GET';
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
-            return 'PUT';
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'PATCH') {
-            return 'PATCH';
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
-            return 'DELETE';
-        }
+      return $_SERVER['REQUEST_METHOD'];
     }
 
     /**

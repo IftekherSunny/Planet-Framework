@@ -43,12 +43,12 @@ class Config implements ConfigContract
         $this->app = $app;
 
         if(!count($this->settings)) {
-            $dotenv = new Dotenv(base_path());
-            $dotenv->overload();
-
             if (file_exists($config = $this->app->configurationCacheFilePath())) {
                 $this->settings = require($config);
             } else {
+                $dotenv = new Dotenv(base_path());
+                $dotenv->overload();
+
                 $this->load(config_path());
             }
         }
