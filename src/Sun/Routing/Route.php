@@ -20,35 +20,35 @@ class Route implements RouteContract
      *
      * @var array
      */
-    protected $uri = array();
+    protected $uri = [];
 
     /**
      * Route pattern
      *
      * @var array
      */
-    protected $pattern = array();
+    protected $pattern = [];
 
     /**
      * Route method
      *
      * @var array
      */
-    protected $method = array();
+    protected $method = [];
 
     /**
      * Route params
      *
      * @var array
      */
-    protected $params = array();
+    protected $params = [];
 
     /**
      * Route filter
      *
      * @var array
      */
-    protected $filter = array();
+    protected $filter = [];
 
     /**
      * Application Container
