@@ -14,7 +14,7 @@ class Application extends Container implements ApplicationContract
     const VERSION = 'v1.0-beta.5';
 
     /**
-     * @var \Sun\Routing\Route
+     * @var \Sun\Contracts\Routing\Route
      */
     protected $route;
 
