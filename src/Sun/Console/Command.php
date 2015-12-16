@@ -269,7 +269,7 @@ abstract class Command extends SymfonyCommand
         }
     }
 
-    /**
+   /**
      * @param string $directory
      * @param string $name
      *
@@ -278,11 +278,17 @@ abstract class Command extends SymfonyCommand
     protected function getNamespace($directory = null, $name)
     {
         if (is_null($directory)) {
-            $namespace = $this->app->getNamespace() . "\\" . str_replace('/', '\\', dirname($name));
 
-            return $namespace;
-        } elseif (($name = str_replace('/', '\\', dirname($name))) !== ".") {
-            $namespace = $this->app->getNamespace() . "\\{$directory}\\" . $name;
+            $directory = $this->generateDirName($name);
+
+            if($directory === false) {
+                return str_replace('\\', '', $this->app->getNamespace());
+            } else {
+                return $this->app->getNamespace() . "\\" . $directory;
+            }
+
+        } elseif (($path = $this->generateDirName($name)) !== false) {
+            $namespace = $this->app->getNamespace() . "\\{$directory}\\" . $path;
 
             return $namespace;
         } else {
@@ -291,4 +297,20 @@ abstract class Command extends SymfonyCommand
             return $namespace;
         }
     }
+
+    /**
+     * Get the directory
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    protected function generateDirName($name)
+    {
+        if(($name = str_replace('/', '\\', dirname($name))) !== ".") {
+            return $name;
+        }
+
+        return false;
+    }  
 }
