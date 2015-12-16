@@ -24,11 +24,14 @@ interface Response
     public function json($data, $status = 200);
 
     /**
-     * To response with download
+     * Http Response to download file
      *
-     * @param string $filepath
+     * @param string $path
+     * @param bool   $removeDownloadedFile
+     *
+     * @throws Exception
      */
-    public function download($filepath);
+    public function download($path, $removeDownloadedFile = false);
 
     /**
      * To show 404 page

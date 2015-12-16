@@ -68,20 +68,30 @@ class Response implements ResponseContract
     }
 
     /**
-     * To response with download
+     * Http Response to download file
      *
-     * @param string $filepath
+     * @param string $path
+     * @param bool   $removeDownloadedFile
+     *
+     * @throws Exception
      */
-    public function download($filepath)
+    public function download($path, $removeDownloadedFile = false)
     {
-        $filename = pathinfo($filepath, PATHINFO_BASENAME );
+        if(!file_exists($path)) {
+            throw new Exception("File [ $path ] not found.");
+        }
+
+        $filename = pathinfo($path, PATHINFO_BASENAME );
 
         header("Content-Description: File Transfer");
         header("Content-Type: application/octet-stream");
         header("Content-Disposition: attachment; filename=\"$filename\"");
 
-        readfile($filepath);
-        exit();
+        @readfile($path);
+
+        if($removeDownloadedFile) {
+            @unlink($path);
+        }
     }
 
     /**
