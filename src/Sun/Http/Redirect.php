@@ -47,6 +47,9 @@ class Redirect implements RedirectContract
     public function to($url, array $values = [])
     {
         $url = $this->urlGenerator->getBaseUri() . $url;
+        
+        $this->session->create('planet_oldInput', []);
+        
         if (count($values)) {
             foreach ($values as $key => $value) {
                 $this->with($key, $value);
