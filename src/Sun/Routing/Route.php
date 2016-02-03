@@ -171,7 +171,9 @@ class Route implements RouteContract
          *  call when pass closure as handler
          **/
         if (is_callable($handler)) {
-            return call_user_func_array($handler, $params);
+            $resolving = $this->container->resolveCallback($handler, $params);
+
+            return call_user_func_array($handler, $resolving);
         }
 
         /**
@@ -202,8 +204,9 @@ class Route implements RouteContract
         try {
             $instance = $this->container->make($controller);
 
-            return call_user_func_array([$instance, $method], $params);
+            $resolving = $this->container->resolveMethod($controller, $method, $params);
 
+            return call_user_func_array([$instance, $method], $resolving);
         } catch (DefinitionException $e) {
             throw new BindingException("Binding Error [ ". $e->getMessage() ." ]");
         }
