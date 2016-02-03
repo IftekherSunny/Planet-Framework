@@ -419,11 +419,11 @@ class Application extends Container implements ApplicationContract
      */
     protected function booting()
     {
-        $this->bootContainer();
-
         $this->setInstance();
 
-        $this->bindObject('Sun\Contracts\Application', $this);
+        $this->bind('Sun\Contracts\Container\Container', $this->getContainer());
+
+        $this->bind('Sun\Contracts\Application', $this);
 
         $this->config = $this->make('Sun\Support\Config');
     }

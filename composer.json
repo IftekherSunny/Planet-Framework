@@ -18,7 +18,6 @@
       "monolog/monolog": "~1.16",
       "nesbot/carbon": "~1",
       "nikic/fast-route": "^0.6.0",
-      "php-di/php-di": "^5.0",
       "phpmailer/phpmailer": "5.2.9",
       "psr/log": "~1.0",
       "symfony/console": "~2",

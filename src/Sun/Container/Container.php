@@ -2,76 +2,205 @@
 
 namespace Sun\Container;
 
+use Closure;
+use Exception;
 use ArrayAccess;
-use DI\ContainerBuilder;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionFunction;
 use Sun\Contracts\Container\Container as ContainerContract;
 
 class Container implements ContainerContract, ArrayAccess
 {
     /**
-     * @var \DI\Container
-     */
-    protected $container;
-
-    /**
-     * To boot DI Container
-     */
-    public function bootContainer()
-    {
-        if(empty($this->container)) {
-            $this->container = ContainerBuilder::buildDevContainer();
-            $this->bindObject('Sun\Contracts\Container\Container', $this);
-        }
-    }
-
-    /**
-     * To get Container
+     * Array of all resolved types.
      *
-     * @return \DI\Container
+     * @var array
      */
-    public function getContainer()
-    {
-        return $this->container;
-    }
+    protected $resolved;
 
     /**
-     * To bind class with interface
+     * Array of all registered type hints.
      *
-     * @param $contract
-     * @param $implementation
+     * @var array
      */
-    public function bind($contract, $implementation)
+    protected $aliases;
+
+    /**
+     * Resolved dependencies for a key.
+     *
+     * @param string $key
+     * @param array  $params
+     *
+     * @return object
+     * @throws Exception
+     */
+    public function make($key, $params = [])
     {
-        if(is_string($implementation)) {
-          $this->container->set($contract, \DI\object($implementation));
+        if(isset($this->aliases[$key])) {
+            return $this->make($this->aliases[$key], $params);
         }
 
-        if(is_callable($implementation) || is_object($implementation)) {
-          $this->container->set($contract, $implementation);
+        if(is_callable($key)) {
+            return call_user_func_array($key, $this->resolveCallback($key, $params));
         }
+
+        return $this->resolveClass($key, $params);
     }
 
     /**
-     * To bind object with interface
+     * Get the resolved type for a key that already resolved by the container.
+     * If the key does not resolve, at first resolved it,
+     * then returns the resolved type.
      *
-     * @param $contract
-     * @param $object
-     */
-    public function bindObject($contract, $object)
-    {
-        $this->container->set($contract, $object);
-    }
-
-    /**
-     * To inject all dependencies of a given class
-     *
-     * @param $class
+     * @param string $key
      *
      * @return mixed
      */
-    public function make($class)
+    public function need($key)
     {
-        return $this->container->get($class);
+        if(!isset($this->resolved[$key])) {
+            return $this->make($key);
+        }
+
+        return $this->resolved[$key];
+    }
+
+    /**
+     * Bind a value for a key.
+     *
+     * @param string                 $key
+     * @param string|callback|object $value
+     *
+     * @throws Exception
+     */
+    public function bind($key, $value)
+    {
+        if(is_callable($value)) {
+            $this->aliases[$key] = $value;
+        } else if(is_object($value)) {
+            $this->resolved[$key]  = $value;
+        } else {
+            if(class_exists($value)) $this->aliases[$key] =  $value;
+            else throw new Exception("Class [ $value ] does not exists.");
+        }
+    }
+
+
+    /**
+     * Resolve dependencies for a callback.
+     *
+     * @param Closure $callback
+     * @param array   $params
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function resolveCallback(Closure $callback, $params = [])
+    {
+        $reflectionParameter = new ReflectionFunction($callback);
+
+        $dependencies = $reflectionParameter->getParameters();
+
+        return $this->getDependencies($dependencies, $params);
+    }
+
+    /**
+     * Resolve dependencies for a method.
+     *
+     * @param string $class
+     * @param string $method
+     * @param array  $params
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function resolveMethod($class, $method, $params = [])
+    {
+        $reflectionMethod = new ReflectionMethod($class, $method);
+
+        $dependencies = $reflectionMethod->getParameters();
+
+        return $this->getDependencies($dependencies, $params);
+    }
+
+    /**
+     * Resolve dependencies for a class.
+     *
+     * @param string $name
+     * @param array $params
+     *
+     * @return object
+     * @throws Exception
+     */
+    public function resolveClass($name, $params = [])
+    {
+        $reflectionClass = new ReflectionClass($name);
+
+        if (!$reflectionClass->isInstantiable()) {
+            throw new Exception("The [ {$name} ] is not instantiable.");
+        }
+
+        $constructor = $reflectionClass->getConstructor();
+
+        if (!is_null($constructor)) {
+            $dependencies = $constructor->getParameters();
+
+            $resolving = $this->getDependencies($dependencies, $params);
+
+            return $this->resolved[$name] = $reflectionClass->newInstanceArgs($resolving);
+        }
+
+        return $this->resolved[$name] = new $name;
+    }
+
+    /**
+     * Get all required dependencies.
+     *
+     * @param string $dependencies
+     * @param array  $params
+     *
+     * @return array
+     * @throws Exception
+     */
+    protected function getDependencies($dependencies, $params = [])
+    {
+        $resolving = [];
+
+        foreach ($dependencies as $dependency) {
+            if ($dependency->isDefaultValueAvailable()) {
+                $resolving[] = $dependency->getDefaultValue();
+            } else if(isset($params[$dependency->name])) {
+                $resolving[] = $params[$dependency->name];
+            } else {
+                if ($dependency->getClass() === null) {
+                    throw new Exception("The [ $" . "{$dependency->name} ] is not instantiable.");
+                }
+
+                $className = $dependency->getClass()->name;
+
+                if (!isset($this->resolved[$className])) {
+                    $this->resolved[$className] = $this->make($className);
+                    $resolving[] = $this->resolved[$className];
+                } else {
+                    $resolving[] = $this->resolved[$className];
+                }
+            }
+        }
+
+        return $resolving;
+    }
+
+    /**
+     * Check a key is already exists.
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function has($key)
+    {
+        return isset($this->resolved[$key]);
     }
 
     /**
@@ -81,7 +210,7 @@ class Container implements ContainerContract, ArrayAccess
      */
     public function offsetExists($key)
     {
-        return $this->container->has($key);
+        return $this->has($key);
     }
 
     /**
@@ -91,8 +220,9 @@ class Container implements ContainerContract, ArrayAccess
      */
     public function offsetGet($key)
     {
-       return $this->make($key);
+        return $this->make($key);
     }
+
 
     /**
      * @param mixed $key
@@ -108,6 +238,16 @@ class Container implements ContainerContract, ArrayAccess
      */
     public function offsetUnset($key)
     {
-        $this->container->set($key, null);
+        unset($this->resolved[$key]);
+    }
+
+    /**
+     * To get Container
+     *
+     * @return \Sun\Container\Container
+     */
+    public function getContainer()
+    {
+        return $this;
     }
 }

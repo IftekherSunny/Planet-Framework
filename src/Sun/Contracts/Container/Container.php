@@ -2,44 +2,84 @@
 
 namespace Sun\Contracts\Container;
 
+use Closure;
+
 interface Container
 {
     /**
-     * To boot DI Container
+     * Resolved dependencies for a key.
+     *
+     * @param string $key
+     * @param array  $params
+     *
+     * @return object
+     * @throws Exception
      */
-    public function bootContainer();
+    public function make($key, $params = []);
 
     /**
-     * To get Container
+     * Get the resolved type for a key that already resolved by the container.
+     * If the key does not resolve, at first resolved it,
+     * then returns the resolved type.
      *
-     * @return \DI\Container
-     */
-    public function getContainer();
-
-    /**
-     * To bind class with interface
-     *
-     * @param $contract
-     * @param $implementation
-     */
-    public function bind($contract, $implementation);
-
-    /**
-     * To bind object with interface
-     *
-     * @param $contract
-     * @param $object
-     */
-    public function bindObject($contract, $object);
-
-    /**
-     * To inject all dependencies of a given class
-     *
-     * @param $class
+     * @param string $key
      *
      * @return mixed
      */
-    public function make($class);
+    public function need($key);
+
+    /**
+     * Bind a value for a key.
+     *
+     * @param string                 $key
+     * @param string|callback|object $value
+     *
+     * @throws Exception
+     */
+    public function bind($key, $value);
+
+    /**
+     * Resolve dependencies for a callback.
+     *
+     * @param Closure $callback
+     * @param array   $params
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function resolveCallback(Closure $callback, $params = []);
+
+    /**
+     * Resolve dependencies for a method.
+     *
+     * @param string $class
+     * @param string $method
+     * @param array  $params
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function resolveMethod($class, $method, $params = []);
+
+    /**
+     * Resolve dependencies for a class.
+     *
+     * @param string $name
+     * @param array $params
+     *
+     * @return object
+     * @throws Exception
+     */
+    public function resolveClass($name, $params = []);
+
+    /**
+     * Check a key is already exists.
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function has($key);
 
     /**
      * @param mixed $key
@@ -65,4 +105,11 @@ interface Container
      * @param mixed $key
      */
     public function offsetUnset($key);
+
+    /**
+     * To get Container
+     *
+     * @return \Sun\Container\Container
+     */
+    public function getContainer();
 }
