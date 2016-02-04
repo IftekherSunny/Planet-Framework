@@ -1,0 +1,16 @@
+<?php
+
+namespace dummyNamespace;
+
+use Sun\Validation\Form\Request ;
+
+class dummyFilterName extends Request
+{
+    protected function rules()
+    {
+        return [
+            'email' => 'required',
+            'password' => 'required'
+        ];
+    }
+}

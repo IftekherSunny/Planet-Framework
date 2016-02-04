@@ -8,6 +8,7 @@ use FastRoute\RouteParser\Std;
 use Sun\Contracts\Http\Request;
 use Sun\Contracts\Http\Response;
 use Sun\Contracts\Container\Container;
+use Sun\Validation\Form\Request as FormRequest;
 use DI\Definition\Exception\DefinitionException;
 use Sun\Contracts\Routing\Route as RouteContract;
 use FastRoute\Dispatcher\GroupCountBased as Dispatcher;
@@ -173,6 +174,8 @@ class Route implements RouteContract
         if (is_callable($handler)) {
             $resolving = $this->container->resolveCallback($handler, $params);
 
+            $this->validateForm($resolving);
+
             return call_user_func_array($handler, $resolving);
         }
 
@@ -205,6 +208,8 @@ class Route implements RouteContract
             $instance = $this->container->make($controller);
 
             $resolving = $this->container->resolveMethod($controller, $method, $params);
+
+            $this->validateForm($resolving);
 
             return call_user_func_array([$instance, $method], $resolving);
         } catch (DefinitionException $e) {
@@ -260,5 +265,19 @@ class Route implements RouteContract
         $params = array_map('trim', explode(',', $pattern[1]));
 
         return [$className, $params];
+    }
+
+    /**
+     * Validate requested form.
+     *
+     * @param array $classes
+     */
+    protected function validateForm($classes)
+    {
+        foreach($classes as $class) {
+            if($class instanceof FormRequest) {
+                $class->validate();
+            }
+        }
     }
 }

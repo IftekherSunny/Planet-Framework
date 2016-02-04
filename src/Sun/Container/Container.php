@@ -82,7 +82,7 @@ class Container implements ContainerContract, ArrayAccess
             $this->resolved[$key]  = $value;
         } else {
             if(class_exists($value)) $this->aliases[$key] =  $value;
-            else throw new Exception("Class [ $value ] does not exists.");
+            else throw new Exception("Class [ $value ] does not exist.");
         }
     }
 
@@ -226,11 +226,11 @@ class Container implements ContainerContract, ArrayAccess
 
     /**
      * @param mixed $key
-     * @param mixed $implementation
+     * @param mixed $value
      */
-    public function offsetSet($key, $implementation)
+    public function offsetSet($key, $value)
     {
-        $this->bind($key, $implementation);
+        $this->bind($key, $value);
     }
 
     /**
