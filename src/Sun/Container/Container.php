@@ -17,14 +17,14 @@ class Container implements ContainerContract, ArrayAccess
      *
      * @var array
      */
-    protected $resolved;
+    protected $resolved = [];
 
     /**
      * Array of all registered type hints.
      *
      * @var array
      */
-    protected $aliases;
+    protected $aliases = [];
 
     /**
      * Resolved dependencies for a key.
@@ -37,7 +37,7 @@ class Container implements ContainerContract, ArrayAccess
      */
     public function make($key, $params = [])
     {
-        if(isset($this->aliases[$key])) {
+        if(gettype($key) === 'string' && array_key_exists($key, $this->aliases)) {
             return $this->make($this->aliases[$key], $params);
         }
 
@@ -200,7 +200,11 @@ class Container implements ContainerContract, ArrayAccess
      */
     public function has($key)
     {
-        return isset($this->resolved[$key]);
+        if(array_key_exists($key, $this->aliases) || array_key_exists($key, $this->resolved)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -220,6 +224,10 @@ class Container implements ContainerContract, ArrayAccess
      */
     public function offsetGet($key)
     {
+        if(array_key_exists($key, $this->resolved)) {
+            return $this->resolved[$key];
+        }
+
         return $this->make($key);
     }
 
@@ -230,7 +238,7 @@ class Container implements ContainerContract, ArrayAccess
      */
     public function offsetSet($key, $value)
     {
-        $this->bind($key, $value);
+        $this->resolved[$key] = $value;
     }
 
     /**
@@ -238,7 +246,11 @@ class Container implements ContainerContract, ArrayAccess
      */
     public function offsetUnset($key)
     {
-        unset($this->resolved[$key]);
+        if(array_key_exists($key, $this->aliases)) {
+            unset($this->aliases[$key]);
+        } else {
+            unset($this->resolved[$key]);
+        }
     }
 
     /**
