@@ -37,7 +37,7 @@ class Container implements ContainerContract, ArrayAccess
      */
     public function make($key, $params = [])
     {
-        if(gettype($key) === 'string' && array_key_exists($key, $this->aliases)) {
+        if($this->aliasExist($key)) {
             return $this->make($this->aliases[$key], $params);
         }
 
@@ -78,7 +78,7 @@ class Container implements ContainerContract, ArrayAccess
     {
         if(is_callable($value)) {
             $this->aliases[$key] = $value;
-        } else if(is_object($value)) {
+        } elseif(is_object($value)) {
             $this->resolved[$key]  = $value;
         } else {
             if(class_exists($value)) $this->aliases[$key] =  $value;
@@ -170,7 +170,7 @@ class Container implements ContainerContract, ArrayAccess
         foreach ($dependencies as $dependency) {
             if ($dependency->isDefaultValueAvailable()) {
                 $resolving[] = $dependency->getDefaultValue();
-            } else if(isset($params[$dependency->name])) {
+            } elseif(isset($params[$dependency->name])) {
                 $resolving[] = $params[$dependency->name];
             } else {
                 if ($dependency->getClass() === null) {
@@ -261,5 +261,17 @@ class Container implements ContainerContract, ArrayAccess
     public function getContainer()
     {
         return $this;
+    }
+
+    /**
+     * Check alias existence.
+     *
+     * @param $key
+     *
+     * @return bool
+     */
+    protected function aliasExist($key)
+    {
+        return gettype($key) === 'string' && array_key_exists($key, $this->aliases);
     }
 }
