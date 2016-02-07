@@ -3,12 +3,18 @@
 namespace Sun\Validation;
 
 use Violin\Violin;
+use Sun\Contracts\Application;
 use Sun\Contracts\Security\Hash;
 use Sun\Contracts\Session\Session;
 use Sun\Contracts\Validation\Validator as ValidatorContract;
 
 class Validator extends Violin implements ValidatorContract
 {
+    /**
+     * @var \Sun\Contracts\Application
+     */
+    protected $app;
+
     /**
      * @var \Sun\Contracts\Session\Session
      */
@@ -20,11 +26,14 @@ class Validator extends Violin implements ValidatorContract
     protected $hash;
 
     /**
-     * @param \Sun\Contracts\Session\Session   $session
-     * @param \Sun\Contracts\Security\Hash $hash
+     * @param \Sun\Contracts\Application     $app
+     * @param \Sun\Contracts\Session\Session $session
+     * @param \Sun\Contracts\Security\Hash   $hash
      */
-    public function __construct(Session $session, Hash $hash)
+    public function __construct(Application $app, Session $session, Hash $hash)
     {
+        $this->app = $app;
+
         $this->session = $session;
 
         $this->hash = $hash;
@@ -46,13 +55,13 @@ class Validator extends Violin implements ValidatorContract
      */
     public function validate_unique($value, $input, $args)
     {
-        $userModel = config('auth.model');
+        $result = $this->app->db->table(array_shift($args));
 
-        $user = $userModel::where($args[0],'=',$value)->first();
+        foreach($args as $arg) {
+            $result->where($arg, '=', $value);
+        }
 
-
-        if($user) {
-
+        if($result->first()) {
             return false;
         }
 
