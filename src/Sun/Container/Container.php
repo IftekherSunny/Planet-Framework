@@ -148,10 +148,14 @@ class Container implements ContainerContract, ArrayAccess
 
             $resolving = $this->getDependencies($dependencies, $params);
 
-            return $this->resolved[$name] = $reflectionClass->newInstanceArgs($resolving);
+            $instance = $reflectionClass->newInstanceArgs($resolving);
+
+            return $this->resolved[$name] = $this->getInstanceWithAppProperty($instance);
         }
 
-        return $this->resolved[$name] = new $name;
+        $instance = new $name;
+
+        return $this->resolved[$name] = $this->getInstanceWithAppProperty($instance);
     }
 
     /**
@@ -208,6 +212,34 @@ class Container implements ContainerContract, ArrayAccess
     }
 
     /**
+     * Check alias existence.
+     *
+     * @param $key
+     *
+     * @return bool
+     */
+    protected function aliasExist($key)
+    {
+        return gettype($key) === 'string' && array_key_exists($key, $this->aliases);
+    }
+
+    /**
+     * Get instance with app property.
+     *
+     * @param $instance
+     *
+     * @return object
+     */
+    protected function getInstanceWithAppProperty($instance)
+    {
+        if(!property_exists($instance, 'app')) {
+            $instance->app = $this;
+        }
+
+        return $instance;
+    }
+
+    /**
      * @param mixed $key
      *
      * @return mixed
@@ -261,17 +293,5 @@ class Container implements ContainerContract, ArrayAccess
     public function getContainer()
     {
         return $this;
-    }
-
-    /**
-     * Check alias existence.
-     *
-     * @param $key
-     *
-     * @return bool
-     */
-    protected function aliasExist($key)
-    {
-        return gettype($key) === 'string' && array_key_exists($key, $this->aliases);
     }
 }
