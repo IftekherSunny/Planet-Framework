@@ -64,4 +64,11 @@ interface Response
      * @return \Sun\Http\Response
      */
     public function header($message);
+
+    /**
+     * Send HTTP content
+     *
+     * @param $data
+     */
+    public function send($data);
 }

@@ -2,7 +2,9 @@
 
 namespace Sun\Bootstrap;
 
+use Sun\Contracts\Http\Response;
 use Sun\Contracts\Application as App;
+use Sun\Contracts\Filesystem\Filesystem;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -17,18 +19,29 @@ class HandleExceptions
     protected $app;
 
     /**
-     * @var \Sun\Contracts\Log\Log
+     * @var \Sun\Contracts\Http\Response
      */
-    protected $log;
+    protected $response;
+
+    /**
+     * @var \Sun\Contracts\Filesystem\Filesystem
+     */
+    protected $filesystem;
 
     /**
      * Create a new instance
      *
-     * @param \Sun\Contracts\Application $app
+     * @param \Sun\Contracts\Application           $app
+     * @param \Sun\Contracts\Http\Response         $response
+     * @param \Sun\Contracts\Filesystem\Filesystem $filesystem
      */
-    public function __construct(App $app)
+    public function __construct(App $app, Response $response, Filesystem $filesystem)
     {
         $this->app = $app;
+
+        $this->response = $response;
+
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -62,6 +75,14 @@ class HandleExceptions
      */
     public function exceptionHandler($message)
     {
+        $errorCode = $message->getCode()?: 404;
+
+        if($this->customErrorViewExist($errorCode)) {
+            $this->response->send(
+                view("errors.{$errorCode}")
+            );
+        }
+
         error_log("planet.ERROR ".$message->getMessage() . "\nStack trace:\n" . $message->getTraceAsString());
 
         if(php_sapi_name() == 'cli') {
@@ -85,5 +106,29 @@ class HandleExceptions
         if(!is_null($error)) {
             $this->exceptionHandler(new FatalErrorException($error['message'], $error['type'], 0, $error['file'], $error['line'], 0));
         }
+    }
+
+    /**
+     * Generate the view file path for the given error code.
+     *
+     * @param $errorCode
+     *
+     * @return string
+     */
+    protected function generatePath($errorCode)
+    {
+        return $this->app->app_path() . "/Views/errors/{$errorCode}.blade.php";
+    }
+
+    /**
+     * Check existence of the custom error view.
+     *
+     * @param $errorCode
+     *
+     * @return bool
+     */
+    private function customErrorViewExist($errorCode)
+    {
+        return $this->filesystem->exists($this->generatePath($errorCode));
     }
 }

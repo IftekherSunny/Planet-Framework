@@ -146,4 +146,16 @@ class Response implements ResponseContract
 
         return $this;
     }
+
+    /**
+     * Send HTTP content
+     *
+     * @param $data
+     */
+    public function send($data)
+    {
+        $this->html($data);
+
+        exit;
+    }
 }
