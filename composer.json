@@ -24,6 +24,9 @@
       "symfony/debug": "~2.7",
       "vlucas/phpdotenv": "^2.0"
     },
+    "require-dev": {
+      "mockery/mockery": "~0.9"
+    },
     "autoload": {
       "psr-4": {
         "Sun\\": "src/Sun/"
