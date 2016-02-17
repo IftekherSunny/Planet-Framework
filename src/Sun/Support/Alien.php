@@ -6,7 +6,6 @@ use Mockery;
 use Exception;
 use ReflectionMethod;
 use ReflectionException;
-use Sun\Support\Exception\BindingException;
 
 abstract class Alien
 {
@@ -42,8 +41,7 @@ abstract class Alien
      * Execute method of the registered alien
      *
      * @return mixed
-     * @throws BindingException
-     * @throws MethodNotFoundException
+     * @throws Exception
      */
     protected static function execute()
     {
@@ -54,7 +52,7 @@ abstract class Alien
 
             return $reflectionMethod->invokeArgs($instance, static::$arguments);
         } catch (Exception $e) {
-            throw new BindingException("Binding Error [ " . $e->getMessage() . " ]");
+            throw new Exception($e->getMessage());
         }
     }
 
