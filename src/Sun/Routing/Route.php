@@ -9,7 +9,6 @@ use Sun\Contracts\Http\Request;
 use Sun\Contracts\Http\Response;
 use Sun\Contracts\Container\Container;
 use Sun\Validation\Form\Request as FormRequest;
-use DI\Definition\Exception\DefinitionException;
 use Sun\Contracts\Routing\Route as RouteContract;
 use FastRoute\Dispatcher\GroupCountBased as Dispatcher;
 use FastRoute\DataGenerator\GroupCountBased as DataGenerator;
@@ -262,7 +261,11 @@ class Route implements RouteContract
 
         $className = trim($pattern[0]);
 
-        $params = array_map('trim', explode(',', $pattern[1]));
+        $params = [];
+
+        if(isset($pattern[1])) {
+            $params = array_map('trim', explode(',', $pattern[1]));
+        }
 
         return [$className, $params];
     }
