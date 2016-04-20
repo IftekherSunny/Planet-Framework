@@ -111,17 +111,17 @@ class Container implements ContainerContract, ArrayAccess
      * @param string $class
      * @param string $method
      * @param array  $params
+     * @param bool   $isRoute
      *
      * @return array
-     * @throws Exception
      */
-    public function resolveMethod($class, $method, $params = [])
+    public function resolveMethod($class, $method, $params = [], $isRoute = false)
     {
         $reflectionMethod = new ReflectionMethod($class, $method);
 
         $dependencies = $reflectionMethod->getParameters();
 
-        return $this->getDependencies($dependencies, $params);
+        return $this->getDependencies($dependencies, $params, $isRoute);
     }
 
     /**
@@ -163,17 +163,18 @@ class Container implements ContainerContract, ArrayAccess
      *
      * @param string $dependencies
      * @param array  $params
+     * @param bool   $isRoute
      *
      * @return array
      * @throws Exception
      */
-    protected function getDependencies($dependencies, $params = [])
+    protected function getDependencies($dependencies, $params = [], $isRoute = false)
     {
         $resolving = [];
 
         foreach ($dependencies as $dependency) {
             if ($dependency->isDefaultValueAvailable()) {
-                $resolving[] = $dependency->getDefaultValue();
+                $resolving = $this->getDependencyDefaultValue($dependency, $params, $resolving, $isRoute);
             } elseif(isset($params[$dependency->name])) {
                 $resolving[] = $params[$dependency->name];
             } else {
@@ -293,5 +294,28 @@ class Container implements ContainerContract, ArrayAccess
     public function getContainer()
     {
         return $this;
+    }
+
+    /**
+     * Get dependency default value.
+     *
+     * @param $dependency
+     * @param $params
+     * @param $resolving
+     * @param $isRoute
+     *
+     * @return array
+     */
+    protected function getDependencyDefaultValue($dependency, $params, $resolving, $isRoute)
+    {
+        if ($isRoute) {
+            $resolving[] = $params[$dependency->name];
+
+            return $resolving;
+        } else {
+            $resolving[] = $dependency->getDefaultValue();
+
+            return $resolving;
+        }
     }
 }

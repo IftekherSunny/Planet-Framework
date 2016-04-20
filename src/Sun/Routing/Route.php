@@ -206,7 +206,7 @@ class Route implements RouteContract
         try {
             $instance = $this->container->make($controller);
 
-            $resolving = $this->container->resolveMethod($controller, $method, $params);
+            $resolving = $this->container->resolveMethod($controller, $method, $params, true);
 
             $this->validateForm($resolving);
 

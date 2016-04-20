@@ -55,11 +55,11 @@ interface Container
      * @param string $class
      * @param string $method
      * @param array  $params
+     * @param bool   $isRoute
      *
      * @return array
-     * @throws Exception
      */
-    public function resolveMethod($class, $method, $params = []);
+    public function resolveMethod($class, $method, $params = [], $isRoute = false);
 
     /**
      * Resolve dependencies for a class.
