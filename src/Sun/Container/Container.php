@@ -309,8 +309,12 @@ class Container implements ContainerContract, ArrayAccess
     protected function getDependencyDefaultValue($dependency, $params, $resolving, $isRoute)
     {
         if ($isRoute) {
-            $resolving[] = $params[$dependency->name];
-
+            if(isset($params[$dependency->name])) {
+                $resolving[] = $params[$dependency->name];
+            } else {
+                $resolving[] = $dependency->getDefaultValue();
+            }
+            
             return $resolving;
         } else {
             $resolving[] = $dependency->getDefaultValue();
